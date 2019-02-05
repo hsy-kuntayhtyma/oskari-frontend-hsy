@@ -1,0 +1,631 @@
+{
+    "startupSequence": [{
+        "title": "Lang overrides",
+        "fi": "Kielisyys muutokset",
+        "sv": "",
+        "en": "",
+        "bundlename": "hsy-lang-overrides",
+        "bundleinstancename": "hsy-lang-overrides",
+        "metadata": {
+            "Import-Bundle": {
+                "hsy-lang-overrides": {
+                    "bundlePath": "../../../packages/hsy/bundle/"
+                }
+            }
+        }
+    }, {
+        "instanceProps": {},
+        "title": "OpenLayers",
+        "bundleinstancename": "openlayers-default-theme",
+        "fi": "OpenLayers",
+        "sv": "?",
+        "en": "OpenLayers",
+        "bundlename": "openlayers-default-theme",
+        "metadata": {
+            "Import-Bundle": {
+                "openlayers-default-theme": {
+                    "bundlePath": "oskari-frontend-contrib/packages/openlayers/bundle/"
+                },
+                "openlayers-full-map": {
+                    "bundlePath": "oskari-frontend-contrib/packages/openlayers/bundle/"
+                }
+            },
+            "Require-Bundle-Instance": []
+        }
+    }, {
+        "bundlename": "mapfull",
+        "metadata": {
+            "Import-Bundle": {
+                "mapwmts": {
+                    "bundlePath": "oskari-frontend-karttasovellus/packages/framework/bundle/"
+                },
+                "mapmodule-plugin": {
+                    "bundlePath": "oskari-frontend-karttasovellus/packages/framework/bundle/"
+                },
+                "ui-components": {
+                    "bundlePath": "oskari-frontend-karttasovellus/packages/framework/bundle/"
+                },
+                "mapfull": {
+                    "bundlePath": "oskari-frontend-karttasovellus/packages/framework/bundle/"
+                },
+                "oskariui": {
+                    "bundlePath": "oskari-frontend-karttasovellus/packages/framework/bundle/"
+                },
+                "mapwfs2": {
+                    "bundlePath": "oskari-frontend-karttasovellus/packages/framework/bundle/"
+                },
+                "mapuserlayers": {
+                    "bundlePath": "oskari-frontend-karttasovellus/packages/framework/bundle/"
+                },
+                "mapstats": {
+                    "bundlePath": "oskari-frontend-karttasovellus/packages/mapping/ol3/"
+                },
+                "mapmyplaces": {
+                    "bundlePath": "oskari-frontend-karttasovellus/packages/framework/bundle/"
+                },
+                "mapanalysis": {
+                    "bundlePath": "oskari-frontend-karttasovellus/packages/framework/bundle/"
+                },
+                "maparcgis": {
+                    "bundlePath": "oskari-frontend-contrib/packages/arcgis/bundle/"
+                }
+            }
+        }
+    }, {
+        "instanceProps": {},
+        "title": "Oskari DIV Manazer",
+        "bundleinstancename": "divmanazer",
+        "fi": "Oskari DIV Manazer",
+        "sv": "?",
+        "en": "Oskari DIV Manazer",
+        "bundlename": "divmanazer",
+        "metadata": {
+            "Import-Bundle": {
+                "divmanazer": {
+                    "bundlePath": "oskari-frontend-karttasovellus/packages/framework/bundle/"
+                }
+            },
+            "Require-Bundle-Instance": []
+        }
+    }, {
+        "instanceProps": {},
+        "title": "Toolbar",
+        "bundleinstancename": "toolbar",
+        "fi": "toolbar",
+        "sv": "?",
+        "en": "?",
+        "bundlename": "toolbar",
+        "metadata": {
+            "Import-Bundle": {
+                "toolbar": {
+                    "bundlePath": "oskari-frontend-karttasovellus/packages/framework/bundle/"
+                }
+            },
+            "Require-Bundle-Instance": []
+        }
+    }, {
+        "instanceProps": {},
+        "title": "StateHandler",
+        "bundleinstancename": "statehandler",
+        "fi": "jquery",
+        "sv": "?",
+        "en": "?",
+        "bundlename": "statehandler",
+        "metadata": {
+            "Import-Bundle": {
+                "statehandler": {
+                    "bundlePath": "oskari-frontend-karttasovellus/packages/framework/bundle/"
+                }
+            },
+            "Require-Bundle-Instance": []
+        }
+    }, {
+        "instanceProps": {},
+        "title": "Info Box",
+        "bundleinstancename": "infobox",
+        "fi": "infobox",
+        "sv": "?",
+        "en": "?",
+        "bundlename": "infobox",
+        "metadata": {
+            "Import-Bundle": {
+                "infobox": {
+                    "bundlePath": "oskari-frontend-karttasovellus/packages/framework/bundle/"
+                }
+            },
+            "Require-Bundle-Instance": []
+        }
+    }, {
+        "instanceProps": {},
+        "title": "Haku",
+        "bundleinstancename": "search",
+        "fi": "search",
+        "sv": "?",
+        "en": "?",
+        "bundlename": "search",
+        "metadata": {
+            "Import-Bundle": {
+                "search": {
+                    "bundlePath": "oskari-frontend-karttasovellus/packages/framework/bundle/"
+                }
+            },
+            "Require-Bundle-Instance": []
+        }
+    }, {
+        "instanceProps": {},
+        "title": "metadatacatalogue",
+        "bundleinstancename": "metadatacatalogue",
+        "fi": "metadatacatalogue",
+        "sv": "metadatacatalogue",
+        "en": "metadatacatalogue",
+        "bundlename": "metadatacatalogue",
+        "metadata": {
+            "Import-Bundle": {
+                "metadatacatalogue": {
+                    "bundlePath": "oskari-frontend-karttasovellus/packages/catalogue/bundle/"
+                }
+            },
+            "Require-Bundle-Instance": []
+        }
+    }, {
+        "instanceProps": {},
+        "title": "Karttatasot",
+        "bundleinstancename": "layerselector2",
+        "fi": "layerselector",
+        "sv": "?",
+        "en": "?",
+        "bundlename": "layerselector2",
+        "metadata": {
+            "Import-Bundle": {
+                "layerselector2": {
+                    "bundlePath": "oskari-frontend-karttasovellus/packages/framework/bundle/"
+                }
+            },
+            "Require-Bundle-Instance": []
+        }
+    }, {
+        "instanceProps": {},
+        "title": "Valitut karttatasot",
+        "bundleinstancename": "layerselection2",
+        "fi": "layerselection",
+        "sv": "?",
+        "en": "?",
+        "bundlename": "layerselection2",
+        "metadata": {
+            "Import-Bundle": {
+                "layerselection2": {
+                    "bundlePath": "oskari-frontend-karttasovellus/packages/framework/bundle/"
+                }
+            },
+            "Require-Bundle-Instance": []
+        }
+    }, {
+        "instanceProps": {},
+        "title": "Omat tiedot",
+        "bundleinstancename": "personaldata",
+        "fi": "personaldata",
+        "sv": "?",
+        "en": "?",
+        "bundlename": "personaldata",
+        "metadata": {
+            "Import-Bundle": {
+                "personaldata": {
+                    "bundlePath": "oskari-frontend-karttasovellus/packages/framework/bundle/"
+                }
+            },
+            "Require-Bundle-Instance": []
+        }
+    }, {
+        "bundlename": "publisher2",
+        "metadata": {
+            "Import-Bundle": {
+                "publisher2": {
+                    "bundlePath": "oskari-frontend-karttasovellus/packages/framework/bundle/"
+                }
+            }
+        }
+    }, {
+        "instanceProps": {},
+        "title": "Koordinaattinäyttö",
+        "bundleinstancename": "coordinatedisplay",
+        "fi": "coordinatedisplay",
+        "sv": "?",
+        "en": "?",
+        "bundlename": "coordinatedisplay",
+        "metadata": {
+            "Import-Bundle": {
+                "coordinatedisplay": {
+                    "bundlePath": "oskari-frontend-karttasovellus/packages/framework/bundle/"
+                }
+            },
+            "Require-Bundle-Instance": []
+        }
+    }, {
+        "instanceProps": {},
+        "title": "Koordinaattityökalu",
+        "bundleinstancename": "coordinatetool",
+        "fi": "coordinatetool",
+        "sv": "?",
+        "en": "?",
+        "bundlename": "coordinatetool",
+        "metadata": {
+            "Import-Bundle": {
+                "coordinatetool": {
+                    "bundlePath": "oskari-frontend-karttasovellus/packages/framework/bundle/"
+                }
+            },
+            "Require-Bundle-Instance": []
+        }
+    }, {
+        "instanceProps": {},
+        "title": "maplegend",
+        "fi": "maplegend",
+        "bundleinstancename": "maplegend",
+        "sv": "maplegend",
+        "en": "maplegend",
+        "bundlename": "maplegend",
+        "metadata": {
+            "Import-Bundle": {
+                "maplegend": {
+                    "bundlePath": "oskari-frontend-karttasovellus/packages/framework/bundle/"
+                }
+            },
+            "Require-Bundle-Instance": []
+        }
+    }, {
+        "instanceProps": {},
+        "title": "UserGuide",
+        "bundleinstancename": "userguide",
+        "fi": "userguide",
+        "sv": "?",
+        "en": "?",
+        "bundlename": "userguide",
+        "metadata": {
+            "Import-Bundle": {
+                "userguide": {
+                    "bundlePath": "oskari-frontend-karttasovellus/packages/framework/bundle/"
+                }
+            },
+            "Require-Bundle-Instance": []
+        }
+    }, {
+        "instanceProps": {},
+        "title": "Metadata Flyout",
+        "bundleinstancename": "metadataflyout",
+        "fi": "metadataflyout",
+        "sv": "?",
+        "en": "?",
+        "bundlename": "metadataflyout",
+        "metadata": {
+            "Import-Bundle": {
+                "metadataflyout": {
+                    "bundlePath": "oskari-frontend-karttasovellus/packages/catalogue/bundle/"
+                }
+            },
+            "Require-Bundle-Instance": []
+        }
+    }, {
+        "instanceProps": {},
+        "title": "Featuredata",
+        "bundleinstancename": "featuredata2",
+        "fi": "Kohdetiedot",
+        "sv": "?",
+        "en": "?",
+        "bundlename": "featuredata2",
+        "metadata": {
+            "Import-Bundle": {
+                "featuredata2": {
+                    "bundlePath": "oskari-frontend-karttasovellus/packages/framework/bundle/"
+                }
+            },
+            "Require-Bundle-Instance": []
+        }
+    }, {
+        "instanceProps": {},
+        "title": "Places",
+        "bundleinstancename": "myplaces2",
+        "fi": "Paikat",
+        "sv": "Platser",
+        "en": "Places",
+        "bundlename": "myplaces2",
+        "metadata": {
+            "Import-Bundle": {
+                "myplaces2": {
+                    "bundlePath": "oskari-frontend-karttasovellus/packages/framework/bundle/"
+                }
+            },
+            "Require-Bundle-Instance": []
+        }
+    }, {
+        "instanceProps": {},
+        "title": "guidedtour",
+        "fi": "guidedtour",
+        "bundleinstancename": "guidedtour",
+        "sv": "guidedtour",
+        "en": "guidedtour",
+        "bundlename": "guidedtour",
+        "metadata": {
+            "Import-Bundle": {
+                "guidedtour": {
+                    "bundlePath": "oskari-frontend-karttasovellus/packages/framework/bundle/"
+                }
+            },
+            "Require-Bundle-Instance": []
+        }
+    }, {
+        "instanceProps": {},
+        "title": "backendstatus",
+        "fi": "backendstatus",
+        "bundleinstancename": "backendstatus",
+        "sv": "backendstatus",
+        "en": "backendstatus",
+        "bundlename": "backendstatus",
+        "metadata": {
+            "Import-Bundle": {
+                "backendstatus": {
+                    "bundlePath": "oskari-frontend-karttasovellus/packages/framework/bundle/"
+                }
+            },
+            "Require-Bundle-Instance": []
+        }
+    }, {
+        "title": "Printout",
+        "fi": "Karttatuloste",
+        "sv": "Kartutskrift",
+        "en": "Map Printout",
+        "bundlename": "printout",
+        "bundleinstancename": "printout",
+        "metadata": {
+            "Import-Bundle": {
+                "printout": {
+                    "bundlePath": "oskari-frontend-karttasovellus/packages/framework/bundle/"
+                }
+            },
+            "Require-Bundle-Instance": []
+        },
+        "instanceProps": {}
+    }, {
+        "title": "PostProcessor",
+        "fi": "PostProcessor",
+        "sv": "PostProcessor",
+        "en": "PostProcessor",
+        "bundlename": "postprocessor",
+        "bundleinstancename": "postprocessor",
+        "metadata": {
+            "Import-Bundle": {
+                "postprocessor": {
+                    "bundlePath": "oskari-frontend-karttasovellus/packages/framework/bundle/"
+                }
+            },
+            "Require-Bundle-Instance": []
+        },
+        "instanceProps": {}
+    }, {
+        "instanceProps": {},
+        "title": "Karttatasot",
+        "bundleinstancename": "admin-layerselector",
+        "fi": "admin layerselector",
+        "sv": "admin layerselector",
+        "en": "admin layerselector",
+        "bundlename": "admin-layerselector",
+        "metadata": {
+            "Import-Bundle": {
+                "admin-layerselector": {
+                    "bundlePath": "oskari-frontend-karttasovellus/packages/integration/bundle/"
+                },
+                "bb": {
+                    "bundlePath": "oskari-frontend-karttasovellus/packages/integration/bundle/"
+                }
+            },
+            "Require-Bundle-Instance": []
+        }
+    }, {
+        "title": "Analyse",
+        "fi": "Analyysi",
+        "sv": "Analys",
+        "en": "Analyse",
+        "bundlename": "analyse",
+        "bundleinstancename": "analyse",
+        "metadata": {
+            "Import-Bundle": {
+                "analyse": {
+                    "bundlePath": "oskari-frontend-contrib/packages/analysis/bundle/"
+                },
+                "geometryeditor": {
+                    "bundlePath": "oskari-frontend-karttasovellus/packages/framework/bundle/"
+                }
+            }
+        }
+    }, {
+        "title": "Admin Layer Rights",
+        "fi": "Tasojen Oikeuksienhallinta",
+        "sv": "",
+        "en": "",
+        "bundlename": "admin-layerrights",
+        "bundleinstancename": "admin-layerrights",
+        "metadata": {
+            "Import-Bundle": {
+                "admin-layerrights": {
+                    "bundlePath": "oskari-frontend-karttasovellus/packages/framework/bundle/"
+                }
+            }
+        }
+    }, {
+        "title": "Admin - Users",
+        "bundlename": "admin-users",
+        "bundleinstancename": "admin-users",
+        "metadata": {
+            "Import-Bundle": {
+                "admin-users": {
+                    "bundlePath": "oskari-frontend-karttasovellus/packages/framework/bundle/"
+                }
+            }
+        }
+    }, {
+        "title": "Admin Generic",
+        "bundlename": "admin",
+        "bundleinstancename": "admin",
+        "metadata": {
+            "Import-Bundle": {
+                "admin": {
+                    "bundlePath": "oskari-frontend-karttasovellus/packages/admin/bundle/"
+                }
+            }
+        }
+    }, {
+        "title": "myplacesimport",
+        "fi": "myplacesimport",
+        "sv": "myplacesimport",
+        "en": "myplacesimport",
+        "bundlename": "myplacesimport",
+        "bundleinstancename": "myplacesimport",
+        "metadata": {
+            "Import-Bundle": {
+                "myplacesimport": {
+                    "bundlePath": "oskari-frontend-karttasovellus/packages/framework/bundle/"
+                }
+            },
+            "Require-Bundle-Instance": []
+        },
+        "instanceProps": {}
+    }, {
+        "bundlename": "heatmap",
+        "bundleinstancename": "heatmap",
+        "metadata": {
+            "Import-Bundle": {
+                "heatmap": {
+                    "bundlePath": "oskari-frontend-karttasovellus/packages/framework/bundle/"
+                }
+            }
+        }
+    }, {
+        "title": "publishedstatehandler",
+        "bundleinstancename": "publishedstatehandler",
+        "bundlename": "publishedstatehandler",
+        "metadata": {
+            "Import-Bundle": {
+                "publishedstatehandler": {
+                    "bundlePath": "oskari-frontend-karttasovellus/packages/framework/bundle/"
+                }
+            },
+            "Require-Bundle-Instance": []
+        }
+    }, {
+        "title": "Remote procedure call",
+        "bundlename": "rpc",
+        "metadata": {
+            "Import-Bundle": {
+                "rpc": {
+                    "bundlePath": "oskari-frontend-karttasovellus/packages/framework/bundle/"
+                }
+            }
+        }
+    }, {
+        "title": "Download basket",
+        "fi": "Latauskori",
+        "sv": "",
+        "en": "",
+        "bundlename": "download-basket",
+        "bundleinstancename": "download-basket",
+        "metadata": {
+            "Import-Bundle": {
+                "download-basket": {
+                    "bundlePath": "oskari-frontend-karttasovellus/packages/framework/bundle/"
+                }
+            }
+        }
+    }, {
+        "title": "Link panel",
+        "fi": "Linkki paneeli",
+        "sv": "",
+        "en": "",
+        "bundlename": "link-panel",
+        "bundleinstancename": "link-panel",
+        "metadata": {
+            "Import-Bundle": {
+                "link-panel": {
+                    "bundlePath": "../../../packages/hsy/bundle/"
+                }
+            }
+        }
+
+    }, {
+        "title": "Water pipe tool",
+        "fi": "Water pipe tool",
+        "sv": "",
+        "en": "",
+        "bundlename": "water-pipe-tool",
+        "bundleinstancename": "water-pipe-tool",
+        "metadata": {
+            "Import-Bundle": {
+                "water-pipe-tool": {
+
+                    "bundlePath": "../../../packages/hsy/bundle/"
+                }
+            }
+        }
+    }, {
+        "title": "Tampere",
+        "fi": "Tampere",
+        "sv": "Tampere",
+        "en": "Tampere",
+        "bundlename": "content-editor",
+        "bundleinstancename": "content-editor",
+        "metadata": {
+            "Import-Bundle": {
+                "content-editor": {
+                    "bundlePath": "oskari-frontend-contrib/packages/tampere/bundle/"
+                }
+            }
+        }
+    },
+    {
+        "title": "Chosen maplayers",
+        "bundleinstancename": "hierarchical-layerlist",
+        "fi": "hierarchical-layerlist",
+        "sv": "hierarchical-layerlist",
+        "en": "hierarchical-layerlist",
+        "bundlename": "hierarchical-layerlist",
+        "metadata": {
+            "Import-Bundle": {
+                "hierarchical-layerlist": {
+                    "bundlePath": "oskari-frontend-karttasovellus/packages/framework/bundle/"
+                }
+            },
+            "Require-Bundle-Instance": []
+        }
+    },
+    {
+        "title": "Admin chosen maplayers",
+        "bundleinstancename": "admin-hierarchical-layerlist",
+        "fi": "admin-hierarchical-layerlist",
+        "sv": "admin-hierarchical-layerlist",
+        "en": "admin-hierarchical-layerlist",
+        "bundlename": "admin-hierarchical-layerlist",
+        "metadata": {
+            "Import-Bundle": {
+                "admin-hierarchical-layerlist": {
+                    "bundlePath": "oskari-frontend-karttasovellus/packages/admin/bundle/"
+                }
+            },
+            "Require-Bundle-Instance": []
+        }
+    },
+    {
+        "title": "map-location",
+        "fi": "map-location",
+        "sv": "map-location",
+        "en": "map-location",
+        "bundlename": "map-location",
+        "bundleinstancename": "map-location",
+        "metadata": {
+            "Import-Bundle": {
+                "map-location": {
+                    "bundlePath": "../../../packages/hsy/bundle/"
+                }
+            }
+        }
+
+    }
+]
+}

@@ -1,0 +1,194 @@
+body{
+	font-family: 'Source Sans Pro',sans-serif !important;
+}
+
+::selection{
+    background: #fee9d7 !important;
+}
+
+#logobar {
+        height: 52px;
+        margin: 15px 37px;
+        width: 77%;
+        overflow: hidden;
+        background-image: url('../icon_hsy_sm.png');
+        background-repeat: no-repeat;
+}
+
+#maptools{
+	background-color: #fafafa !important;
+}
+
+#login{
+	padding-top: 25px;
+}
+
+#login a {
+    color: #2C2A29 !important
+}
+
+#login input[type="submit"]{
+	width: 97% !important;
+}
+
+#logosDiv {
+    position: absolute;
+    height: 60px;
+    width: 100%;
+    bottom: 0px;
+
+}
+#logos {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.logo {
+  width: 40px;
+  height: auto;
+}
+
+.oskari-tile {
+    border-bottom: 1px solid #008782 !important;
+    border-top: 1px solid #008782 !important;
+}
+
+.oskari-tile-container {
+    border-bottom: 1px solid #00858C !important;
+    border-top: 1px solid #00858C !important;
+}
+
+.oskari-tile-closed:first-child, .oskari-tile-minimized:first-child  {
+    border-top: 1px solid #00858C !important;
+}
+
+.oskari-tile-closed, .oskari-tile-minimized{
+	background-color: #fafafa !important;
+	background: #fafafa !important;
+    border-top: 1px solid #00858C !important;
+    border-bottom: 1px solid #00858C !important;
+}
+
+.oskari-tile-closed .oskari-tile-title{
+    color: #2C2A29 !important;
+}
+
+div.hierarchical-layerlist li#hierarchical-layerlist-selected-layers-tab {
+    background-color: #006AA7 !important;
+    color: #fff !important;
+}
+
+div.toolrow{
+ 	border-top: 0px solid #00858C !important;
+}
+
+div.toolrow div.tool.selected, div.toolrow div.tool:hover:not(.disabled), div.toolrow div.tool:active:not(.disabled){
+	background-color: #00858C !important;
+}
+
+.oskari-flyoutheading{
+	background-color: #008782 !important;
+    border-top: 1px solid #008782 !important;
+    border-bottom: 1px solid #008782 !important;
+}
+
+.oskari-flyouttoolbar{
+	background-color: #00AAA3 !important;;
+}
+
+div.accordion div.accordion_panel{
+    background-color: #EEEEEE !important;
+}
+
+.oskari-tile-attached{
+	background-color: #008782 !important;
+}
+
+.oskari-tile-attached .oskari-tile-title {
+	color: #fafafa !important;
+}
+
+div.divmanazerpopup h3.popupHeader{
+    background-color: #fee9d7 !important;
+}
+
+button.primary, input.primary{
+    background-color: #00AAA3 !important;
+    background-image: none !important;
+    border-color: #00AAA3 #00AAA3 #00AAA3 #00AAA3 !important;
+    text-shadow: none !important;
+}
+
+button.primary.selected, input.primary.selected{
+    background: #00858C !important;
+    border-color: #00A2AA !important;
+    color: #FFFFFF !important;
+    text-shadow: none !important;
+}
+
+input[type="submit"]:hover:enabled, input[type="button"]:hover:enabled, input[type="reset"]:hover:enabled, button:hover:enabled, .lfr-actions:hover, .lfr-actions:hover ul{
+    background: #00858C !important;
+    border-color: #00A2AA !important;
+    color: #FFFFFF !important;
+    text-shadow: none !important;
+}
+
+input[type="submit"]:hover:enabled, input[type="submit"]:focus, input[type="button"]:hover:enabled, input[type="button"]:focus, input[type="reset"]:hover:enabled, input[type="reset"]:focus, button:hover:enabled, button:focus{
+    color: #FFFFFF !important;
+}
+
+button.approve, input.approve{
+    background-color: #008302 !important;
+    background-image: none !important;
+    border-color: #008302 #008302 #008302 #008302 !important;
+    text-shadow: none !important;
+    color: #FFFFFF;
+}
+
+button.approve:hover:enabled, input.approve:hover:enabled{
+    background-color: #009033 !important;
+    background-image: none !important;
+    border-color: #009033 #009033 #009033 #009033 !important;
+    text-shadow: none !important;
+}
+
+.layerselector2-layer-filter{
+    display: none;
+}
+
+.logoplugin .icon{
+    background-image: url('../images/hsy-logo_50px.png') !important;
+    height: 26px !important;
+    width: 50px !important;
+    background-color: #FFFFFF !important;
+}
+
+table td {
+  text-align: left;
+  vertical-align: top; }
+
+table {
+  border-top-width: 0px; }
+
+.oskari__download-basket .oskari__download-basket-wrapper .download-basket__component .download-basket__component-title {
+    border: 1px solid #00858C;
+    background: #00858C;
+    color: #fff;
+}
+
+.oskari__download-basket .oskari__download-basket-wrapper .download-basket__component .download-basket__component-content {
+    border: 1px solid #00858C;
+}
+
+.oskari-attached {
+    max-width: 90% !important;
+}
+
+.oskari__download-basket-cropping-buttons {
+  max-width:400px !important;
+}
+
+div.mapplugin.backgroundLayerSelectionPlugin div.content {
+    z-index: 15000;
+}
