@@ -1,0 +1,30 @@
+{
+  "name": "oskari-frontend-hsy",
+  "version": "1.0.0",
+  "description": "These are HSY bundles for Oskari. They come with no official support from the core Oskari team.",
+  "keywords": [
+    "Oskari"
+  ],
+  "dependencies": {
+    "oskari-frontend": "file:../oskari-frontend-karttasovellus",
+    "oskari-frontend-contrib": "file:../oskari-frontend-contrib"
+  },
+  "scripts": {
+    "build": "node ../oskari-frontend-karttasovellus/node_modules/webpack/bin/webpack.js --config ../oskari-frontend-karttasovellus/webpack.config.js --mode production",
+    "start": "node ../oskari-frontend-karttasovellus/node_modules/webpack-dev-server/bin/webpack-dev-server.js --config ../oskari-frontend-karttasovellus/webpack.config.js --hot --env.appdef=applications/hsy",
+    "test": "eslint ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://bitbucket.sito.fi/scm/hsy/oskari-frontend-hsy.git"
+  },
+  "private": true,
+  "devDependencies": {
+    "eslint": "^4.6.1",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-node": "^5.1.1",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-standard": "^3.0.1"
+  }
+}

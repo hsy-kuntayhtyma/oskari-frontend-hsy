@@ -113,7 +113,7 @@ button.approve:hover:enabled, input.approve:hover:enabled{
 }
 
 .logoplugin .icon{
-    background-image: url('../images/hsy-logo_50px.png') !important;
+    background-image: url('../hsy-logo_50px.png') !important;
     height: 26px !important;
     width: 50px !important;
     background-color: #FFFFFF !important;

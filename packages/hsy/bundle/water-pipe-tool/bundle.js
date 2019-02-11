@@ -41,11 +41,11 @@ Oskari.clazz.define("Oskari.hsy.bundle.waterPipeTool.Bundle", function() {
 				"src" : "../../../../bundles/hsy/water-pipe-tool/resources/css/style.css"
 			}, 
 			{
-	            "src" : "../../../../libraries/chosen/chosen.jquery.js",
+	            "src" : "../../../../../oskari-frontend-karttasovellus/libraries/chosen/chosen.jquery.js",
 	            "type" : "text/javascript"
        		},
        		{
-	            "src" : "../../../../libraries/chosen/chosen.css",
+	            "src" : "../../../../../oskari-frontend-karttasovellus/libraries/chosen/chosen.css",
 	            "type" : "text/css"
         	}],
 

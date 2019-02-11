@@ -24,10 +24,10 @@
         "metadata": {
             "Import-Bundle": {
                 "openlayers-default-theme": {
-                    "bundlePath": "oskari-frontend-contrib/packages/openlayers/bundle/"
+                    "bundlePath": "../../../../oskari-frontend-contrib/packages/openlayers/bundle/"
                 },
                 "openlayers-full-map": {
-                    "bundlePath": "oskari-frontend-contrib/packages/openlayers/bundle/"
+                    "bundlePath": "../../../../oskari-frontend-contrib/packages/openlayers/bundle/"
                 }
             },
             "Require-Bundle-Instance": []
@@ -37,37 +37,37 @@
         "metadata": {
             "Import-Bundle": {
                 "mapwmts": {
-                    "bundlePath": "oskari-frontend-karttasovellus/packages/framework/bundle/"
+                    "bundlePath": "../../../../oskari-frontend-karttasovellus/packages/mapping/ol3/"
                 },
-                "mapmodule-plugin": {
-                    "bundlePath": "oskari-frontend-karttasovellus/packages/framework/bundle/"
+                "mapmodule": {
+                    "bundlePath": "../../../../oskari-frontend-karttasovellus/packages/mapping/ol3/"
                 },
                 "ui-components": {
-                    "bundlePath": "oskari-frontend-karttasovellus/packages/framework/bundle/"
+                    "bundlePath": "../../../../oskari-frontend-karttasovellus/packages/framework/bundle/"
                 },
                 "mapfull": {
-                    "bundlePath": "oskari-frontend-karttasovellus/packages/framework/bundle/"
+                    "bundlePath": "../../../../oskari-frontend-karttasovellus/packages/framework/bundle/"
                 },
                 "oskariui": {
-                    "bundlePath": "oskari-frontend-karttasovellus/packages/framework/bundle/"
+                    "bundlePath": "../../../../oskari-frontend-karttasovellus/packages/framework/bundle/"
                 },
                 "mapwfs2": {
-                    "bundlePath": "oskari-frontend-karttasovellus/packages/framework/bundle/"
+                    "bundlePath": "../../../../oskari-frontend-karttasovellus/packages/mapping/ol3/"
                 },
                 "mapuserlayers": {
-                    "bundlePath": "oskari-frontend-karttasovellus/packages/framework/bundle/"
+                    "bundlePath": "../../../../oskari-frontend-karttasovellus/packages/mapping/ol3/"
                 },
                 "mapstats": {
-                    "bundlePath": "oskari-frontend-karttasovellus/packages/mapping/ol3/"
+                    "bundlePath": "../../../../oskari-frontend-karttasovellus/packages/framework/bundle/"
                 },
                 "mapmyplaces": {
-                    "bundlePath": "oskari-frontend-karttasovellus/packages/framework/bundle/"
+                    "bundlePath": "../../../../oskari-frontend-karttasovellus/packages/mapping/ol3/"
                 },
                 "mapanalysis": {
-                    "bundlePath": "oskari-frontend-karttasovellus/packages/framework/bundle/"
+                    "bundlePath": "../../../../oskari-frontend-contrib/packages/mapping/ol/"
                 },
                 "maparcgis": {
-                    "bundlePath": "oskari-frontend-contrib/packages/arcgis/bundle/"
+                    "bundlePath": "../../../../oskari-frontend-contrib/packages/arcgis/bundle/"
                 }
             }
         }
@@ -82,7 +82,7 @@
         "metadata": {
             "Import-Bundle": {
                 "divmanazer": {
-                    "bundlePath": "oskari-frontend-karttasovellus/packages/framework/bundle/"
+                    "bundlePath": "../../../../oskari-frontend-karttasovellus/packages/framework/bundle/"
                 }
             },
             "Require-Bundle-Instance": []
@@ -98,7 +98,7 @@
         "metadata": {
             "Import-Bundle": {
                 "toolbar": {
-                    "bundlePath": "oskari-frontend-karttasovellus/packages/framework/bundle/"
+                    "bundlePath": "../../../../oskari-frontend-karttasovellus/packages/mapping/ol3/"
                 }
             },
             "Require-Bundle-Instance": []
@@ -114,7 +114,7 @@
         "metadata": {
             "Import-Bundle": {
                 "statehandler": {
-                    "bundlePath": "oskari-frontend-karttasovellus/packages/framework/bundle/"
+                    "bundlePath": "../../../../oskari-frontend-karttasovellus/packages/framework/bundle/"
                 }
             },
             "Require-Bundle-Instance": []
@@ -130,7 +130,7 @@
         "metadata": {
             "Import-Bundle": {
                 "infobox": {
-                    "bundlePath": "oskari-frontend-karttasovellus/packages/framework/bundle/"
+                    "bundlePath": "../../../../oskari-frontend-karttasovellus/packages/mapping/ol3/"
                 }
             },
             "Require-Bundle-Instance": []
@@ -146,7 +146,7 @@
         "metadata": {
             "Import-Bundle": {
                 "search": {
-                    "bundlePath": "oskari-frontend-karttasovellus/packages/framework/bundle/"
+                    "bundlePath": "../../../../oskari-frontend-karttasovellus/packages/framework/bundle/"
                 }
             },
             "Require-Bundle-Instance": []
@@ -162,7 +162,7 @@
         "metadata": {
             "Import-Bundle": {
                 "metadatacatalogue": {
-                    "bundlePath": "oskari-frontend-karttasovellus/packages/catalogue/bundle/"
+                    "bundlePath": "../../../../oskari-frontend-karttasovellus/packages/catalogue/"
                 }
             },
             "Require-Bundle-Instance": []
@@ -178,7 +178,7 @@
         "metadata": {
             "Import-Bundle": {
                 "layerselector2": {
-                    "bundlePath": "oskari-frontend-karttasovellus/packages/framework/bundle/"
+                    "bundlePath": "../../../../oskari-frontend-karttasovellus/packages/framework/bundle/"
                 }
             },
             "Require-Bundle-Instance": []
@@ -194,7 +194,7 @@
         "metadata": {
             "Import-Bundle": {
                 "layerselection2": {
-                    "bundlePath": "oskari-frontend-karttasovellus/packages/framework/bundle/"
+                    "bundlePath": "../../../../oskari-frontend-karttasovellus/packages/framework/bundle/"
                 }
             },
             "Require-Bundle-Instance": []
@@ -210,7 +210,7 @@
         "metadata": {
             "Import-Bundle": {
                 "personaldata": {
-                    "bundlePath": "oskari-frontend-karttasovellus/packages/framework/bundle/"
+                    "bundlePath": "../../../../oskari-frontend-karttasovellus/packages/framework/bundle/"
                 }
             },
             "Require-Bundle-Instance": []
@@ -220,7 +220,7 @@
         "metadata": {
             "Import-Bundle": {
                 "publisher2": {
-                    "bundlePath": "oskari-frontend-karttasovellus/packages/framework/bundle/"
+                    "bundlePath": "../../../../oskari-frontend-karttasovellus/packages/framework/bundle/"
                 }
             }
         }
@@ -235,7 +235,7 @@
         "metadata": {
             "Import-Bundle": {
                 "coordinatedisplay": {
-                    "bundlePath": "oskari-frontend-karttasovellus/packages/framework/bundle/"
+                    "bundlePath": "../../../../oskari-frontend-karttasovellus/packages/framework/bundle/"
                 }
             },
             "Require-Bundle-Instance": []
@@ -251,7 +251,7 @@
         "metadata": {
             "Import-Bundle": {
                 "coordinatetool": {
-                    "bundlePath": "oskari-frontend-karttasovellus/packages/framework/bundle/"
+                    "bundlePath": "../../../../oskari-frontend-karttasovellus/packages/framework/bundle/"
                 }
             },
             "Require-Bundle-Instance": []
@@ -267,7 +267,7 @@
         "metadata": {
             "Import-Bundle": {
                 "maplegend": {
-                    "bundlePath": "oskari-frontend-karttasovellus/packages/framework/bundle/"
+                    "bundlePath": "../../../../oskari-frontend-karttasovellus/packages/framework/bundle/"
                 }
             },
             "Require-Bundle-Instance": []
@@ -283,7 +283,7 @@
         "metadata": {
             "Import-Bundle": {
                 "userguide": {
-                    "bundlePath": "oskari-frontend-karttasovellus/packages/framework/bundle/"
+                    "bundlePath": "../../../../oskari-frontend-karttasovellus/packages/framework/bundle/"
                 }
             },
             "Require-Bundle-Instance": []
@@ -299,7 +299,7 @@
         "metadata": {
             "Import-Bundle": {
                 "metadataflyout": {
-                    "bundlePath": "oskari-frontend-karttasovellus/packages/catalogue/bundle/"
+                    "bundlePath": "../../../../oskari-frontend-karttasovellus/packages/catalogue/bundle/"
                 }
             },
             "Require-Bundle-Instance": []
@@ -315,7 +315,7 @@
         "metadata": {
             "Import-Bundle": {
                 "featuredata2": {
-                    "bundlePath": "oskari-frontend-karttasovellus/packages/framework/bundle/"
+                    "bundlePath": "../../../../oskari-frontend-karttasovellus/packages/framework/"
                 }
             },
             "Require-Bundle-Instance": []
@@ -323,15 +323,15 @@
     }, {
         "instanceProps": {},
         "title": "Places",
-        "bundleinstancename": "myplaces2",
+        "bundleinstancename": "myplaces3",
         "fi": "Paikat",
         "sv": "Platser",
         "en": "Places",
-        "bundlename": "myplaces2",
+        "bundlename": "myplaces3",
         "metadata": {
             "Import-Bundle": {
-                "myplaces2": {
-                    "bundlePath": "oskari-frontend-karttasovellus/packages/framework/bundle/"
+                "myplaces3": {
+                    "bundlePath": "../../../../oskari-frontend-karttasovellus/packages/framework/bundle/"
                 }
             },
             "Require-Bundle-Instance": []
@@ -347,7 +347,7 @@
         "metadata": {
             "Import-Bundle": {
                 "guidedtour": {
-                    "bundlePath": "oskari-frontend-karttasovellus/packages/framework/bundle/"
+                    "bundlePath": "../../../../oskari-frontend-karttasovellus/packages/framework/bundle/"
                 }
             },
             "Require-Bundle-Instance": []
@@ -363,7 +363,7 @@
         "metadata": {
             "Import-Bundle": {
                 "backendstatus": {
-                    "bundlePath": "oskari-frontend-karttasovellus/packages/framework/bundle/"
+                    "bundlePath": "../../../../oskari-frontend-karttasovellus/packages/framework/bundle/"
                 }
             },
             "Require-Bundle-Instance": []
@@ -378,7 +378,7 @@
         "metadata": {
             "Import-Bundle": {
                 "printout": {
-                    "bundlePath": "oskari-frontend-karttasovellus/packages/framework/bundle/"
+                    "bundlePath": "../../../../oskari-frontend-karttasovellus/packages/framework/bundle/"
                 }
             },
             "Require-Bundle-Instance": []
@@ -394,7 +394,7 @@
         "metadata": {
             "Import-Bundle": {
                 "postprocessor": {
-                    "bundlePath": "oskari-frontend-karttasovellus/packages/framework/bundle/"
+                    "bundlePath": "../../../../oskari-frontend-karttasovellus/packages/framework/bundle/"
                 }
             },
             "Require-Bundle-Instance": []
@@ -411,10 +411,10 @@
         "metadata": {
             "Import-Bundle": {
                 "admin-layerselector": {
-                    "bundlePath": "oskari-frontend-karttasovellus/packages/integration/bundle/"
+                    "bundlePath": "../../../../oskari-frontend-karttasovellus/packages/integration/bundle/"
                 },
                 "bb": {
-                    "bundlePath": "oskari-frontend-karttasovellus/packages/integration/bundle/"
+                    "bundlePath": "../../../../oskari-frontend-karttasovellus/packages/integration/bundle/"
                 }
             },
             "Require-Bundle-Instance": []
@@ -429,10 +429,10 @@
         "metadata": {
             "Import-Bundle": {
                 "analyse": {
-                    "bundlePath": "oskari-frontend-contrib/packages/analysis/bundle/"
+                    "bundlePath": "../../../../oskari-frontend-contrib/packages/analysis/ol3/"
                 },
                 "geometryeditor": {
-                    "bundlePath": "oskari-frontend-karttasovellus/packages/framework/bundle/"
+                    "bundlePath": "../../../../oskari-frontend-karttasovellus/packages/framework/bundle/"
                 }
             }
         }
@@ -446,7 +446,7 @@
         "metadata": {
             "Import-Bundle": {
                 "admin-layerrights": {
-                    "bundlePath": "oskari-frontend-karttasovellus/packages/framework/bundle/"
+                    "bundlePath": "../../../../oskari-frontend-karttasovellus/packages/framework/bundle/"
                 }
             }
         }
@@ -457,7 +457,7 @@
         "metadata": {
             "Import-Bundle": {
                 "admin-users": {
-                    "bundlePath": "oskari-frontend-karttasovellus/packages/framework/bundle/"
+                    "bundlePath": "../../../../oskari-frontend-karttasovellus/packages/framework/bundle/"
                 }
             }
         }
@@ -468,7 +468,7 @@
         "metadata": {
             "Import-Bundle": {
                 "admin": {
-                    "bundlePath": "oskari-frontend-karttasovellus/packages/admin/bundle/"
+                    "bundlePath": "../../../../oskari-frontend-karttasovellus/packages/admin/bundle/"
                 }
             }
         }
@@ -482,7 +482,7 @@
         "metadata": {
             "Import-Bundle": {
                 "myplacesimport": {
-                    "bundlePath": "oskari-frontend-karttasovellus/packages/framework/bundle/"
+                    "bundlePath": "../../../../oskari-frontend-karttasovellus/packages/framework/bundle/"
                 }
             },
             "Require-Bundle-Instance": []
@@ -494,7 +494,7 @@
         "metadata": {
             "Import-Bundle": {
                 "heatmap": {
-                    "bundlePath": "oskari-frontend-karttasovellus/packages/framework/bundle/"
+                    "bundlePath": "../../../../oskari-frontend-karttasovellus/packages/mapping/ol3/"
                 }
             }
         }
@@ -505,7 +505,7 @@
         "metadata": {
             "Import-Bundle": {
                 "publishedstatehandler": {
-                    "bundlePath": "oskari-frontend-karttasovellus/packages/framework/bundle/"
+                    "bundlePath": "../../../../oskari-frontend-karttasovellus/packages/framework/bundle/"
                 }
             },
             "Require-Bundle-Instance": []
@@ -516,7 +516,7 @@
         "metadata": {
             "Import-Bundle": {
                 "rpc": {
-                    "bundlePath": "oskari-frontend-karttasovellus/packages/framework/bundle/"
+                    "bundlePath": "../../../../oskari-frontend-karttasovellus/packages/framework/bundle/"
                 }
             }
         }
@@ -530,7 +530,7 @@
         "metadata": {
             "Import-Bundle": {
                 "download-basket": {
-                    "bundlePath": "oskari-frontend-karttasovellus/packages/framework/bundle/"
+                    "bundlePath": "../../../../oskari-frontend-contrib/packages/"
                 }
             }
         }
@@ -574,7 +574,7 @@
         "metadata": {
             "Import-Bundle": {
                 "content-editor": {
-                    "bundlePath": "oskari-frontend-contrib/packages/tampere/bundle/"
+                    "bundlePath": "../../../../oskari-frontend-contrib/packages/tampere/bundle/"
                 }
             }
         }
@@ -589,7 +589,7 @@
         "metadata": {
             "Import-Bundle": {
                 "hierarchical-layerlist": {
-                    "bundlePath": "oskari-frontend-karttasovellus/packages/framework/bundle/"
+                    "bundlePath": "../../../../oskari-frontend-karttasovellus/packages/framework/bundle/"
                 }
             },
             "Require-Bundle-Instance": []
@@ -605,7 +605,7 @@
         "metadata": {
             "Import-Bundle": {
                 "admin-hierarchical-layerlist": {
-                    "bundlePath": "oskari-frontend-karttasovellus/packages/admin/bundle/"
+                    "bundlePath": "../../../../oskari-frontend-karttasovellus/packages/admin/bundle/"
                 }
             },
             "Require-Bundle-Instance": []
