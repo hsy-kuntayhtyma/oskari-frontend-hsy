@@ -1,14 +1,14 @@
 /**
- * @class Oskari.hsy.bundle.mapLocation.Bundle
+ * @class Oskari.mapframework.bundle.coordinatetool.CoordinateToolBundle
  *
  * Definition for bundle. See source for details.
  */
-Oskari.clazz.define("Oskari.hsy.bundle.mapLocation.Bundle", function () {
+Oskari.clazz.define("Oskari.hsy.bundle.linkPanel.Bundle", function () {
 
 }, {
     "create": function () {
         var me = this,
-            inst = Oskari.clazz.create("Oskari.hsy.bundle.mapLocation.BundleInstance");
+            inst = Oskari.clazz.create("Oskari.hsy.bundle.linkPanel.BundleInstance");
         return inst;
 
     },
@@ -23,25 +23,41 @@ Oskari.clazz.define("Oskari.hsy.bundle.mapLocation.Bundle", function () {
         "scripts": [
 
         /*
-         * map-location
+         * linkpanel
          */
         {
             "type": "text/javascript",
-            "src": "../../../../bundles/hsy/map-location/instance.js"
+            "src": "../../bundles/link-panel/instance.js"
+        }, {
+            "type": "text/css",
+            "src": "../../bundles/link-panel/resources/css/style.css"
         }],
 
-        "locales": []
+        "locales": [
+        {
+            "lang": "fi",
+            "type": "text/javascript",
+            "src": "../../bundles/link-panel/resources/locale/fi.js"
+        }, {
+            "lang": "en",
+            "type": "text/javascript",
+            "src": "../../bundles/link-panel/resources/locale/en.js"
+        }, {
+            "lang": "sv",
+            "type": "text/javascript",
+            "src": "../../bundles/link-panel/resources/locale/sv.js"
+        }]
     },
     "bundle": {
         "manifest": {
-            "Bundle-Identifier": "map-location",
-            "Bundle-Name": "map-location",
+            "Bundle-Identifier": "link-panel",
+            "Bundle-Name": "link-panel",
             "Bundle-Author": [{
                 "Name": "TR",
-                "Organisation": "Sitowise Oy",
+                "Organisation": "Dimenteq Oy",
                 "Temporal": {
-                    "Start": "2019",
-                    "End": "2020"
+                    "Start": "2015",
+                    "End": "2017"
                 },
                 "Copyleft": {
                     "License": {
@@ -71,4 +87,4 @@ Oskari.clazz.define("Oskari.hsy.bundle.mapLocation.Bundle", function () {
 
 });
 
-Oskari.bundle_manager.installBundleClass("map-location", "Oskari.hsy.bundle.mapLocation.Bundle");
+Oskari.bundle_manager.installBundleClass("link-panel", "Oskari.hsy.bundle.linkPanel.Bundle");

@@ -102,14 +102,14 @@ Oskari.clazz.define("Oskari.hsy.bundle.linkPanel.BundleInstance",
             linkpanel_link = me._templates.linkpanel_link.clone();
             background = me._templates.background.clone();
 
-            $('<a>',{
+            jQuery('<a>',{
                 text: me.getLocalization('use-rights'),
                 title: me.getLocalization('use-rights'),
                 target: '_blank',
                 href: me.getLocalization('use-rights-url')
             }).appendTo(linkpanel_link);
 
-            $('<a>',{
+            jQuery('<a>',{
                 text: me.getLocalization('open-data'),
                 title: me.getLocalization('open-data'),
                 target: '_blank',

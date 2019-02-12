@@ -1,6 +1,6 @@
 /**
  * Definition for bundle. See source for details.
- * 
+ *
  * @class Oskari.hsy.lang.overrides.Bundle
  */
 Oskari.clazz.define("Oskari.hsy.lang.overrides.Bundle", function() {
@@ -25,17 +25,17 @@ Oskari.clazz.define("Oskari.hsy.lang.overrides.Bundle", function() {
             {
                 "lang": "fi",
                 "type": "text/javascript",
-                "src": "../../../../bundles/hsy/hsy-lang-overrides/resources/locale/fi.js"
-            }, 
+                "src": "../../bundles/hsy-lang-overrides/resources/locale/fi.js"
+            },
             {
                 "lang": "sv",
                 "type": "text/javascript",
-                "src": "../../../../bundles/hsy/hsy-lang-overrides/resources/locale/sv.js"
-            }, 
+                "src": "../../bundles/hsy-lang-overrides/resources/locale/sv.js"
+            },
             {
                 "lang": "en",
                 "type": "text/javascript",
-                "src": "../../../../bundles/hsy/hsy-lang-overrides/resources/locale/en.js"
+                "src": "../../bundles/hsy-lang-overrides/resources/locale/en.js"
             }
         ]
     },
@@ -76,5 +76,5 @@ Oskari.clazz.define("Oskari.hsy.lang.overrides.Bundle", function() {
 
 });
 
-Oskari.bundle_manager.installBundleClass("hsy-lang-overrides", 
+Oskari.bundle_manager.installBundleClass("hsy-lang-overrides",
     "Oskari.hsy.lang.overrides.Bundle");

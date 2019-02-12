@@ -1,5 +1,4 @@
-Oskari.registerLocalization(
-{
+Oskari.registerLocalization({
     "lang": "fi",
     "key": "link-panel",
     "value": {
@@ -10,5 +9,4 @@ Oskari.registerLocalization(
         "open-data" : "Avoin data",
         "open-data-url" : "https://www.hsy.fi/avoindata"
     }
-}
-);
+});

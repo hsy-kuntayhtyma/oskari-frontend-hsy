@@ -10,8 +10,8 @@
     "oskari-frontend-contrib": "file:../oskari-frontend-contrib"
   },
   "scripts": {
-    "build": "node ../oskari-frontend-karttasovellus/node_modules/webpack/bin/webpack.js --config ../oskari-frontend-karttasovellus/webpack.config.js --mode production",
-    "start": "node ../oskari-frontend-karttasovellus/node_modules/webpack-dev-server/bin/webpack-dev-server.js --config ../oskari-frontend-karttasovellus/webpack.config.js --hot --env.appdef=applications/hsy",
+    "build": "node ./node_modules/oskari-frontend/node_modules/webpack/bin/webpack.js --config ./node_modules/oskari-frontend/webpack.config.js --mode production",
+    "start": "node ./node_modules/oskari-frontend/node_modules/webpack-dev-server/bin/webpack-dev-server.js --config ./node_modules/oskari-frontend/webpack.config.js --hot --env.appdef=applications/hsy",
     "test": "eslint ."
   },
   "repository": {
