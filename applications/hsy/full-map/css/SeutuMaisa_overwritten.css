@@ -44,10 +44,7 @@ body{
   align-items: center;
 }
 
-.logo {
-  width: 40px;
-  height: auto;
-}
+
 
 .oskari-tile {
     border-bottom: 1px solid #008782 !important;
@@ -158,7 +155,7 @@ button.approve:hover:enabled, input.approve:hover:enabled{
 }
 
 .logoplugin .icon{
-    background-image: url('../images/hsy-logo_50px.png') !important;
+    background-image: url('../hsy-logo_50px.png') !important;
     height: 26px !important;
     width: 50px !important;
     background-color: #FFFFFF !important;
@@ -191,4 +188,25 @@ table {
 
 div.mapplugin.backgroundLayerSelectionPlugin div.content {
     z-index: 15000;
+}
+
+div.vaakuna_logo {
+  display: block;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  width: 40px;
+  padding-left: 40px;
+}
+
+div.vaakuna_logo.helsinki {
+    background: url('../helsinki_logo.png') no-repeat;
+    height: 19px;
+}
+div.vaakuna_logo.espoo {
+    background: url('../espoo_logo.png') no-repeat;
+    height: 20px;
+}
+div.vaakuna_logo.vantaa {
+    background: url('../vantaa_logo.png') no-repeat;
+    height: 40px;
 }
