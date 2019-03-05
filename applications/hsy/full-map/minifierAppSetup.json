@@ -568,6 +568,17 @@
             }
         }
 
-    }
+    },
+    {
+            "bundlename" : "drawtools",
+            "bundleinstancename" : "drawtools",
+            "metadata" : {
+                "Import-Bundle" : {
+                    "drawtools" : {
+                        "bundlePath" : "oskari-frontend/packages/mapping/ol3/"
+                    }
+                }
+            }
+        }
 ]
 }
