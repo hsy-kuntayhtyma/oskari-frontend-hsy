@@ -17,10 +17,16 @@ body{
 
 #maptools{
 	background-color: #fafafa !important;
+    overflow:hidden !important;
 }
 
 #login{
 	padding-top: 25px;
+}
+
+p.login_header {
+    color: #000000;
+    padding-bottom: 5px;
 }
 
 #login a {
@@ -31,9 +37,15 @@ body{
 	width: 97% !important;
 }
 
+#toolsDiv {
+    overflow-y: auto;
+    height:calc(100% - 50px) !important;
+    overflow-x: hidden;
+}
+
 #logosDiv {
     position: absolute;
-    height: 60px;
+    height: 50px;
     width: 100%;
     bottom: 0px;
 
