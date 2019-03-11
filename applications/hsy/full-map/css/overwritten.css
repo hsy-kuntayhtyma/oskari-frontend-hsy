@@ -147,3 +147,11 @@ table {
 div.mapplugin.backgroundLayerSelectionPlugin div.content {
     z-index: 15000;
 }
+
+div.searchContainer div.spinner {
+    top: 70px !important;
+}
+
+div.metadataCatalogueContainer div.spinner {
+    top: 63px !important;
+}
