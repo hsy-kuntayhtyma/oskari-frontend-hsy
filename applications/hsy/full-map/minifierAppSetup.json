@@ -121,7 +121,7 @@
         "metadata": {
             "Import-Bundle": {
                 "search": {
-                    "bundlePath": "oskari-frontend/packages/framework/bundle/"
+                    "bundlePath": "../../../packages/"
                 }
             },
             "Require-Bundle-Instance": []
@@ -137,7 +137,7 @@
         "metadata": {
             "Import-Bundle": {
                 "metadatacatalogue": {
-                    "bundlePath": "oskari-frontend/packages/catalogue/"
+                    "bundlePath": "../../../packages/"
                 }
             },
             "Require-Bundle-Instance": []
@@ -226,7 +226,7 @@
         "metadata": {
             "Import-Bundle": {
                 "userguide": {
-                    "bundlePath": "oskari-frontend/packages/framework/bundle/"
+                    "bundlePath": "../../../packages/"
                 }
             },
             "Require-Bundle-Instance": []
