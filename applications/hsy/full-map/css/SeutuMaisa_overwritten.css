@@ -7,12 +7,17 @@ body{
 }
 
 #logobar {
-        height: 52px;
+        /*height: 52px;*/
+        height: auto;
         margin: 15px 37px;
-        width: 77%;
+        width: 80%;
         overflow: hidden;
-        background-image: url('../icon_hsy_sm.png');
+        background-image: url('../SeutuMaisa_logo.png');
         background-repeat: no-repeat;
+}
+
+.oskari-flyout-title p {
+    color: #fafafa !important;
 }
 
 #maptools{
