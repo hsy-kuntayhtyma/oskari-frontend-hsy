@@ -7,13 +7,13 @@ body{
 }
 
 #logobar {
-        /*height: 52px;*/
-        height: auto;
-        margin: 15px 37px;
-        width: 80%;
-        overflow: hidden;
-        background-image: url('../SeutuMaisa_logo.png');
-        background-repeat: no-repeat;
+    height: 35px;
+    width: 170px;
+    margin: 10px 16px;
+    /* width: 80%; */
+    overflow: hidden;
+    background-image: url(../SeutuMaisa_logo.png);
+    background-repeat: no-repeat;
 }
 
 .oskari-flyout-title p {
