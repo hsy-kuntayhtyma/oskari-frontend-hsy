@@ -1,4 +1,4 @@
-import 'oskari-loader!../../../packages/hsy/bundle/hsy-lang-overrides/bundle.js';
+import 'oskari-loader!../../../packages/hsy-lang-overrides/bundle.js';
 
 import 'oskari-loader!oskari-frontend/packages/mapping/ol3/mapmyplaces/bundle.js';
 import 'oskari-loader!oskari-frontend/packages/mapping/ol3/maparcgis/bundle.js';
@@ -48,17 +48,8 @@ import 'oskari-loader!oskari-frontend/packages/framework/bundle/printout/bundle.
 
 import 'oskari-loader!oskari-frontend/packages/framework/bundle/postprocessor/bundle.js';
 
-import 'oskari-loader!oskari-frontend/packages/integration/bundle/admin-layerselector/bundle.js';
-import 'oskari-loader!oskari-frontend/packages/integration/bundle/bb/bundle.js';
-
 import 'oskari-loader!oskari-frontend-contrib/packages/analysis/ol3/analyse/bundle.js';
 import 'oskari-loader!oskari-frontend/packages/framework/bundle/geometryeditor/bundle.js';
-
-import 'oskari-loader!oskari-frontend/packages/framework/bundle/admin-layerrights/bundle.js';
-
-import 'oskari-loader!oskari-frontend/packages/framework/bundle/admin-users/bundle.js';
-
-import 'oskari-loader!oskari-frontend/packages/admin/bundle/admin/bundle.js';
 
 import 'oskari-loader!oskari-frontend/packages/framework/bundle/myplacesimport/bundle.js';
 
@@ -70,9 +61,9 @@ import 'oskari-loader!oskari-frontend/packages/framework/bundle/rpc/bundle.js';
 
 import 'oskari-loader!oskari-frontend-contrib/packages/download-basket/bundle.js';
 
-import 'oskari-loader!../../../packages/hsy/bundle/link-panel/bundle.js';
+import 'oskari-loader!../../../packages/link-panel/bundle.js';
 
-import 'oskari-loader!../../../packages/hsy/bundle/water-pipe-tool/bundle.js';
+import 'oskari-loader!../../../packages/water-pipe-tool/bundle.js';
 
 import 'oskari-loader!oskari-frontend-contrib/packages/tampere/bundle/content-editor/bundle.js';
 
@@ -80,6 +71,16 @@ import 'oskari-loader!oskari-frontend/packages/framework/bundle/hierarchical-lay
 
 import 'oskari-loader!oskari-frontend/packages/admin/bundle/admin-hierarchical-layerlist/bundle.js';
 
-import 'oskari-loader!../../../packages/hsy/bundle/map-location/bundle.js';
+import 'oskari-loader!../../../packages/map-location/bundle.js';
+
+
+import 'oskari-lazy-loader?admin-layerselector!oskari-frontend/packages/integration/bundle/admin-layerselector/bundle.js';
+import 'oskari-lazy-loader?admin-layerselector!oskari-frontend/packages/integration/bundle/bb/bundle.js';
+
+import 'oskari-lazy-loader?admin-layerrights!oskari-frontend/packages/framework/bundle/admin-layerrights/bundle.js';
+
+import 'oskari-lazy-loader?admin!oskari-frontend/packages/admin/bundle/admin/bundle.js';
+
+import 'oskari-lazy-loader?admin-users!oskari-frontend/packages/framework/bundle/admin-users/bundle.js';
 
 import './css/overwritten.css';

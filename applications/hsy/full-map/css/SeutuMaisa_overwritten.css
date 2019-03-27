@@ -175,7 +175,11 @@ button.approve:hover:enabled, input.approve:hover:enabled{
     background-image: url('../hsy-logo_50px.png') !important;
     height: 26px !important;
     width: 50px !important;
-    background-color: #FFFFFF !important;
+    background-color: transparent !important;
+}
+
+div.mapplugin.backgroundLayerSelectionPlugin div.bg {
+    opacity: 0.6;
 }
 
 table td {
