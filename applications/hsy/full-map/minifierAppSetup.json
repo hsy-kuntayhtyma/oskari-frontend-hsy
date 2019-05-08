@@ -1,11 +1,6 @@
 {
     "startupSequence": [{
-        "title": "Lang overrides",
-        "fi": "Kielisyys muutokset",
-        "sv": "",
-        "en": "",
         "bundlename": "hsy-lang-overrides",
-        "bundleinstancename": "hsy-lang-overrides",
         "metadata": {
             "Import-Bundle": {
                 "hsy-lang-overrides": {
@@ -30,7 +25,7 @@
                     "bundlePath": "oskari-frontend/packages/framework/bundle/"
                 },
                 "mapwfs2": {
-                    "bundlePath": "oskari-frontend/packages/mapping/ol3/"
+                    "bundlePath": "../../../packages/mapping/ol3/"
                 },
                 "mapuserlayers": {
                     "bundlePath": "oskari-frontend/packages/mapping/ol3/"
@@ -47,12 +42,6 @@
             }
         }
     }, {
-        "instanceProps": {},
-        "title": "Oskari DIV Manazer",
-        "bundleinstancename": "divmanazer",
-        "fi": "Oskari DIV Manazer",
-        "sv": "?",
-        "en": "Oskari DIV Manazer",
         "bundlename": "divmanazer",
         "metadata": {
             "Import-Bundle": {
@@ -63,12 +52,6 @@
             "Require-Bundle-Instance": []
         }
     }, {
-        "instanceProps": {},
-        "title": "Toolbar",
-        "bundleinstancename": "toolbar",
-        "fi": "toolbar",
-        "sv": "?",
-        "en": "?",
         "bundlename": "toolbar",
         "metadata": {
             "Import-Bundle": {
@@ -79,12 +62,6 @@
             "Require-Bundle-Instance": []
         }
     }, {
-        "instanceProps": {},
-        "title": "StateHandler",
-        "bundleinstancename": "statehandler",
-        "fi": "jquery",
-        "sv": "?",
-        "en": "?",
         "bundlename": "statehandler",
         "metadata": {
             "Import-Bundle": {
@@ -95,12 +72,6 @@
             "Require-Bundle-Instance": []
         }
     }, {
-        "instanceProps": {},
-        "title": "Info Box",
-        "bundleinstancename": "infobox",
-        "fi": "infobox",
-        "sv": "?",
-        "en": "?",
         "bundlename": "infobox",
         "metadata": {
             "Import-Bundle": {
@@ -111,12 +82,6 @@
             "Require-Bundle-Instance": []
         }
     }, {
-        "instanceProps": {},
-        "title": "Haku",
-        "bundleinstancename": "search",
-        "fi": "search",
-        "sv": "?",
-        "en": "?",
         "bundlename": "search",
         "metadata": {
             "Import-Bundle": {
@@ -127,12 +92,6 @@
             "Require-Bundle-Instance": []
         }
     }, {
-        "instanceProps": {},
-        "title": "metadatacatalogue",
-        "bundleinstancename": "metadatacatalogue",
-        "fi": "metadatacatalogue",
-        "sv": "metadatacatalogue",
-        "en": "metadatacatalogue",
         "bundlename": "metadatacatalogue",
         "metadata": {
             "Import-Bundle": {
@@ -143,12 +102,6 @@
             "Require-Bundle-Instance": []
         }
     }, {
-        "instanceProps": {},
-        "title": "Omat tiedot",
-        "bundleinstancename": "personaldata",
-        "fi": "personaldata",
-        "sv": "?",
-        "en": "?",
         "bundlename": "personaldata",
         "metadata": {
             "Import-Bundle": {
@@ -168,12 +121,6 @@
             }
         }
     }, {
-        "instanceProps": {},
-        "title": "Koordinaattinäyttö",
-        "bundleinstancename": "coordinatedisplay",
-        "fi": "coordinatedisplay",
-        "sv": "?",
-        "en": "?",
         "bundlename": "coordinatedisplay",
         "metadata": {
             "Import-Bundle": {
@@ -184,12 +131,6 @@
             "Require-Bundle-Instance": []
         }
     }, {
-        "instanceProps": {},
-        "title": "Koordinaattityökalu",
-        "bundleinstancename": "coordinatetool",
-        "fi": "coordinatetool",
-        "sv": "?",
-        "en": "?",
         "bundlename": "coordinatetool",
         "metadata": {
             "Import-Bundle": {
@@ -200,12 +141,6 @@
             "Require-Bundle-Instance": []
         }
     }, {
-        "instanceProps": {},
-        "title": "maplegend",
-        "fi": "maplegend",
-        "bundleinstancename": "maplegend",
-        "sv": "maplegend",
-        "en": "maplegend",
         "bundlename": "maplegend",
         "metadata": {
             "Import-Bundle": {
@@ -216,12 +151,6 @@
             "Require-Bundle-Instance": []
         }
     }, {
-        "instanceProps": {},
-        "title": "UserGuide",
-        "bundleinstancename": "userguide",
-        "fi": "userguide",
-        "sv": "?",
-        "en": "?",
         "bundlename": "userguide",
         "metadata": {
             "Import-Bundle": {
@@ -232,12 +161,6 @@
             "Require-Bundle-Instance": []
         }
     }, {
-        "instanceProps": {},
-        "title": "Metadata Flyout",
-        "bundleinstancename": "metadataflyout",
-        "fi": "metadataflyout",
-        "sv": "?",
-        "en": "?",
         "bundlename": "metadataflyout",
         "metadata": {
             "Import-Bundle": {
@@ -248,12 +171,6 @@
             "Require-Bundle-Instance": []
         }
     }, {
-        "instanceProps": {},
-        "title": "Featuredata",
-        "bundleinstancename": "featuredata2",
-        "fi": "Kohdetiedot",
-        "sv": "?",
-        "en": "?",
         "bundlename": "featuredata2",
         "metadata": {
             "Import-Bundle": {
@@ -264,12 +181,6 @@
             "Require-Bundle-Instance": []
         }
     }, {
-        "instanceProps": {},
-        "title": "Places",
-        "bundleinstancename": "myplaces3",
-        "fi": "Paikat",
-        "sv": "Platser",
-        "en": "Places",
         "bundlename": "myplaces3",
         "metadata": {
             "Import-Bundle": {
@@ -280,12 +191,6 @@
             "Require-Bundle-Instance": []
         }
     }, {
-        "instanceProps": {},
-        "title": "guidedtour",
-        "fi": "guidedtour",
-        "bundleinstancename": "guidedtour",
-        "sv": "guidedtour",
-        "en": "guidedtour",
         "bundlename": "guidedtour",
         "metadata": {
             "Import-Bundle": {
@@ -296,12 +201,6 @@
             "Require-Bundle-Instance": []
         }
     }, {
-        "instanceProps": {},
-        "title": "backendstatus",
-        "fi": "backendstatus",
-        "bundleinstancename": "backendstatus",
-        "sv": "backendstatus",
-        "en": "backendstatus",
         "bundlename": "backendstatus",
         "metadata": {
             "Import-Bundle": {
@@ -312,12 +211,7 @@
             "Require-Bundle-Instance": []
         }
     }, {
-        "title": "Printout",
-        "fi": "Karttatuloste",
-        "sv": "Kartutskrift",
-        "en": "Map Printout",
         "bundlename": "printout",
-        "bundleinstancename": "printout",
         "metadata": {
             "Import-Bundle": {
                 "printout": {
@@ -325,15 +219,9 @@
                 }
             },
             "Require-Bundle-Instance": []
-        },
-        "instanceProps": {}
+        }
     }, {
-        "title": "PostProcessor",
-        "fi": "PostProcessor",
-        "sv": "PostProcessor",
-        "en": "PostProcessor",
         "bundlename": "postprocessor",
-        "bundleinstancename": "postprocessor",
         "metadata": {
             "Import-Bundle": {
                 "postprocessor": {
@@ -341,15 +229,8 @@
                 }
             },
             "Require-Bundle-Instance": []
-        },
-        "instanceProps": {}
+        }
     }, {
-        "instanceProps": {},
-        "title": "Karttatasot",
-        "bundleinstancename": "admin-layerselector",
-        "fi": "admin layerselector",
-        "sv": "admin layerselector",
-        "en": "admin layerselector",
         "bundlename": "admin-layerselector",
         "metadata": {
             "Import-Bundle": {
@@ -363,12 +244,7 @@
             "Require-Bundle-Instance": []
         }
     }, {
-        "title": "Analyse",
-        "fi": "Analyysi",
-        "sv": "Analys",
-        "en": "Analyse",
         "bundlename": "analyse",
-        "bundleinstancename": "analyse",
         "metadata": {
             "Import-Bundle": {
                 "analyse": {
@@ -380,12 +256,7 @@
             }
         }
     }, {
-        "title": "Admin Layer Rights",
-        "fi": "Tasojen Oikeuksienhallinta",
-        "sv": "",
-        "en": "",
         "bundlename": "admin-layerrights",
-        "bundleinstancename": "admin-layerrights",
         "metadata": {
             "Import-Bundle": {
                 "admin-layerrights": {
@@ -394,9 +265,7 @@
             }
         }
     }, {
-        "title": "Admin - Users",
         "bundlename": "admin-users",
-        "bundleinstancename": "admin-users",
         "metadata": {
             "Import-Bundle": {
                 "admin-users": {
@@ -405,9 +274,7 @@
             }
         }
     }, {
-        "title": "Admin Generic",
         "bundlename": "admin",
-        "bundleinstancename": "admin",
         "metadata": {
             "Import-Bundle": {
                 "admin": {
@@ -416,12 +283,7 @@
             }
         }
     }, {
-        "title": "myplacesimport",
-        "fi": "myplacesimport",
-        "sv": "myplacesimport",
-        "en": "myplacesimport",
         "bundlename": "myplacesimport",
-        "bundleinstancename": "myplacesimport",
         "metadata": {
             "Import-Bundle": {
                 "myplacesimport": {
@@ -433,7 +295,6 @@
         "instanceProps": {}
     }, {
         "bundlename": "heatmap",
-        "bundleinstancename": "heatmap",
         "metadata": {
             "Import-Bundle": {
                 "heatmap": {
@@ -442,8 +303,6 @@
             }
         }
     }, {
-        "title": "publishedstatehandler",
-        "bundleinstancename": "publishedstatehandler",
         "bundlename": "publishedstatehandler",
         "metadata": {
             "Import-Bundle": {
@@ -454,7 +313,6 @@
             "Require-Bundle-Instance": []
         }
     }, {
-        "title": "Remote procedure call",
         "bundlename": "rpc",
         "metadata": {
             "Import-Bundle": {
@@ -464,12 +322,7 @@
             }
         }
     }, {
-        "title": "Download basket",
-        "fi": "Latauskori",
-        "sv": "",
-        "en": "",
         "bundlename": "download-basket",
-        "bundleinstancename": "download-basket",
         "metadata": {
             "Import-Bundle": {
                 "download-basket": {
@@ -478,12 +331,7 @@
             }
         }
     }, {
-        "title": "Link panel",
-        "fi": "Linkki paneeli",
-        "sv": "",
-        "en": "",
         "bundlename": "link-panel",
-        "bundleinstancename": "link-panel",
         "metadata": {
             "Import-Bundle": {
                 "link-panel": {
@@ -493,12 +341,7 @@
         }
 
     }, {
-        "title": "Water pipe tool",
-        "fi": "Water pipe tool",
-        "sv": "",
-        "en": "",
         "bundlename": "water-pipe-tool",
-        "bundleinstancename": "water-pipe-tool",
         "metadata": {
             "Import-Bundle": {
                 "water-pipe-tool": {
@@ -507,26 +350,16 @@
             }
         }
     }, {
-        "title": "Tampere",
-        "fi": "Tampere",
-        "sv": "Tampere",
-        "en": "Tampere",
         "bundlename": "content-editor",
-        "bundleinstancename": "content-editor",
         "metadata": {
             "Import-Bundle": {
                 "content-editor": {
-                    "bundlePath": "oskari-frontend-contrib/packages/tampere/bundle/"
+                    "bundlePath": "../../../packages/"
                 }
             }
         }
     },
     {
-        "title": "Chosen maplayers",
-        "bundleinstancename": "hierarchical-layerlist",
-        "fi": "hierarchical-layerlist",
-        "sv": "hierarchical-layerlist",
-        "en": "hierarchical-layerlist",
         "bundlename": "hierarchical-layerlist",
         "metadata": {
             "Import-Bundle": {
@@ -538,11 +371,6 @@
         }
     },
     {
-        "title": "Admin chosen maplayers",
-        "bundleinstancename": "admin-hierarchical-layerlist",
-        "fi": "admin-hierarchical-layerlist",
-        "sv": "admin-hierarchical-layerlist",
-        "en": "admin-hierarchical-layerlist",
         "bundlename": "admin-hierarchical-layerlist",
         "metadata": {
             "Import-Bundle": {
@@ -554,12 +382,7 @@
         }
     },
     {
-        "title": "map-location",
-        "fi": "map-location",
-        "sv": "map-location",
-        "en": "map-location",
         "bundlename": "map-location",
-        "bundleinstancename": "map-location",
         "metadata": {
             "Import-Bundle": {
                 "map-location": {
@@ -571,7 +394,6 @@
     },
     {
             "bundlename" : "drawtools",
-            "bundleinstancename" : "drawtools",
             "metadata" : {
                 "Import-Bundle" : {
                     "drawtools" : {
