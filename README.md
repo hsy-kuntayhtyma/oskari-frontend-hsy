@@ -44,7 +44,7 @@ Now all are installed and you can test it when jetty starts (if not then try to 
 
 ## Setup
 
-The application build process assumes that this repository, the main [oskari-frontend-karttasovellus] repository, and [oskari-frontend-contrib] are located side by side on your filesystem. Running `npm install` will create symlinks to these directories under node_modules.
+The application build process assumes that this repository, the main oskari-frontend-karttasovellus repository, and oskari-frontend-contrib are located side by side on your filesystem. Running `npm install` will create symlinks to these directories under node_modules.
 
 In this model, it's left to the developer to checkout the correct branches/versions of the above repos.
 
