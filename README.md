@@ -1,6 +1,46 @@
 # Oskari frontend HSY
 
-Bundles & application configuration for https://kartta.hsy.fi
+Bundles & application configuration for HSY.
+
+## Installation on HSY servers
+
+### First run all these
+* oskari-server-extensions-karttasovellus:
+    * new version:  run ```mvn -N versions:set -DnewVersion=<version>```
+    * commit changes: ```git commit -m "Version upgrade"```
+    * add new git tag: ```git tag -a <version> -m "Version <version>"```
+    * push changes: ```git push``` and ```git push --tags```
+    * create wars : ```mvn clean install```
+* oskari-frontend-contrib:
+    * add new git tag: ```git tag -a <version> -m "Version <version>"```
+    * push changes: ```git push``` and ```git push --tags```
+* oskari-frontend-karttasovellus:
+    * add new git tag: ```git tag -a <version> -m "Version <version>"```
+    * push changes: ```git push``` and ```git push --tags```
+* oskari-frontend-hsy:
+    * add new git tag: ```git tag -a <version> -m "Version <version>"```
+    * push changes: ```git push``` and ```git push --tags```
+    * create minifyed package: ```npm run build -- --env.appdef=1.00:applications/hsy```
+
+### Create installation zip package
+* create new folder: `oskari-<version>`
+* copy oskari-server-extensions-karttasovellus/webapp-map/target/oskari-map.war to created folder
+* copy oskari-server-extensions-karttasovellus/webapp-transport/target/transport.war to created folder
+* zip oskari-frontend-hsy/dist -folder and copy dist.zip to created folder
+* zip `oskari-<version>` files (not folder) to `oskari-<version>.zip`
+
+### Transfer installation zip to HSY server
+
+Transfer `oskari-<version>.zip` to HSY server in `/home/<username>/update_versions` -folder
+
+### Install update to HSY server
+
+Run following code in `/home/<username>/update_versions` -folder:
+```
+sudo sh deploy.sh oskari-<version>.zip
+```
+
+Now all are installed and you can test it when jetty starts (if not then try to start again).
 
 ## Setup
 
