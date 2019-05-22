@@ -535,28 +535,24 @@ Oskari.clazz.define('Oskari.tampere.bundle.content-editor.view.SideContentEditor
          */
         _fillLayerGeometries: function (geometries) {
             var me = this;
-            if (me.layerGeometries != null && me.layerGeometries.geometry != null) {
-                var layerGeometries = JSON.parse(new olFormatGeoJSON().writeGeometry(me.layerGeometries.geometry));
-                if (me._geojson && me._geojson.features[0] && me._geojson.features[0].geometry) {
-                    layerGeometries = me._geojson.features[0].geometry;
-                }
 
-                if (layerGeometries != null) {
-                    if (layerGeometries.type == 'MultiPoint') {
+            var fillGeometries = function (geom) {
+                if (geom != null) {
+                    if (geom.type == 'MultiPoint') {
                         geometries.type = 'multipoint';
-                        layerGeometries.coordinates.forEach(function (coordinates) {
+                        geom.coordinates.forEach(function (coordinates) {
                             geometries.data.push({x: coordinates[0], y: coordinates[1]});
                         });
-                    } else if (layerGeometries.type == 'MultiLineString') {
+                    } else if (geom.type == 'MultiLineString') {
                         geometries.type = 'multilinestring';
 
-                        layerGeometries.coordinates.forEach(function (coordinates) {
+                        geom.coordinates.forEach(function (coordinates) {
                             geometries.data.push(me._getLineString(coordinates));
                         });
-                    } else if (layerGeometries.type == 'MultiPolygon') {
+                    } else if (geom.type == 'MultiPolygon') {
                         geometries.type = 'multipolygon';
 
-                        layerGeometries.coordinates.forEach(function (coordinates) {
+                        geom.coordinates.forEach(function (coordinates) {
                             var tmpPolygon = [];
 
                             coordinates.forEach(function (lineCoordinates) {
@@ -565,8 +561,45 @@ Oskari.clazz.define('Oskari.tampere.bundle.content-editor.view.SideContentEditor
 
                             geometries.data.push(tmpPolygon);
                         });
+                    } else if (geom.type == 'Point') {
+                        var tmp = [];
+                        geometries.type = 'multipoint';
+                        geom.coordinates.forEach(function (coordinates) {
+                            tmp.data.push({x: coordinates[0], y: coordinates[1]});
+                        });
+                        geometries.data.push([tmp]);
+                    } else if (geom.type == 'LineString') {
+                        var tmp = [];
+                        geometries.type = 'multilinestring';
+
+                        geom.coordinates.forEach(function (coordinates) {
+                            tmp.data.push({x: coordinates[0], y: coordinates[1]});
+                        });
+                        geometries.data.push([tmp]);
+                    } else if (geom.type == 'Polygon') {
+                        var tmp = [];
+                        geometries.type = 'multipolygon';
+
+                        geom.coordinates.forEach(function (coordinates) {
+                            coordinates.forEach(function (lineCoordinates) {
+                                tmp.push({x:lineCoordinates[0], y:lineCoordinates[1]});
+                            });
+                        });
+                        geometries.data.push([tmp]);
                     }
                 }
+            };
+
+            if (me.layerGeometries != null && me.layerGeometries.geometry != null) {
+                var layerGeometries = JSON.parse(new olFormatGeoJSON().writeGeometry(me.layerGeometries.geometry));
+                fillGeometries(layerGeometries);
+            }
+            // if drawed new feature by drawing tools
+            else if (me._geojson && me._geojson.features[0] && me._geojson.features[0].geometry) {
+                me._geojson.features.forEach(function(feature) {
+                    fillGeometries(feature.geometry);
+                });
+
             }
         },
 
@@ -800,6 +833,7 @@ Oskari.clazz.define('Oskari.tampere.bundle.content-editor.view.SideContentEditor
          */
         prepareRequest: function (geometries, deleteFeature) {
             var me = this;
+            debugger;
             var requestData = {};
             requestData.featureFields = [];
             var featureData = me._getFeatureData();
@@ -811,7 +845,7 @@ Oskari.clazz.define('Oskari.tampere.bundle.content-editor.view.SideContentEditor
             requestData.srsName = this.sandbox.getMap().getSrsName();
             requestData.geometries = {};
             requestData.geometries.data = [];
-            if (!me.editMultipleFeatures && (me.operationMode == "edit" || deleteFeature == true)) {
+            if (!me.editMultipleFeatures && (me.operationMode == "edit" || me.operationMode == "create" || deleteFeature == true)) {
                 me._fillLayerGeometries(requestData.geometries);
             } else if(me.editMultipleFeatures) {
                 me._fillMultipleLayerGeometries(requestData.geometries);
