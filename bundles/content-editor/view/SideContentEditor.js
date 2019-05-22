@@ -153,6 +153,7 @@ Oskari.clazz.define('Oskari.tampere.bundle.content-editor.view.SideContentEditor
             }
         },
 
+        //TODO: make this one better to also include handling of GeometryPropertyType
         /**
          * Gets drawtool geometry type
          * @method @public getDrawToolsGeometryType
@@ -1454,10 +1455,8 @@ Oskari.clazz.define('Oskari.tampere.bundle.content-editor.view.SideContentEditor
             me.mainPanel.find('.content-draw-tools').empty();
             var pointButton = jQuery('<div />').addClass('add-point tool').attr('title', me.loc.tools.point);
             if (me.layerGeometryType == 'MultiPoint' || me.layerGeometryType == 'Point' || me.layerGeometryType == 'GeometryPropertyType') {
-                if(me.layerGeometryType == 'GeometryPropertyType') {
-                    me.layerGeometryType = 'Point';
-                }
                 pointButton.on('click', function () {
+                    me.layerGeometryType = 'Point';
                     me.drawingActive = true;
                     me.startNewDrawing();
                 });
@@ -1467,10 +1466,8 @@ Oskari.clazz.define('Oskari.tampere.bundle.content-editor.view.SideContentEditor
 
             var lineButton = jQuery('<div />').addClass('add-line tool').attr('title', me.loc.tools.line);
             if (me.layerGeometryType == 'MultiLineString' || me.layerGeometryType == 'GeometryPropertyType') {
-                if(me.layerGeometryType == 'GeometryPropertyType') {
-                    me.layerGeometryType = 'MultiLineString';
-                }
                 lineButton.on('click', function () {
+                    me.layerGeometryType = 'MultiLineString';
                     me.drawingActive = true;
                     me.startNewDrawing();
                 });
@@ -1480,10 +1477,8 @@ Oskari.clazz.define('Oskari.tampere.bundle.content-editor.view.SideContentEditor
 
             var areaButton = jQuery('<div />').addClass('add-area tool').attr('title', me.loc.tools.area);
             if (me.layerGeometryType == 'MultiPolygon' || me.layerGeometryType == 'Polygon' || me.layerGeometryType == 'GeometryPropertyType') {
-                if(me.layerGeometryType == 'GeometryPropertyType') {
-                    me.layerGeometryType = 'Polygon';
-                }
                 areaButton.on('click', function () {
+                    me.layerGeometryType = 'Polygon';
                     me.drawingActive = true;
                     me.startNewDrawing();
                 });
