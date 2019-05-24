@@ -719,9 +719,8 @@ Oskari.clazz.define('Oskari.tampere.bundle.content-editor.view.SideContentEditor
                             }
                         });
                         tempFeature.featureFields = tempFeatureFields;
-                        tempFeature.geometries.data = [multipleGeometriesTemp.data[index]];
-                        //The actual geometry is indexed one behind in the selected geometries list.
-                        tempFeature.geometries.data = [multipleGeometriesTemp.data[index-1]];
+                        delete tempFeature.geometries;
+
                         multipleFeaturesData.push(tempFeature);
                     }
                     ++index;

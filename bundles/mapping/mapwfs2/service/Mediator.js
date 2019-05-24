@@ -323,7 +323,6 @@ Oskari.clazz.category('Oskari.mapframework.bundle.mapwfs2.service.Mediator', 'ge
 
         // handle CTRL click (selection) and normal click (getInfo) differently
         if (selectionMode) {
-
             if (!this.__isSelectionLayer(layer.getId())) {
                 return;
             }
