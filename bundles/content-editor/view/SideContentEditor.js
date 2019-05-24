@@ -300,6 +300,13 @@ Oskari.clazz.define('Oskari.tampere.bundle.content-editor.view.SideContentEditor
             me._addDrawTools();
             me.currentEditFeatureFid = fid;
         },
+
+        /**
+         * Edit multiple feautures
+         * @method  _editMultipleFeatures
+         * @param   {String}              fid feature identifier
+         * @private
+         */
         _editMultipleFeatures: function (fid) {
             var me = this;
             var geometry = me._findGeometryByFid(fid);
@@ -603,51 +610,6 @@ Oskari.clazz.define('Oskari.tampere.bundle.content-editor.view.SideContentEditor
             }
         },
 
-        _fillMultipleLayerGeometries: function(geometries)
-        {
-            var me = this;
-            jQuery.each(me.allClickedFeatures || [], function(key, value) {
-                if (value.geometry != null) {
-                    var format = new olFormatGeoJSON();
-                    var geomAsGeoJSON = format.writeGeometry(value.geometry);
-
-                    var layerGeometries = JSON.parse(geomAsGeoJSON);
-                    if (geomAsGeoJSON != null) {
-                        if (layerGeometries.type == 'Point') {
-                            geometries.type = 'point';
-                            geometries.data.push({x: layerGeometries.coordinates[0], y: layerGeometries.coordinates[1]});
-                        } else if (layerGeometries.type == 'MultiPoint') {
-                            geometries.type = 'multipoint';
-                            for (var i = 0; i < layerGeometries.coordinates.length; i++) {
-                                geometries.data.push({x: layerGeometries.coordinates[i][0], y: layerGeometries.coordinates[i][1]});
-                            }
-                        } else if (layerGeometries.type == 'MultiLineString') {
-                            geometries.type = 'multilinestring';
-                            for (var i = 0; i < layerGeometries.coordinates.length; i++) {
-                                var tmpLineString = [];
-                                for (var j = 0; j < layerGeometries.coordinates[i].length; j++) {
-                                    tmpLineString.push({x: layerGeometries.coordinates[i][j][0], y: layerGeometries.coordinates[i][j][1]});
-                                }
-                                geometries.data.push(tmpLineString);
-                            }
-                        } else if (layerGeometries.type == 'MultiPolygon') {
-                            geometries.type = 'multipolygon';
-                            for (var i = 0; i < layerGeometries.coordinates.length; i++) {
-                                var tmpPolygon = [];
-                                for (var j = 0; j < layerGeometries.coordinates[i].length; j++) {
-                                    var tmpLineString = [];
-                                    for (var k = 0; k < layerGeometries.coordinates[i][j].length; k++) {
-                                        tmpLineString.push({x: layerGeometries.coordinates[i][j][k][0], y: layerGeometries.coordinates[i][j][k][1]});
-                                    }
-                                    tmpPolygon.push(tmpLineString);
-                                }
-                                geometries.data.push(tmpPolygon);
-                            }
-                        }
-                    }
-                }
-            });
-        },
         /**
          * Performs a deep clone of an object recursively.
          * @todo This should be in tool functions or somewhere else?
@@ -787,6 +749,7 @@ Oskari.clazz.define('Oskari.tampere.bundle.content-editor.view.SideContentEditor
                 }
             });
         },
+
         /**
          * Clones the geometries drawn for the request formed for backend.
          * @method  @private _cloneGeometries
@@ -816,6 +779,7 @@ Oskari.clazz.define('Oskari.tampere.bundle.content-editor.view.SideContentEditor
                 });
             }
         },
+
         /**
          * Sets current geojson (when drawtool finished)
          * @method setCurrentGeoJson
@@ -824,6 +788,7 @@ Oskari.clazz.define('Oskari.tampere.bundle.content-editor.view.SideContentEditor
         setCurrentGeoJson: function (geojson) {
             this._geojson = geojson;
         },
+
         /**
          * Prepare request
          * @method prepareRequest
@@ -846,10 +811,12 @@ Oskari.clazz.define('Oskari.tampere.bundle.content-editor.view.SideContentEditor
             if (!me.editMultipleFeatures && (me.operationMode == 'edit' || me.operationMode == 'create' || deleteFeature == true)) {
                 me._fillLayerGeometries(requestData.geometries);
             } else if(me.editMultipleFeatures) {
-                me._fillMultipleLayerGeometries(requestData.geometries);
+                // not allowed change geometries when multiple edit
+                delete requestData.geometries;
             }
             me.sendRequest(requestData, deleteFeature);
         },
+
         /**
          * Destroys/removes this view from the screen.
          * @method @public destroy
@@ -868,6 +835,7 @@ Oskari.clazz.define('Oskari.tampere.bundle.content-editor.view.SideContentEditor
 
             this.mainPanel.remove();
         },
+
         /**
          * Removes temporarily layers from map that the user cant publish
          * @method _hideLayers
@@ -1139,6 +1107,7 @@ Oskari.clazz.define('Oskari.tampere.bundle.content-editor.view.SideContentEditor
 
             return result;
         },
+
         /**
          * Parses and formats a WFS layers JSON GFI response
          * @method _json2html
@@ -1270,6 +1239,7 @@ Oskari.clazz.define('Oskari.tampere.bundle.content-editor.view.SideContentEditor
             }
             return html;
         },
+
         /**
          * Handles save feature
          * @method  _saveFeature
@@ -1295,6 +1265,7 @@ Oskari.clazz.define('Oskari.tampere.bundle.content-editor.view.SideContentEditor
                 me.showMessage(me.loc.formValidationError.title, me.loc.formValidationError.text, [okButton], true);
             }
         },
+
         /**
          * Handles cancel feature
          * @method  _cancelFeature
@@ -1309,6 +1280,7 @@ Oskari.clazz.define('Oskari.tampere.bundle.content-editor.view.SideContentEditor
             me.editMultipleFeaturesButton.setEnabled(false);
             me.editMultipleFeatures = false;
         },
+
         /**
          * Stores filled form data
          * @method  _storeFormData
@@ -1320,6 +1292,7 @@ Oskari.clazz.define('Oskari.tampere.bundle.content-editor.view.SideContentEditor
                 me.currentData.features[0][index + 1] = jQuery(this).val();
             });
         },
+
         /**
          * Wraps the html feature fragments into a container.
          *
@@ -1454,6 +1427,7 @@ Oskari.clazz.define('Oskari.tampere.bundle.content-editor.view.SideContentEditor
 
             return result;
         },
+
         /**
          * Parse layer geometry response
          * @method  _parseLayerGeometryResponse
@@ -1475,6 +1449,7 @@ Oskari.clazz.define('Oskari.tampere.bundle.content-editor.view.SideContentEditor
                 this.layerGeometryType = 'GeometryPropertyType';
             }
         },
+
         /**
          * Adds drawtools
          * @method  _addDrawTools
@@ -1548,6 +1523,7 @@ Oskari.clazz.define('Oskari.tampere.bundle.content-editor.view.SideContentEditor
             me.mainPanel.find('.content-draw-tools').append(toolContainer);
             return toolContainer;
         },
+
         /**
          * Returns the zoom based click tolerance threshold.
          * @method  @private _getZoomBasedClickToleranceThreshold
