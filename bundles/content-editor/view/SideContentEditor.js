@@ -138,17 +138,20 @@ Oskari.clazz.define('Oskari.tampere.bundle.content-editor.view.SideContentEditor
                 if (me.layerGeometryType.indexOf('Multi') > -1) {
                     me.sandbox.postRequestByName('DrawTools.StartDrawingRequest', [me.instance.getName(), me.getDrawToolsGeometryType(), {
                         allowMultipleDrawing: 'multiGeom',
-                        geojson: geomAsGeoJSON
+                        geojson: geomAsGeoJSON,
+                        showMeasureOnMap: true
                     }]);
                 } else {
                     me.sandbox.postRequestByName('DrawTools.StartDrawingRequest', [me.instance.getName(), me.getDrawToolsGeometryType(), {
                         allowMultipleDrawing: 'single',
-                        geojson: geomAsGeoJSON
+                        geojson: geomAsGeoJSON,
+                        showMeasureOnMap: true
                     }]);
                 }
             } else {
                 me.sandbox.postRequestByName('DrawTools.StartDrawingRequest', [me.instance.getName(), me.getDrawToolsGeometryType(), {
-                    allowMultipleDrawing: true
+                    allowMultipleDrawing: true,
+                    showMeasureOnMap: true
                 }]);
             }
         },
@@ -1469,7 +1472,6 @@ Oskari.clazz.define('Oskari.tampere.bundle.content-editor.view.SideContentEditor
             } else {
                 pointButton.addClass('disabled');
             }
-
             var lineButton = jQuery('<div />').addClass('add-line tool').attr('title', me.loc.tools.line);
             if (me.layerGeometryType == 'MultiLineString' || me.layerGeometryType == 'GeometryPropertyType') {
                 lineButton.on('click', function () {
@@ -1480,7 +1482,6 @@ Oskari.clazz.define('Oskari.tampere.bundle.content-editor.view.SideContentEditor
             } else {
                 lineButton.addClass('disabled');
             }
-
             var areaButton = jQuery('<div />').addClass('add-area tool').attr('title', me.loc.tools.area);
             if (me.layerGeometryType == 'MultiPolygon' || me.layerGeometryType == 'Polygon' || me.layerGeometryType == 'GeometryPropertyType') {
                 areaButton.on('click', function () {
@@ -1491,7 +1492,6 @@ Oskari.clazz.define('Oskari.tampere.bundle.content-editor.view.SideContentEditor
             } else {
                 areaButton.addClass('disabled');
             }
-
             var geomEditButton = jQuery('<div />').addClass('selection-area tool').attr('title', me.loc.tools.geometryEdit);
             if (me.layerGeometryType != null) {
                 geomEditButton.on('click', function () {
