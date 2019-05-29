@@ -165,3 +165,27 @@ div.metadataCatalogueContainer div.spinner {
         max-height: 970px !important;
     }
 }
+
+
+div#oskari_getinforesult_contentWrapper table tr:nth-child(even) {
+    background: #fff !important;
+}
+
+div#oskari_getinforesult_contentWrapper table tr:nth-child(odd) {
+    background: #fff !important;
+}
+
+div#oskari_getinforesult_contentWrapper table {
+    font-size: 12px !important;
+    line-height: 18px !important;
+
+}
+
+div#oskari_getinforesult_contentWrapper table tr td {
+    padding: 2px 0 3px !important
+}
+
+div#oskari_getinforesult_contentWrapper table tr td:first-child {
+    text-align: left;
+    font-weight: bold;
+}
