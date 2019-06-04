@@ -545,6 +545,7 @@ Oskari.clazz.define('Oskari.tampere.bundle.content-editor.view.SideContentEditor
          */
         _fillLayerGeometries: function (geometries) {
             var me = this;
+
             var fillGeometries = function (geom) {
                 if (geom != null) {
                     if (geom.type == 'MultiPoint') {
@@ -599,17 +600,19 @@ Oskari.clazz.define('Oskari.tampere.bundle.content-editor.view.SideContentEditor
                 }
             };
 
-            if (me.layerGeometries != null && me.layerGeometries.geometry != null) {
-                var layerGeometries = JSON.parse(new olFormatGeoJSON().writeGeometry(me.layerGeometries.geometry));
+            if(this.operationMode == 'edit') {
+                if (me.layerGeometries != null && me.layerGeometries.geometry != null) {
+                    fillGeometries(me._geojson.features[0].geometry);
+                }
+            }
+            if(this.operationMode == 'create') {
                 if (me._geojson && me._geojson.features[0] && me._geojson.features[0].geometry) {
                     me._geojson.features.forEach(function(feature) {
                         fillGeometries(feature.geometry);
                     });
                 }
-                else {
-                    fillGeometries(layerGeometries);
-                }
             }
+            
         },
 
         /**
@@ -722,7 +725,7 @@ Oskari.clazz.define('Oskari.tampere.bundle.content-editor.view.SideContentEditor
                     var layer = me._getLayerById(me.layerId);
                     me._highlighGeometries([], layer, true);
                     wfsLayerPlugin.deleteTileCache(me.layerId, layer.getCurrentStyle().getName());
-                    //wfsLayerPlugin.refreshLayer(me.layerId);
+                    // wfsLayerPlugin.refreshLayer(me.layerId);
                     var evt = me.sandbox.getEventBuilder('AfterChangeMapLayerStyleEvent')(layer);
                     me.sandbox.notifyAll(evt);
                     me.sendStopDrawRequest(true);
@@ -1254,6 +1257,7 @@ Oskari.clazz.define('Oskari.tampere.bundle.content-editor.view.SideContentEditor
                     me.drawingActive = false;
                     me.sendStopDrawRequest();
                 }
+
                 me.prepareRequest(me._geojson);
                 me.featureDuringEdit = false;
                 me._storeFormData();
