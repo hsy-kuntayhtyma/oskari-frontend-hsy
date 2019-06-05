@@ -600,13 +600,10 @@ Oskari.clazz.define('Oskari.tampere.bundle.content-editor.view.SideContentEditor
                 }
             };
 
-            if(this.operationMode == 'edit') {
-                if (me.layerGeometries != null && me.layerGeometries.geometry != null) {
+            if(this.operationMode == 'edit' && me.layerGeometries != null && me.layerGeometries.geometry != null) {
                     fillGeometries(me._geojson.features[0].geometry);
-                }
             }
-            if(this.operationMode == 'create') {
-                if (me._geojson && me._geojson.features[0] && me._geojson.features[0].geometry) {
+            if(this.operationMode == 'create' && me._geojson && me._geojson.features[0] && me._geojson.features[0].geometry) {
                     me._geojson.features.forEach(function(feature) {
                         fillGeometries(feature.geometry);
                     });
