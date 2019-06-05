@@ -607,7 +607,7 @@ Oskari.clazz.define('Oskari.tampere.bundle.content-editor.view.SideContentEditor
                     me._geojson.features.forEach(function(feature) {
                         fillGeometries(feature.geometry);
                     });
-                }
+                
             }
             
         },
