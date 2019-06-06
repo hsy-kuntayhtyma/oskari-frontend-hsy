@@ -6,6 +6,7 @@
     "Oskari"
   ],
   "dependencies": {
+    "acorn": "^6.1.1",
     "oskari-frontend": "file:../oskari-frontend-karttasovellus",
     "oskari-frontend-contrib": "file:../oskari-frontend-contrib"
   },
