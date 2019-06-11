@@ -574,28 +574,22 @@ Oskari.clazz.define('Oskari.tampere.bundle.content-editor.view.SideContentEditor
                     } else if (geom.type == 'Point') {
                         var tmp = [];
                         geometries.type = 'multipoint';
-                        geom.coordinates.forEach(function (coordinates) {
-                            tmp.data.push({x: coordinates[0], y: coordinates[1]});
-                        });
-                        geometries.data.push([tmp]);
-                    } else if (geom.type == 'LineString') {
-                        var tmp = [];
-                        geometries.type = 'multilinestring';
+                        geometries.data.push({x: geom.coordinates[0], y: geom.coordinates[1]});
 
-                        geom.coordinates.forEach(function (coordinates) {
-                            tmp.data.push({x: coordinates[0], y: coordinates[1]});
-                        });
-                        geometries.data.push([tmp]);
+                    } else if (geom.type == 'LineString') {
+                        geometries.type = 'multilinestring';
+                        geometries.data.push(me._getLineString(geom.coordinates));
+
                     } else if (geom.type == 'Polygon') {
                         var tmp = [];
                         geometries.type = 'multipolygon';
-
                         geom.coordinates.forEach(function (coordinates) {
                             coordinates.forEach(function (lineCoordinates) {
                                 tmp.push({x:lineCoordinates[0], y:lineCoordinates[1]});
                             });
                         });
                         geometries.data.push([tmp]);
+
                     } else if (typeof geom.getType === 'function' && geom.getType() === 'MultiPolygon') {
 
                     }
