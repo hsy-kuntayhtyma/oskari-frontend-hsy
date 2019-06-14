@@ -1,5 +1,34 @@
 jQuery(document).ready(function() {
-    Oskari.app.loadAppSetup(ajaxUrl + 'action_route=GetAppSetup', window.controlParams, function() {
-        jQuery('#mapdiv').append('Unable to start');
+    var getAppSetupParams = {};
+    // populate url with possible control parameters
+    Object.keys(window.controlParams || {}).forEach(function (key) {
+        getAppSetupParams[key] = window.controlParams[key];
+    });
+    jQuery.ajax({
+        type: 'POST',
+        dataType: 'json',
+        data: getAppSetupParams,
+        url: '/action?action_route=GetAppSetup',
+        success: function (appSetup) {
+            var app = Oskari.app;
+            if (!appSetup.startupSequence) {
+                jQuery('#mapdiv').append('Unable to start');
+                return;
+            }
+            // modify the appsetup we got from server
+            appSetup.configuration['seutumaisa-search'] = {conf:{},state:{}};
+
+            appSetup.startupSequence.push({bundlename: 'seutumaisa-search'});
+
+            app.init(appSetup);
+            app.startApplication(function () {
+                var sb = Oskari.getSandbox();
+            });
+        },
+        error: function (jqXHR, textStatus) {
+            if (jqXHR.status !== 0) {
+                jQuery('#mapdiv').append('Unable to start');
+            }
+        }
     });
 });
