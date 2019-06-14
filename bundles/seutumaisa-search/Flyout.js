@@ -76,7 +76,7 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaSearch.Flyout',
             tabsContainer.addPanel(me.searchTab);
             tabsContainer.addPanel(me.resultsTab);
             tabsContainer.insertTo(me.container);
-            me.spinner.insertTo(me.container);
+            me.spinner.insertTo(jQuery('.tab-content.search-tab'));
         },
 
         /**
@@ -87,13 +87,6 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaSearch.Flyout',
          * @param  {Object}   current  current tab
          */
         tabChanged: function (previous, current) {
-            console.log(previous, current);
-            /*
-            if (current.getId() === 'download-basket-tab' && current.getId() !== previous.getId()) {
-                current.createBasket();
-            } else if (previous !== null && previous.getId() === 'download-basket-tab' && current.getId() !== 'download-basket-tab') {
-                previous.removePopup();
-            }*/
         },
 
         _getSearchValues: function (){
@@ -102,7 +95,11 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaSearch.Flyout',
             me.searchFields.forEach(function(field) {
                 var c = field.clazz;
                 if(c.isEnabled() && c.getValue() !== '' && c.getValue() !== null) {
-                    values[field.id] = c.getValue();
+                    var value = c.getValue();
+                    if(!isNaN(value)) {
+                        value = parseFloat(value);
+                    }
+                    values[field.id] = value;
                 }
             });
             return values;
@@ -114,7 +111,8 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaSearch.Flyout',
          * @private
          */
         _setDatepickerLanguage: function () {
-            var storedLanguage = jQuery.cookie('oskari.language');
+            var storedLanguage = Cookies.get('oskari.language');
+
             var lang = null;
             if (storedLanguage == null) {
                 var supportedLanguages = Oskari.getSupportedLanguages();
@@ -162,20 +160,44 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaSearch.Flyout',
 
             var tabContainer = jQuery('<div class="search-tab-container"><div class="fields"></div><div class="buttons"></div></div>');
 
+            var resetButton = Oskari.clazz.create('Oskari.userinterface.component.Button');
+
+            resetButton.setTitle(tabLocale.clear);
+
+            var resetHandler = function () {
+                me.searchFields.forEach(function(field) {
+                    var c = field.clazz;
+                    c.reset();
+                });
+            };
+            jQuery(resetButton.getElement()).longpress(function(e) {
+                Cookies.remove('searchFields');
+                resetHandler();
+            }, function(e) {
+                resetHandler();
+            }, 5000);
+
+            resetButton.insertTo(tabContainer.find('.buttons'));
+
             var searchButton = Oskari.clazz.create('Oskari.userinterface.component.Button');
             searchButton.addClass('primary');
             searchButton.setTitle(tabLocale.search);
             searchButton.setHandler(function() {
                 var values = me._getSearchValues();
+                me.spinner.insertTo(jQuery('.tab-content.search-tab'));
+                me.spinner.start();
+
                 me.service.search(values, function (err, response) {
                     console.log(values);
-                    console.log(response);
+                    me.spinner.stop();
+
                     me.tabsContainer.select(me.resultsTab);
                 });
 
-
             });
             searchButton.insertTo(tabContainer.find('.buttons'));
+
+            me.spinner.start();
 
             this.service.getSearchFields(function (err, fields) {
                 if (err) {
@@ -195,7 +217,8 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaSearch.Flyout',
 
                         var select = Oskari.clazz.create('Oskari.userinterface.component.SelectList', field.id);
                         selectOptions.cls = field.cls || null;
-                        selectOptions.placeholder_text = field.placeholderText || null;
+                        selectOptions.placeholder_text = field.placeHolderText || null;
+                        selectOptions.allowReset = true;
 
                         if(field.title) {
                             var title = row.find('.title');
@@ -271,6 +294,9 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaSearch.Flyout',
                                 },
                                 isEnabled: function() {
                                     return true;
+                                },
+                                reset: function () {
+                                    slider[0].noUiSlider.set([field.min, field.max]);
                                 }
                             }
                         });
@@ -315,6 +341,10 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaSearch.Flyout',
                                 },
                                 isEnabled: function() {
                                     return true;
+                                },
+                                reset: function () {
+                                    range.find('.datepicker.start').val('');
+                                    range.find('.datepicker.end').val('');
                                 }
                             }
                         });
@@ -327,6 +357,10 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaSearch.Flyout',
             tab.setContent(tabContainer);
             tab.setId('search-tab');
             return tab;
+        },
+
+        _getSelectField: function (){
+
         },
 
         _getSearchResultsTab: function () {

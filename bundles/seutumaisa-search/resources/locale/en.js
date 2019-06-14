@@ -12,7 +12,8 @@ Oskari.registerLocalization({
             "searchtab": {
                 "title": "Search",
                 "noValues": "(values not available)",
-                "search": "Search"
+                "search": "Search",
+                "clear": "Clear"
             }
         }
     }

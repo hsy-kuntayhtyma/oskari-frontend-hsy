@@ -17,7 +17,6 @@ jQuery(document).ready(function() {
             }
             // modify the appsetup we got from server
             appSetup.configuration['seutumaisa-search'] = {conf:{},state:{}};
-
             appSetup.startupSequence.push({bundlename: 'seutumaisa-search'});
 
             app.init(appSetup);

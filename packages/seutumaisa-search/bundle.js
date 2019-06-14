@@ -39,6 +39,12 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaSearch.Bundle', functi
             {
                 'type': 'text/javascript',
                 'src': '../../libraries/noUiSlider-13.1.5/nouislider.js'
+            },  {
+                'type': 'text/javascript',
+                'src': '../../libraries/js.cookie/js.cookie.js'
+            }, {
+                'type': 'text/javascript',
+                'src': '../../libraries/jquery.longpress/jquery.longpress.js'
             }, {
                 'type': 'text/css',
                 'src': '../../libraries/noUiSlider-13.1.5/nouislider.css'

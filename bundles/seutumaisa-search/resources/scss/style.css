@@ -24,7 +24,9 @@ div.oskari-flyoutcontent.seutumaisa-search div.search-tab {
   div.oskari-flyoutcontent.seutumaisa-search div.search-tab .noUi-active .noUi-tooltip {
     display: block; }
   div.oskari-flyoutcontent.seutumaisa-search div.search-tab .slider-range {
-    widht: 245px; }
+    width: 245px;
+    margin-bottom: 8px;
+    margin-top: 8px; }
   div.oskari-flyoutcontent.seutumaisa-search div.search-tab .noUi-handle {
     background-color: #00a2aa;
     border: none;

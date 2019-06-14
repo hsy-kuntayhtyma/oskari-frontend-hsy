@@ -12,7 +12,8 @@ Oskari.registerLocalization({
             "searchtab": {
                 "title": "Haku",
                 "noValues": "(arvoja ei saatavilla)",
-                "search": "Hae"
+                "search": "Hae",
+                "clear": "Tyhjennä"
             }
         }
     }
