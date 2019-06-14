@@ -1,3 +1,5 @@
+$sliderWidth: 245px;
+
 div.oskari-flyoutcontent {
     &.seutumaisa-search {
         div.search-tab {
@@ -29,11 +31,20 @@ div.oskari-flyoutcontent {
 
             // Datepicker styles
             input.datepicker {
-                height:12px;
-                width:100px;
+                height: 12px;
+                width: 100px;
             }
 
             // Slider styles
+            div.slider-range-values {
+                width: $sliderWidth;
+                input.min, input.max {
+                    height: 12px;
+                    width: 80px;
+                    margin-bottom: 6px;
+                }
+            }
+
             .noUi-tooltip {
                 display: none;
             }
@@ -41,7 +52,7 @@ div.oskari-flyoutcontent {
                 display: block;
             }
             .slider-range {
-                width: 245px;
+                width: $sliderWidth;
                 margin-bottom: 8px;
                 margin-top: 8px;
             }

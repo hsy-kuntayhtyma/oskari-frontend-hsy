@@ -19,6 +19,12 @@ div.oskari-flyoutcontent.seutumaisa-search div.search-tab {
   div.oskari-flyoutcontent.seutumaisa-search div.search-tab input.datepicker {
     height: 12px;
     width: 100px; }
+  div.oskari-flyoutcontent.seutumaisa-search div.search-tab div.slider-range-values {
+    width: 245px; }
+    div.oskari-flyoutcontent.seutumaisa-search div.search-tab div.slider-range-values input.min, div.oskari-flyoutcontent.seutumaisa-search div.search-tab div.slider-range-values input.max {
+      height: 12px;
+      width: 80px;
+      margin-bottom: 6px; }
   div.oskari-flyoutcontent.seutumaisa-search div.search-tab .noUi-tooltip {
     display: none; }
   div.oskari-flyoutcontent.seutumaisa-search div.search-tab .noUi-active .noUi-tooltip {

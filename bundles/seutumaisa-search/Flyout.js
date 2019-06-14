@@ -25,7 +25,7 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaSearch.Flyout',
         this.log = Oskari.log('Oskari.mapframework.bundle.seutumaisaSearch.Flyout');
         this._templates = {
             searchRow: jQuery('<div class="row"><div class="title"></div><div class="field"></div><div class="clear"></div></div>'),
-            slider: jQuery('<div class="slider-range"></div>'),
+            slider: jQuery('<div><div class="slider-range"></div><div class="slider-range-values"><div style="float:left;"><input type="number" class="min"></div><div style="float:right;"><input type="number" class="max"></div><div style="clear:both;"></div></div>'),
             dateRange: jQuery('<div class="date-range"><input type="text" class="datepicker start"> - <input type="text" class="datepicker end"></div>')
         };
         this.searchFields = [];
@@ -259,10 +259,11 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaSearch.Flyout',
                         }
 
                         var slider = me._templates.slider.clone();
+                        var sliderEl = slider.find('.slider-range');
 
                         row.find('.field').append(slider);
 
-                        noUiSlider.create(slider[0], {
+                        noUiSlider.create(sliderEl[0], {
                             start: [field.min, field.max],
                             connect: true,
                             range: {
@@ -282,12 +283,29 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaSearch.Flyout',
                             }
                         });
 
+                        slider.find('input.min').on('change', function () {
+                            sliderEl[0].noUiSlider.set([jQuery(this).val(), null]);
+                        });
+                        slider.find('input.max').on('change', function () {
+                            sliderEl[0].noUiSlider.set([null, jQuery(this).val()]);
+                        });
+
+                        sliderEl[0].noUiSlider.on('update', function (values, handle) {
+                            var value = values[handle];
+
+                            if (handle) {
+                                slider.find('input.max').val(value);
+                            } else {
+                                slider.find('input.min').val(value);
+                            }
+                        });
+
                         me.searchFields.push({
                             id: field.id,
                             clazz: {
                                 getValue: function () {
                                     var ret = {};
-                                    var values = slider[0].noUiSlider.get();
+                                    var values = sliderEl[0].noUiSlider.get();
                                     ret.start = values[0];
                                     ret.end = values[1];
                                     return ret;
