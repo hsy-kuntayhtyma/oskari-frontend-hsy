@@ -54,6 +54,42 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaSearch.Bundle', functi
             }, {
                 "type": "text/javascript",
                 "src": "../../libraries/datepicker/resources/locale/datepicker-en-GB.js"
+            }, {
+                'type': 'text/javascript',
+                'src': '../../libraries/DataTables/JSZip-2.5.0/jszip.min.js'
+            }, {
+                'type': 'text/javascript',
+                'src': '../../libraries/DataTables/pdfmake-0.1.36/pdfmake.min.js'
+            }, {
+                'type': 'text/javascript',
+                'src': '../../libraries/DataTables/pdfmake-0.1.36/vfs_fonts.js'
+            }, {
+                'type': 'text/javascript',
+                'src': '../../libraries/DataTables/DataTables-1.10.18/js/jquery.dataTables.js'
+            }, {
+                'type': 'text/javascript',
+                'src': '../../libraries/DataTables/Buttons-1.5.6/js/dataTables.buttons.js'
+            }, {
+                'type': 'text/javascript',
+                'src': '../../libraries/DataTables/Buttons-1.5.6/js/buttons.flash.js'
+            }, {
+                'type': 'text/javascript',
+                'src': '../../libraries/DataTables/Buttons-1.5.6/js/buttons.html5.js'
+            }, {
+                'type': 'text/javascript',
+                'src': '../../libraries/DataTables/Buttons-1.5.6/js/buttons.print.js'
+            }, {
+                'type': 'text/javascript',
+                'src': '../../libraries/DataTables/Select-1.3.0/js/dataTables.select.js'
+            }, {
+                'type': 'text/css',
+                'src': '../../libraries/DataTables/DataTables-1.10.18/css/jquery.dataTables.min.css'
+            }, {
+                'type': 'text/css',
+                'src': '../../libraries/DataTables/Buttons-1.5.6/css/buttons.dataTables.min.css'
+            }, {
+                'type': 'text/css',
+                'src': '../../libraries/DataTables/Select-1.3.0/css/select.dataTables.min.css'
             }
         ],
 

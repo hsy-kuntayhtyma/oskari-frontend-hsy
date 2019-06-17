@@ -2,6 +2,17 @@ $sliderWidth: 245px;
 
 div.oskari-flyoutcontent {
     &.seutumaisa-search {
+        div.search-results-tab {
+            div.seutumaisa-search-results {
+                div.datatable-container {
+                    tbody {
+                        tr.selected {
+                                background-color: #c1e7eb;
+                        }
+                    }
+                }
+            }
+        }
         div.search-tab {
             height: 440px;
             width: 500px;

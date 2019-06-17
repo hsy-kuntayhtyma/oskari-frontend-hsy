@@ -29,6 +29,7 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaSearch.Flyout',
             dateRange: jQuery('<div class="date-range"><input type="text" class="datepicker start"> - <input type="text" class="datepicker end"></div>')
         };
         this.searchFields = [];
+        this.dialog = Oskari.clazz.create('Oskari.userinterface.component.Popup');
     }, {
         /**
          * @method getName
@@ -139,6 +140,103 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaSearch.Flyout',
             );
         },
 
+        _highlightSelectedRows: function () {
+            var me = this;
+            var table = me.searchResultContainer.find('table.datatable').DataTable();
+
+            me.sb.postRequestByName('MapModulePlugin.RemoveFeaturesFromMapRequest', [null, null, 'SEUTUMAISA-SEARCH']);
+
+            var features = [];
+            for (var i = 0; i < table.rows('.selected').data().length; i++) {
+                var selectedData = table.rows('.selected').data()[i];
+                var geoJSON = selectedData[selectedData.length-1];
+                features.push({
+                    type: 'Feature',
+                    geometry: JSON.parse(geoJSON)
+                });
+            }
+            var geojsonObject = {
+              'type': 'FeatureCollection',
+              'crs': {
+                'type': 'name',
+                'properties': {
+                  'name': 'EPSG:3879'
+                }
+              },
+              'features': features
+            };
+
+            var featureStyle = {
+              stroke: {
+                color: 'rgba(0,135,135,0.7)',
+                width: 2
+              },
+              fill: {
+                color: 'rgba(0,170,163,0.7)'
+              }
+            };
+
+            var rn = 'MapModulePlugin.AddFeaturesToMapRequest';
+            me.sb.postRequestByName(rn, [geojsonObject, {
+                layerId: 'SEUTUMAISA-SEARCH',
+                clearPrevious: true,
+                layerOptions: null,
+                centerTo: true,
+                featureStyle: featureStyle,
+                attributes: null
+            }]);
+        },
+
+        _showResults: function (err, response) {
+            var me = this;
+            var tabLocale = me._getLocalization('resulttab');
+
+            me.sb.postRequestByName('MapModulePlugin.RemoveFeaturesFromMapRequest', [null, null, 'SEUTUMAISA-SEARCH']);
+
+            if (err) {
+                me.dialog.show(tabLocale.error.title, tabLocale.error.message);
+                me.dialog.fadeout();
+                return;
+            }
+
+            if(response.data.length === 0) {
+                me.dialog.show(tabLocale.noresults.title, tabLocale.noresults.message);
+                me.dialog.fadeout();
+                return;
+            }
+
+            me.tabsContainer.select(me.resultsTab);
+
+            me.searchResultContainer.empty();
+            me.searchResultContainer.append('<div class="datatable-container"><div class="export-buttons"></div><table class="datatable"></table></div>');
+            me.searchResultContainer.find('table.datatable').DataTable( {
+                data: response.data,
+                columns: response.columns,
+                columnDefs: response.columnDefs,
+                scrollY: 300,
+                language: tabLocale.datatable,
+                buttons: [
+                    'copy', 'csv'
+                ],
+                dom: 'Bfrtip',
+                select: true
+            } );
+
+            var table = me.searchResultContainer.find('table.datatable').DataTable();
+
+            table.on('select', function ( e, dt, type, indexes ) {
+                if ( type === 'row' ) {
+                    me._highlightSelectedRows();
+                }
+            });
+
+            table.on('deselect', function ( e, dt, type, indexes ) {
+                if ( type === 'row' ) {
+                    me._highlightSelectedRows();
+                }
+            });
+        },
+
         _getSearchTab: function () {
             var me = this;
             if (me.searchFields.length > 0) {
@@ -188,10 +286,8 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaSearch.Flyout',
                 me.spinner.start();
 
                 me.service.search(values, function (err, response) {
-                    console.log(values);
                     me.spinner.stop();
-
-                    me.tabsContainer.select(me.resultsTab);
+                    me._showResults(err, response);
                 });
 
             });
@@ -314,7 +410,7 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaSearch.Flyout',
                                     return true;
                                 },
                                 reset: function () {
-                                    slider[0].noUiSlider.set([field.min, field.max]);
+                                    sliderEl[0].noUiSlider.set([field.min, field.max]);
                                 }
                             }
                         });
@@ -377,14 +473,13 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaSearch.Flyout',
             return tab;
         },
 
-        _getSelectField: function (){
-
-        },
-
         _getSearchResultsTab: function () {
+            var me = this;
+            me.searchResultContainer = jQuery('<div class="seutumaisa-search-results"></div>');
             var tab = Oskari.clazz.create('Oskari.userinterface.component.TabPanel');
             tab.setTitle('Hakutulokset');
-            tab.setContent('<p>some Html</p>');
+
+            tab.setContent(me.searchResultContainer);
             tab.setId('search-results-tab');
             return tab;
         },

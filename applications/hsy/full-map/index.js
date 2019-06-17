@@ -17,8 +17,11 @@ jQuery(document).ready(function() {
             }
             // modify the appsetup we got from server
             appSetup.configuration['seutumaisa-search'] = {conf:{},state:{}};
-            appSetup.startupSequence.push({bundlename: 'seutumaisa-search'});
+            appSetup.configuration['timeseries'] = {conf:{},state:{}};
 
+            appSetup.startupSequence.push({bundlename: 'seutumaisa-search'});
+            appSetup.startupSequence.push({bundlename: 'timeseries'});
+            console.log(appSetup);
             app.init(appSetup);
             app.startApplication(function () {
                 var sb = Oskari.getSandbox();
