@@ -2,13 +2,13 @@ Oskari.registerLocalization({
     "lang": "fi",
     "key": "seutumaisa-search",
     "value": {
-        "title" : "Seutumaisa haku",
+        "title" : "Maamassahaku",
         "desc" : "",
         "tile": {
-            "title": "Seutumaisa haku"
+            "title": "Maamassahaku"
         },
         "flyout": {
-            "title": "Seutumaisa haku",
+            "title": "Maamassahaku",
             "searchtab": {
                 "title": "Haku",
                 "noValues": "(arvoja ei saatavilla)",
