@@ -412,6 +412,17 @@
             }
         }
 
+    },
+    {
+        "bundlename": "seutumaisa-search",
+        "metadata": {
+            "Import-Bundle": {
+                "seutumaisa-search": {
+                    "bundlePath": "../../../packages/"
+                }
+            }
+        }
+
     }
 ]
 }

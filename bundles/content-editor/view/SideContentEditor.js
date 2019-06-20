@@ -469,7 +469,7 @@ Oskari.clazz.define('Oskari.tampere.bundle.content-editor.view.SideContentEditor
             });
             var addFeatureButtonContainer = jQuery('<div />');
 
-            //Modify multiple features.
+            // Modify multiple features.
             me.editMultipleFeaturesButton = Oskari.clazz.create('Oskari.userinterface.component.Button');
             me.editMultipleFeaturesButton.setTitle(me.loc.buttons.editMultipleFeatures);
             me.editMultipleFeaturesButton.setEnabled(false);
@@ -590,8 +590,6 @@ Oskari.clazz.define('Oskari.tampere.bundle.content-editor.view.SideContentEditor
                             });
                         });
                         geometries.data.push([tmp]);
-
-                    } else if (typeof geom.getType === 'function' && geom.getType() === 'MultiPolygon') {
 
                     }
                 }

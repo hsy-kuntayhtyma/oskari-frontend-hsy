@@ -1,0 +1,66 @@
+div.oskari-flyoutcontent.seutumaisa-search div.search-results-tab div.seutumaisa-search-results div.datatable-container tbody tr.selected {
+  background-color: #c1e7eb; }
+div.oskari-flyoutcontent.seutumaisa-search div.search-tab {
+  height: 440px;
+  width: 500px;
+  overflow: hidden; }
+  div.oskari-flyoutcontent.seutumaisa-search div.search-tab div.row {
+    width: 100%; }
+    div.oskari-flyoutcontent.seutumaisa-search div.search-tab div.row div.title {
+      font-weight: bold;
+      float: left;
+      width: 40%;
+      text-align: right; }
+      div.oskari-flyoutcontent.seutumaisa-search div.search-tab div.row div.title.disabled {
+        color: #999; }
+    div.oskari-flyoutcontent.seutumaisa-search div.search-tab div.row div.field {
+      float: right;
+      width: 56%; }
+    div.oskari-flyoutcontent.seutumaisa-search div.search-tab div.row div.clear {
+      clear: both; }
+  div.oskari-flyoutcontent.seutumaisa-search div.search-tab input.datepicker {
+    height: 12px;
+    width: 100px; }
+  div.oskari-flyoutcontent.seutumaisa-search div.search-tab div.slider-range-values {
+    width: 245px; }
+    div.oskari-flyoutcontent.seutumaisa-search div.search-tab div.slider-range-values input.min, div.oskari-flyoutcontent.seutumaisa-search div.search-tab div.slider-range-values input.max {
+      height: 12px;
+      width: 80px;
+      margin-bottom: 6px; }
+  div.oskari-flyoutcontent.seutumaisa-search div.search-tab .noUi-tooltip {
+    display: none; }
+  div.oskari-flyoutcontent.seutumaisa-search div.search-tab .noUi-active .noUi-tooltip {
+    display: block; }
+  div.oskari-flyoutcontent.seutumaisa-search div.search-tab .slider-range {
+    width: 245px;
+    margin-bottom: 8px;
+    margin-top: 8px; }
+  div.oskari-flyoutcontent.seutumaisa-search div.search-tab .noUi-handle {
+    background-color: #00a2aa;
+    border: none;
+    border-radius: 6px;
+    box-shadow: none;
+    color: #00a2aa;
+    display: table;
+    height: 20px;
+    margin-left: -22px;
+    margin-top: -3px;
+    padding: 0;
+    position: absolute;
+    text-align: center;
+    top: 0;
+    width: 20px;
+    z-index: 2; }
+    .noUi-horizontal div.oskari-flyoutcontent.seutumaisa-search div.search-tab .noUi-handle {
+      cursor: ew-resize; }
+    div.oskari-flyoutcontent.seutumaisa-search div.search-tab .noUi-handle:before, div.oskari-flyoutcontent.seutumaisa-search div.search-tab .noUi-handle:after {
+      background: transparent; }
+  div.oskari-flyoutcontent.seutumaisa-search div.search-tab .noUi-connect {
+    background-color: #64C3CD; }
+  div.oskari-flyoutcontent.seutumaisa-search div.search-tab .buttons {
+    float: right;
+    position: absolute;
+    bottom: 20px;
+    right: 24px; }
+
+/*# sourceMappingURL=style.css.map */
