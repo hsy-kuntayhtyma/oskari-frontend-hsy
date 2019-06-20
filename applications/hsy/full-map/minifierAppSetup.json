@@ -423,6 +423,16 @@
             }
         }
 
+    },
+    {
+        "bundlename" : "timeseries",
+        "metadata" : {
+            "Import-Bundle" : {
+                "timeseries" : {
+                    "bundlePath" : "oskari-frontend/packages/framework/bundle/"
+                }
+            }
+        }
     }
 ]
 }

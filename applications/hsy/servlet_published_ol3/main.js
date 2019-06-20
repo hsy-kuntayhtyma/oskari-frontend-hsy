@@ -29,4 +29,6 @@ import 'oskari-loader!oskari-frontend/packages/mapping/ol3/maprotator/bundle.js'
 
 import 'oskari-loader!oskari-frontend/packages/framework/bundle/rpc/bundle.js';
 
+import 'oskari-loader!oskari-frontend/packages/framework/bundle/timeseries/bundle.js';
+
 import './css/overwritten.css';

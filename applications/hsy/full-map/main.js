@@ -87,4 +87,6 @@ import 'oskari-lazy-loader?admin-users!oskari-frontend/packages/framework/bundle
 
 import 'oskari-loader!oskari-frontend-contrib/packages/tampere/selected-featuredata/bundle.js';
 
+import 'oskari-loader!oskari-frontend/packages/framework/bundle/timeseries/bundle.js';
+
 import './css/overwritten.css';
