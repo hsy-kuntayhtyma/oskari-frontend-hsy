@@ -156,6 +156,7 @@ Oskari.clazz.define('Oskari.tampere.bundle.content-editor.view.SideContentEditor
             }
         },
 
+        //TODO: make this one better to also include handling of GeometryPropertyType
         /**
          * Gets drawtool geometry type
          * @method @public getDrawToolsGeometryType
