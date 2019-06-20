@@ -22,7 +22,7 @@ Oskari.registerLocalization({
                 },
                 "noresults": {
                     "title": "No results",
-                    "message": "No results, try different serac"
+                    "message": "No results, try different search"
                 },
                 "datatable": {
                     "sEmptyTable":     "No data available in table",
