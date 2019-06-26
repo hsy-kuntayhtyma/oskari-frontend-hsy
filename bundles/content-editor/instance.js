@@ -264,7 +264,6 @@ Oskari.clazz.define('Oskari.tampere.bundle.content-editor.ContentEditorBundleIns
                 }
             },
             WFSFeaturesSelectedEvent: function (evt) {
-                console.log(2, evt);
                 if (this.sideContentEditor != null) {
                     var maplayer = evt.getMapLayer();
                     var featureIds = evt.getWfsFeatureIds();
