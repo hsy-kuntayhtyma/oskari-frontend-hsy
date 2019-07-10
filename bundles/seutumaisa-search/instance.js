@@ -108,7 +108,31 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaSearch.BundleInstance'
 
             this.mapModule = sandbox.findRegisteredModuleInstance('MainMapModule');
 
+            // update normal search tile text
+            this.updateSearchTileText();
 
+
+
+        },
+
+        /**
+         * Update normal search tile text
+         * @method updateSearchTileText
+         * @param  {Integer}             count counter
+         */
+        updateSearchTileText: function (count) {
+            var me = this;
+            var tile = jQuery('div.oskari-tile.search div.oskari-tile-title');
+            if(count > 10) {
+                return;
+            }
+            if (tile.length === 0) {
+                setTimeout(function(){
+                    me.updateSearchTileText(count++);
+                },200);
+            } else {
+                tile.html(this._localization.searchTitle)
+            }
         },
         /**
          * Implements Module protocol init method - does nothing atm

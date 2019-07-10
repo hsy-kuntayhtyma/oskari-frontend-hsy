@@ -60,7 +60,8 @@ Oskari.registerLocalization({
                     }
                 }
             }
-        }
+        },
+        "searchTitle": "Address search"
     }
 });
 
