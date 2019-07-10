@@ -67,6 +67,7 @@ Oskari.registerLocalization({
                     }
                 }
             }
-        }
+        },
+        "searchTitle": "Osoitehaku"
     }
 });
