@@ -1,15 +1,34 @@
 $sliderWidth: 245px;
+$datatableSelectedColor: #00AAA3;
+$datatableEvenColColor: #c1e7eb;
+$datatableOddColColor: #ffffff;
 
 div.oskari-flyoutcontent {
     &.seutumaisa-search {
         div.search-results-tab {
             div.seutumaisa-search-results {
                 div.datatable-container {
-                    tbody {
-                        tr.selected {
-                                background-color: #c1e7eb;
+
+                    tr:not(.selected) td {
+                        &:nth-child(odd) {
+                            background-color: $datatableOddColColor;
                         }
                     }
+
+                    tr:not(.selected) td {
+                        &:nth-child(even) {
+                            background-color: $datatableEvenColColor;
+                        }
+                    }
+
+                    tbody {
+                        tr.selected {
+                            background-color: $datatableSelectedColor !important;
+                        }
+                    }
+
+
+
                 }
             }
         }

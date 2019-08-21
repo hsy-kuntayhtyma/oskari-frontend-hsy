@@ -250,7 +250,7 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaSearch.Flyout',
 
             var selectOptions = {
                 placeholder_text: '',
-                allow_single_deselect: false,
+                allow_single_deselect: true,
                 disable_search_threshold: 10,
                 width: '100%',
                 allowReset: true
@@ -267,6 +267,7 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaSearch.Flyout',
                     var c = field.clazz;
                     c.reset();
                 });
+                me.sb.postRequestByName('MapModulePlugin.RemoveFeaturesFromMapRequest', []);
             };
             jQuery(resetButton.getElement()).longpress(function(e) {
                 Cookies.remove('searchFields');
