@@ -187,7 +187,7 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaSearch.Flyout',
             }]);
         },
 
-        _showResults: function (err, response) {
+        _showResults: function (err, response, renderHandler) {
             var me = this;
             var tabLocale = me._getLocalization('resulttab');
 
@@ -235,6 +235,10 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaSearch.Flyout',
                     me._highlightSelectedRows();
                 }
             });
+
+            if (typeof renderHandler === 'function') {
+                renderHandler();
+            }
         },
 
         _getSearchTab: function () {
@@ -288,7 +292,15 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaSearch.Flyout',
 
                 me.service.search(values, function (err, response) {
                     me.spinner.stop();
-                    me._showResults(err, response);
+                    var renderHandler = null;
+
+                    if (values.planned_date && response.data.length > 0) {
+                        renderHandler = function () {
+                            jQuery('.seutumaisa-search-results').find('table.datatable').DataTable().rows().select();
+                        };
+                    }
+
+                    me._showResults(err, response, renderHandler);
                 });
 
             });
