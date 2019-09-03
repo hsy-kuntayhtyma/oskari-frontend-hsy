@@ -15,8 +15,8 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaSearch.BundleInstance'
         this.plugins = {};
         this._localization = null;
         this.mapModule = null;
-        //this.startedTabs = false;
         this.seutumaisaSearchService = null;
+        this.state = this.state || {};
 
     }, {
         /**
@@ -111,6 +111,12 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaSearch.BundleInstance'
             // update normal search tile text
             this.updateSearchTileText();
 
+            /* stateful */
+            sandbox.registerAsStateful(this.mediator.bundleId, this);
+
+            // handle state
+            var state = me.getState();
+            me.setState(state);
 
 
         },
@@ -213,6 +219,7 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaSearch.BundleInstance'
             request = Oskari.requestBuilder('userinterface.RemoveExtensionRequest')(this);
             sandbox.request(this, request);
 
+            sandbox.unregisterStateful(this.mediator.bundleId);
             this.sandbox.unregister(this);
             this.started = false;
         },
@@ -267,12 +274,19 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaSearch.BundleInstance'
         },
 
         /**
-         * Adds basket notify
-         * @method addBasketNotify
-         * @public
+         * @method getState
+         * @return {Object} bundle state as JSON
          */
-        addBasketNotify: function () {
-            this.plugins['Oskari.userinterface.Tile'].refresh();
+        getState: function () {
+            return this.state;
+        },
+        /**
+         * @method setState
+         * @param {Object} state bundle state as JSON
+         */
+        setState: function (state) {
+            this.state = state;
+            this.plugins['Oskari.userinterface.Flyout'].clearSearchTab(true,true);
         }
 
     }, {

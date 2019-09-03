@@ -241,6 +241,26 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaSearch.Flyout',
             }
         },
 
+        clearSearchTab: function (emptyResults, emptyCache) {
+            var me = this;
+            var clearResults = emptyResults || false;
+            var clearCache = emptyCache || false;
+            me.searchFields.forEach(function(field) {
+                var c = field.clazz;
+                c.reset();
+            });
+            me.sb.postRequestByName('MapModulePlugin.RemoveFeaturesFromMapRequest', []);
+
+            if(clearResults === true) {
+                jQuery('div.seutumaisa-search-results').empty();
+                this.tabsContainer.select(me.searchTab);
+            }
+
+            if(clearCache === true) {
+                Cookies.remove('searchFields');
+            }
+        },
+
         _getSearchTab: function () {
             var me = this;
             if (me.searchFields.length > 0) {
@@ -273,11 +293,10 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaSearch.Flyout',
                 });
                 me.sb.postRequestByName('MapModulePlugin.RemoveFeaturesFromMapRequest', []);
             };
-            jQuery(resetButton.getElement()).longpress(function(e) {
-                Cookies.remove('searchFields');
-                resetHandler();
-            }, function(e) {
-                resetHandler();
+            jQuery(resetButton.getElement()).longpress(function() {
+                me.clearSearchTab(false, true);
+            }, function() {
+                me.clearSearchTab(false, false);
             }, 5000);
 
             resetButton.insertTo(tabContainer.find('.buttons'));
