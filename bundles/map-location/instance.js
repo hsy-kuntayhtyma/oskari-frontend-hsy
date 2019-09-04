@@ -14,6 +14,7 @@ Oskari.clazz.define("Oskari.hsy.bundle.mapLocation.BundleInstance",
     function () {
         this.sandbox = null;
         this.started = false;
+        this.state = this.state || {};
 
     }, {
         __name: 'map-location',
@@ -66,6 +67,13 @@ Oskari.clazz.define("Oskari.hsy.bundle.mapLocation.BundleInstance",
             if(me.conf && me.conf.zoom && me.conf.x && me.conf.y) {
                 sandbox.postRequestByName('MapMoveRequest', [me.conf.x, me.conf.y, me.conf.zoom]);
             }
+
+            /* stateful */
+            sandbox.registerAsStateful(this.mediator.bundleId, this);
+
+            // handle state
+            var state = me.getState();
+            me.setState(state);
         },
 
         /**
@@ -75,6 +83,26 @@ Oskari.clazz.define("Oskari.hsy.bundle.mapLocation.BundleInstance",
         stop: function () {
             this.sandbox = null;
             this.started = false;
+            this.sandbox.unregisterStateful(this.mediator.bundleId);
+        },
+
+        /**
+         * @method getState
+         * @return {Object} bundle state as JSON
+         */
+        getState: function () {
+            return this.state;
+        },
+        /**
+         * @method setState
+         * @param {Object} state bundle state as JSON
+         */
+        setState: function (state) {
+            var me = this;
+            this.state = state;
+            if(me.conf && me.conf.zoom && me.conf.x && me.conf.y) {
+                me.sandbox.postRequestByName('MapMoveRequest', [me.conf.x, me.conf.y, me.conf.zoom]);
+            }
         }
     }, {
         /**
