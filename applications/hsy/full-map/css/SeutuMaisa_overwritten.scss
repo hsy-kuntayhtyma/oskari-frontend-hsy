@@ -1,0 +1,263 @@
+$mainColor: #fafafa;
+$secondColor: #00858C;
+$lightFontColor: #ffffff;
+$ribbonTextColor: $lightFontColor;
+$ribbonBackgroundColor: $secondColor;
+
+body {
+    font-family: 'Source Sans Pro',sans-serif !important;
+}
+
+::selection{
+    background: #fee9d7 !important;
+}
+
+#logobar {
+    height: 35px;
+    width: 170px;
+    margin: 10px 16px;
+    /* width: 80%; */
+    overflow: hidden;
+    background-image: url(../SeutuMaisa_logo.png);
+    background-repeat: no-repeat;
+}
+
+.oskari-flyout-title {
+    p {
+        color: $mainColor !important;
+    }
+}
+
+#maptools {
+    background-color: $mainColor !important;
+    overflow:hidden !important;
+}
+
+#login {
+    padding-top: 25px;
+}
+
+p.login_header {
+    color: #000000;
+    padding-bottom: 5px;
+}
+
+#login {
+    a {
+        color: #2C2A29 !important
+    }
+
+    input[type="submit"]{
+        width: 97% !important;
+    }
+}
+
+#toolsDiv {
+    overflow-y: auto;
+    height:calc(100% - 50px) !important;
+    overflow-x: hidden;
+}
+
+#logosDiv {
+    position: absolute;
+    height: 50px;
+    width: 100%;
+    bottom: 0px;
+
+}
+
+#logos {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.oskari-tile {
+    border-bottom: 1px solid #008782 !important;
+    border-top: 1px solid #008782 !important;
+}
+
+.oskari-tile-container {
+    border-bottom: 1px solid $secondColor !important;
+    border-top: 1px solid $secondColor !important;
+}
+
+.oskari-tile-closed:first-child, .oskari-tile-minimized:first-child {
+    border-top: 1px solid $secondColor !important;
+}
+
+.oskari-tile-closed, .oskari-tile-minimized {
+    background-color: $mainColor !important;
+    background: $mainColor !important;
+    border-top: 1px solid $secondColor !important;
+    border-bottom: 1px solid $secondColor !important;
+}
+
+.oskari-tile-closed .oskari-tile-title {
+    color: #2C2A29 !important;
+}
+
+div.hierarchical-layerlist li#hierarchical-layerlist-selected-layers-tab {
+    background-color: #006AA7 !important;
+    color: #fff !important;
+}
+
+div.toolrow {
+    border-top: 0px solid $secondColor !important;
+}
+
+div.toolrow div.tool.selected, div.toolrow div.tool:hover:not(.disabled), div.toolrow div.tool:active:not(.disabled){
+    background-color: $secondColor !important;
+}
+
+.oskari-flyoutheading {
+    background-color: #008782 !important;
+    border-top: 1px solid #008782 !important;
+    border-bottom: 1px solid #008782 !important;
+}
+
+.oskari-flyouttoolbar {
+    background-color: #00AAA3 !important;;
+}
+
+div.accordion div.accordion_panel {
+    background-color: #EEEEEE !important;
+}
+
+.oskari-tile-attached {
+    background-color: #008782 !important;
+}
+
+.oskari-tile-attached .oskari-tile-title {
+    color: $mainColor !important;
+}
+
+div.divmanazerpopup h3.popupHeader {
+    background-color: #fee9d7 !important;
+}
+
+button.primary, input.primary {
+    background-color: #00AAA3 !important;
+    background-image: none !important;
+    border-color: #00AAA3 #00AAA3 #00AAA3 #00AAA3 !important;
+    text-shadow: none !important;
+
+    &.selected {
+        background: $secondColor !important;
+        border-color: #00A2AA !important;
+        color: #FFFFFF !important;
+        text-shadow: none !important;
+    }
+}
+
+input[type="submit"]:hover:enabled, input[type="button"]:hover:enabled, input[type="reset"]:hover:enabled, button:hover:enabled, .lfr-actions:hover, .lfr-actions:hover ul{
+    background: $secondColor !important;
+    border-color: #00A2AA !important;
+    color: #FFFFFF !important;
+    text-shadow: none !important;
+}
+
+input[type="submit"]:hover:enabled, input[type="submit"]:focus, input[type="button"]:hover:enabled, input[type="button"]:focus, input[type="reset"]:hover:enabled, input[type="reset"]:focus, button:hover:enabled, button:focus{
+    color: #FFFFFF !important;
+}
+
+button.approve, input.approve{
+    background-color: #008302 !important;
+    background-image: none !important;
+    border-color: #008302 #008302 #008302 #008302 !important;
+    text-shadow: none !important;
+    color: #FFFFFF;
+
+    &:hover, &enabled {
+        background-color: #009033 !important;
+        background-image: none !important;
+        border-color: #009033 #009033 #009033 #009033 !important;
+        text-shadow: none !important;
+    }
+}
+
+.layerselector2-layer-filter{
+    display: none;
+}
+
+.logoplugin .icon{
+    background-image: url('../hsy-logo_50px.png') !important;
+    height: 26px !important;
+    width: 50px !important;
+    background-color: transparent !important;
+}
+
+div.mapplugin.backgroundLayerSelectionPlugin div.bg {
+    opacity: 0.6;
+}
+
+table {
+  border-top-width: 0px;
+  td {
+      text-align: left;
+      vertical-align: top;
+  }
+}
+
+.oskari-attached {
+    max-width: 90% !important;
+}
+
+div.mapplugin.backgroundLayerSelectionPlugin div.content {
+    z-index: 15000;
+}
+
+div.vaakuna_logo {
+  display: block;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  width: 40px;
+  padding-left: 40px;
+
+    &.helsinki {
+        background: url('../helsinki_logo.png') no-repeat;
+        height: 19px;
+    }
+
+    &.espoo {
+        background: url('../espoo_logo.png') no-repeat;
+        height: 20px;
+    }
+
+    &.vantaa {
+        background: url('../vantaa_logo.png') no-repeat;
+        height: 40px;
+    }
+}
+
+#ribbon {
+    z-index: 100000;
+    top: 0px;
+    left: 0px;
+    position: fixed;
+    /*  left side */
+    padding-left: 40px;
+    margin-top: 20px;
+    margin-left: -30px;
+    padding-right: 40px;
+    -webkit-transform: rotate(-45deg);
+    -moz-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+    /*  right side */
+    /*
+    margin-right: -30px;
+    padding-left: 40px;
+    padding-right: 40px;
+    margin-top: 20px;
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    transform: rotate(45deg);
+     */
+
+    color:$ribbonTextColor;
+    background-color: $ribbonBackgroundColor;
+
+    &:hover {
+        display: none;
+    }
+}

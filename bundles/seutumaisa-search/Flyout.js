@@ -460,7 +460,24 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaSearch.Flyout',
 
                         var range =  me._templates.dateRange.clone();
 
-                        range.find('.datepicker').datepicker({'dateFormat': 'yy-mm-dd', 'changeMonth': true, 'changeYear': true, 'showButtonPanel': true}).attr('readonly', 'readonly');
+                        // modify datepicker current day functionality to also select current date
+                        jQuery.datepicker._gotoToday = function(id) {
+                          var inst = this._getInst(jQuery(id)[0]);
+                          var date = new Date();
+                          this._selectDay(id, date.getMonth(), date.getFullYear(), inst.dpDiv.find('td.ui-datepicker-today'));
+                        }
+
+                        range.find('.datepicker').datepicker({
+                            dateFormat: 'yy-mm-dd',
+                            changeMonth: true,
+                            changeYear: true,
+                            showButtonPanel: true
+                        }).attr('readonly', 'readonly');
+
+                        range.find('.datepicker').datepicker('option', 'gotoCurrent', true);
+
+
+
                         row.find('.field').append(range);
                         tabContainer.find('.fields').append(row);
 
