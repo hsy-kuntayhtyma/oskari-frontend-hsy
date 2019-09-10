@@ -1,36 +1,32 @@
-body {
-  font-family: 'Source Sans Pro',sans-serif !important; }
-
-::selection {
-  background: #fee9d7 !important; }
-
+@charset "UTF-8";
+/* HSY V├äRIT */
+/* https://www.hsy.fi/fi/tietoa-hsy/ilme/Sivut/default.aspx */
+/* P├ñ├ñv├ñrit */
+/* Tukiv├ñrit */
 #logobar {
   height: 35px;
   width: 170px;
   margin: 10px 16px;
-  /* width: 80%; */
   overflow: hidden;
   background-image: url(../SeutuMaisa_logo.png);
-  background-repeat: no-repeat; }
+  background-repeat: no-repeat;
+  cursor: pointer; }
 
 .oskari-flyout-title p {
   color: #fafafa !important; }
 
 #maptools {
-  background-color: #fafafa !important;
-  overflow: hidden !important; }
+  background-color: #fafafa !important; }
 
 #login {
   padding-top: 25px; }
 
 p.login_header {
-  color: #000000;
+  color: #2C2A29;
   padding-bottom: 5px; }
 
 #login a {
   color: #2C2A29 !important; }
-#login input[type="submit"] {
-  width: 97% !important; }
 
 #toolsDiv {
   overflow-y: auto;
@@ -69,7 +65,7 @@ p.login_header {
   color: #2C2A29 !important; }
 
 div.hierarchical-layerlist li#hierarchical-layerlist-selected-layers-tab {
-  background-color: #006AA7 !important;
+  background-color: #009F4D !important;
   color: #fff !important; }
 
 div.toolrow {
@@ -99,31 +95,32 @@ div.divmanazerpopup h3.popupHeader {
   background-color: #fee9d7 !important; }
 
 button.primary, input.primary {
-  background-color: #00AAA3 !important;
-  background-image: none !important;
+  background-color: #008782 !important;
+  background-image: linear-gradient(#00AAA3 20%, #008782 90%) !important;
   border-color: #00AAA3 #00AAA3 #00AAA3 #00AAA3 !important;
   text-shadow: none !important; }
   button.primary.selected, input.primary.selected {
     background: #00858C !important;
     border-color: #00A2AA !important;
-    color: #FFFFFF !important;
+    color: #ffffff !important;
     text-shadow: none !important; }
 
 input[type="submit"]:hover:enabled, input[type="button"]:hover:enabled, input[type="reset"]:hover:enabled, button:hover:enabled, .lfr-actions:hover, .lfr-actions:hover ul {
-  background: #00858C !important;
+  background-color: #008782 !important;
+  background-image: linear-gradient(#008782 20%, #00AAA3 90%) !important;
   border-color: #00A2AA !important;
-  color: #FFFFFF !important;
+  color: #ffffff !important;
   text-shadow: none !important; }
 
 input[type="submit"]:hover:enabled, input[type="submit"]:focus, input[type="button"]:hover:enabled, input[type="button"]:focus, input[type="reset"]:hover:enabled, input[type="reset"]:focus, button:hover:enabled, button:focus {
-  color: #FFFFFF !important; }
+  color: #ffffff !important; }
 
 button.approve, input.approve {
   background-color: #008302 !important;
   background-image: none !important;
   border-color: #008302 #008302 #008302 #008302 !important;
   text-shadow: none !important;
-  color: #FFFFFF; }
+  color: #ffffff; }
   button.approve:hover, button.approveenabled, input.approve:hover, input.approveenabled {
     background-color: #009033 !important;
     background-image: none !important;
@@ -171,31 +168,11 @@ div.vaakuna_logo {
     height: 40px; }
 
 #ribbon {
-  z-index: 100000;
-  top: 0px;
-  left: 0px;
-  position: fixed;
-  /*  left side */
-  padding-left: 40px;
-  margin-top: 20px;
-  margin-left: -30px;
-  padding-right: 40px;
-  -webkit-transform: rotate(-45deg);
-  -moz-transform: rotate(-45deg);
-  transform: rotate(-45deg);
-  /*  right side */
-  /*
-  margin-right: -30px;
-  padding-left: 40px;
-  padding-right: 40px;
-  margin-top: 20px;
-  -webkit-transform: rotate(45deg);
-  -moz-transform: rotate(45deg);
-  transform: rotate(45deg);
-   */
   color: #ffffff;
   background-color: #00858C; }
-  #ribbon:hover {
-    display: none; }
+
+li.active-result.highlighted {
+  background-color: #008782 !important;
+  background-image: linear-gradient(#00AAA3 20%, #008782 90%) !important; }
 
 /*# sourceMappingURL=SeutuMaisa_overwritten.css.map */

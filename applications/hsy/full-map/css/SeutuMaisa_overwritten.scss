@@ -1,25 +1,19 @@
+@import '../../colors';
+
 $mainColor: #fafafa;
 $secondColor: #00858C;
-$lightFontColor: #ffffff;
+$lightFontColor: $valkea;
 $ribbonTextColor: $lightFontColor;
 $ribbonBackgroundColor: $secondColor;
-
-body {
-    font-family: 'Source Sans Pro',sans-serif !important;
-}
-
-::selection{
-    background: #fee9d7 !important;
-}
 
 #logobar {
     height: 35px;
     width: 170px;
     margin: 10px 16px;
-    /* width: 80%; */
     overflow: hidden;
     background-image: url(../SeutuMaisa_logo.png);
     background-repeat: no-repeat;
+    cursor:pointer;
 }
 
 .oskari-flyout-title {
@@ -30,7 +24,6 @@ body {
 
 #maptools {
     background-color: $mainColor !important;
-    overflow:hidden !important;
 }
 
 #login {
@@ -38,17 +31,13 @@ body {
 }
 
 p.login_header {
-    color: #000000;
+    color: $musta;
     padding-bottom: 5px;
 }
 
 #login {
     a {
-        color: #2C2A29 !important
-    }
-
-    input[type="submit"]{
-        width: 97% !important;
+        color: $musta !important
     }
 }
 
@@ -73,8 +62,8 @@ p.login_header {
 }
 
 .oskari-tile {
-    border-bottom: 1px solid #008782 !important;
-    border-top: 1px solid #008782 !important;
+    border-bottom: 1px solid $tummaTurkoosi !important;
+    border-top: 1px solid $tummaTurkoosi !important;
 }
 
 .oskari-tile-container {
@@ -94,11 +83,11 @@ p.login_header {
 }
 
 .oskari-tile-closed .oskari-tile-title {
-    color: #2C2A29 !important;
+    color: $musta !important;
 }
 
 div.hierarchical-layerlist li#hierarchical-layerlist-selected-layers-tab {
-    background-color: #006AA7 !important;
+    background-color: $keskiVihrea !important;
     color: #fff !important;
 }
 
@@ -111,13 +100,13 @@ div.toolrow div.tool.selected, div.toolrow div.tool:hover:not(.disabled), div.to
 }
 
 .oskari-flyoutheading {
-    background-color: #008782 !important;
-    border-top: 1px solid #008782 !important;
-    border-bottom: 1px solid #008782 !important;
+    background-color: $tummaTurkoosi !important;
+    border-top: 1px solid $tummaTurkoosi !important;
+    border-bottom: 1px solid $tummaTurkoosi !important;
 }
 
 .oskari-flyouttoolbar {
-    background-color: #00AAA3 !important;;
+    background-color: $keskiTurkoosi !important;;
 }
 
 div.accordion div.accordion_panel {
@@ -125,7 +114,7 @@ div.accordion div.accordion_panel {
 }
 
 .oskari-tile-attached {
-    background-color: #008782 !important;
+    background-color: $tummaTurkoosi !important;
 }
 
 .oskari-tile-attached .oskari-tile-title {
@@ -137,28 +126,29 @@ div.divmanazerpopup h3.popupHeader {
 }
 
 button.primary, input.primary {
-    background-color: #00AAA3 !important;
-    background-image: none !important;
-    border-color: #00AAA3 #00AAA3 #00AAA3 #00AAA3 !important;
+    background-color: $tummaTurkoosi !important;
+    background-image: linear-gradient($keskiTurkoosi 20%, $tummaTurkoosi 90%) !important;
+    border-color: $keskiTurkoosi $keskiTurkoosi $keskiTurkoosi $keskiTurkoosi !important;
     text-shadow: none !important;
 
     &.selected {
         background: $secondColor !important;
         border-color: #00A2AA !important;
-        color: #FFFFFF !important;
+        color: $valkea !important;
         text-shadow: none !important;
     }
 }
 
 input[type="submit"]:hover:enabled, input[type="button"]:hover:enabled, input[type="reset"]:hover:enabled, button:hover:enabled, .lfr-actions:hover, .lfr-actions:hover ul{
-    background: $secondColor !important;
+    background-color: $tummaTurkoosi !important;
+    background-image: linear-gradient($tummaTurkoosi 20%, $keskiTurkoosi 90%) !important;
     border-color: #00A2AA !important;
-    color: #FFFFFF !important;
+    color: $valkea !important;
     text-shadow: none !important;
 }
 
 input[type="submit"]:hover:enabled, input[type="submit"]:focus, input[type="button"]:hover:enabled, input[type="button"]:focus, input[type="reset"]:hover:enabled, input[type="reset"]:focus, button:hover:enabled, button:focus{
-    color: #FFFFFF !important;
+    color: $valkea !important;
 }
 
 button.approve, input.approve{
@@ -166,7 +156,7 @@ button.approve, input.approve{
     background-image: none !important;
     border-color: #008302 #008302 #008302 #008302 !important;
     text-shadow: none !important;
-    color: #FFFFFF;
+    color: $valkea;
 
     &:hover, &enabled {
         background-color: #009033 !important;
@@ -231,33 +221,11 @@ div.vaakuna_logo {
 }
 
 #ribbon {
-    z-index: 100000;
-    top: 0px;
-    left: 0px;
-    position: fixed;
-    /*  left side */
-    padding-left: 40px;
-    margin-top: 20px;
-    margin-left: -30px;
-    padding-right: 40px;
-    -webkit-transform: rotate(-45deg);
-    -moz-transform: rotate(-45deg);
-    transform: rotate(-45deg);
-    /*  right side */
-    /*
-    margin-right: -30px;
-    padding-left: 40px;
-    padding-right: 40px;
-    margin-top: 20px;
-    -webkit-transform: rotate(45deg);
-    -moz-transform: rotate(45deg);
-    transform: rotate(45deg);
-     */
-
     color:$ribbonTextColor;
     background-color: $ribbonBackgroundColor;
+}
 
-    &:hover {
-        display: none;
-    }
+li.active-result.highlighted  {
+    background-color: $tummaTurkoosi !important;
+    background-image: linear-gradient($keskiTurkoosi 20%, $tummaTurkoosi 90%) !important;
 }

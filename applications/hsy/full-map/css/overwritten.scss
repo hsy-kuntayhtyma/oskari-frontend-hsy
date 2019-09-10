@@ -1,10 +1,15 @@
-$mainColor: #00A2AA;
-$secondColor: #00858C;
-$lightFontColor: #ffffff;
+@import '../../colors';
+
+
+$mainColor: #00a2aa;
+$secondColor: $tummaTurkoosi;
+$lightFontColor: $valkea;
 $ribbonTextColor: $lightFontColor;
-$ribbonBackgroundColor: $secondColor;
+$ribbonBackgroundColor: $oranssi;
+$ribbonBackgroundColorSeutumaisa: $oranssi;
 $highlightColor: #e0f3f5;
-$activeColor: #63c3cd;
+$activeColor: $vaaleanTurkoosi;
+
 
 #ui-datepicker-div .ui-state-highlight {
     border: 1px solid $mainColor;
@@ -26,7 +31,7 @@ body {
 }
 
 ::selection{
-    background: #fee9d7 !important;
+    background: lighten($keskiTurkoosi,60) !important;
 }
 
 #logobar {
@@ -40,6 +45,7 @@ body {
 
 #maptools {
     background-color: $mainColor !important;
+    overflow:hidden !important;
 }
 
 #login{
@@ -72,13 +78,13 @@ div.toolrow div.tool.selected, div.toolrow div.tool:hover:not(.disabled), div.to
 }
 
 .oskari-flyoutheading {
-    background-color: #EA7600 !important;
-    border-top: 1px solid #EA7600 !important;
-    border-bottom: 1px solid #A55300 !important;
+    background-color: $oranssi !important;
+    border-top: 1px solid $oranssi !important;
+    border-bottom: 1px solid $tummanOranssi !important;
 }
 
 .oskari-flyouttoolbar {
-    background-color: #fee9d7 !important;;
+    background-color: lighten($tummanOranssi, 50) !important;;
 }
 
 div.accordion {
@@ -93,7 +99,7 @@ div.accordion {
 
 div.divmanazerpopup {
     h3.popupHeader {
-        background-color: #fee9d7 !important;
+        background-color: lighten($tummanOranssi, 50) !important;
     }
 }
 
@@ -107,19 +113,19 @@ button.primary, input.primary {
 button.primary.selected, input.primary.selected {
     background: $secondColor !important;
     border-color: $mainColor !important;
-    color: #FFFFFF !important;
+    color: $valkea !important;
     text-shadow: none !important;
 }
 
 input[type="submit"]:hover:enabled, input[type="button"]:hover:enabled, input[type="reset"]:hover:enabled, button:hover:enabled, .lfr-actions:hover, .lfr-actions:hover ul{
     background: $secondColor !important;
     border-color: $mainColor !important;
-    color: #FFFFFF !important;
+    color: $valkea !important;
     text-shadow: none !important;
 }
 
 input[type="submit"]:hover:enabled, input[type="submit"]:focus, input[type="button"]:hover:enabled, input[type="button"]:focus, input[type="reset"]:hover:enabled, input[type="reset"]:focus, button:hover:enabled, button:focus{
-    color: #FFFFFF !important;
+    color: $valkea !important;
 }
 
 button.approve, input.approve {
@@ -127,7 +133,7 @@ button.approve, input.approve {
     background-image: none !important;
     border-color: #008302 #008302 #008302 #008302 !important;
     text-shadow: none !important;
-    color: #FFFFFF;
+    color: $valkea;
 }
 
 button.approve:hover:enabled, input.approve:hover:enabled{
@@ -171,7 +177,7 @@ table {
             .download-basket__component-title {
                 border: 1px solid $secondColor;
                 background: $secondColor;
-                color: #fff;
+                color: $valkea;
             }
 
             .download-basket__component-content {
@@ -220,11 +226,11 @@ div#oskari_getinforesult_contentWrapper {
         line-height: 18px !important;
 
         tr:nth-child(even) {
-            background: #fff !important;
+            background: $valkea !important;
         }
 
         tr:nth-child(odd) {
-            background: #fff !important;
+            background: $valkea !important;
         }
 
         tr {
@@ -269,5 +275,9 @@ div#oskari_getinforesult_contentWrapper {
 
     &:hover {
         display: none;
+    }
+
+    &.seutumaisa {
+        background-color: $ribbonBackgroundColorSeutumaisa;
     }
 }
