@@ -190,6 +190,7 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaSearch.Flyout',
         _showResults: function (err, response, renderHandler) {
             var me = this;
             var tabLocale = me._getLocalization('resulttab');
+            var numberColumns = me.instance.conf.numberColumns || [7];
 
             me.sb.postRequestByName('MapModulePlugin.RemoveFeaturesFromMapRequest', [null, null, 'SEUTUMAISA-SEARCH']);
 
@@ -209,9 +210,15 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaSearch.Flyout',
 
             me.searchResultContainer.empty();
             me.searchResultContainer.append('<div class="datatable-container"><div class="export-buttons"></div><table class="datatable"></table></div>');
+            var columns = response.columns;
+            numberColumns.forEach(function(columnIndex) {
+                columns[columnIndex].render = jQuery.fn.dataTable.render.number(' ', '.', 0, '', '');
+                columns[columnIndex].className =  'text-right';
+            });
+
             me.searchResultContainer.find('table.datatable').DataTable( {
                 data: response.data,
-                columns: response.columns,
+                columns: columns,
                 columnDefs: response.columnDefs,
                 scrollY: 300,
                 language: tabLocale.datatable,
