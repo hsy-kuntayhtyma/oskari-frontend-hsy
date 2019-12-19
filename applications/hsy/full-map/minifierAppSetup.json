@@ -425,6 +425,17 @@
 
     },
     {
+        "bundlename": "seutumaisa-history-search",
+        "metadata": {
+            "Import-Bundle": {
+                "seutumaisa-search": {
+                    "bundlePath": "../../../packages/"
+                }
+            }
+        }
+
+    },
+    {
         "bundlename" : "timeseries",
         "metadata" : {
             "Import-Bundle" : {
