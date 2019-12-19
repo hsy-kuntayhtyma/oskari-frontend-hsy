@@ -224,7 +224,6 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaHistorySearch.BundleIn
             this.started = false;
         },
 
-        //TEHDÄÄNKÖ FLYOUT? MITEN YHDISTETÄÄN MAAMASSAHAKUUN !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         /**
          * Implements Oskari.userinterface.Extension protocol startExtension method
          * Creates a flyout and a tile:
@@ -247,9 +246,6 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaHistorySearch.BundleIn
             this.plugins['Oskari.userinterface.Flyout'] = null;
             this.plugins['Oskari.userinterface.Tile'] = null;
         },
-
-        //TEHDÄÄNKÖ FLYOUT? MITEN YHDISTETÄÄN MAAMASSAHAKUUN !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
 
         /**
          * Implements Oskari.userinterface.Extension protocol getPlugins method
