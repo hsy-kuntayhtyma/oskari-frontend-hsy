@@ -28,7 +28,7 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaHistorySearch.Bundle',
                 'src': '../../bundles/seutumaisa-history-search/Flyout.js'
             }, {
                 'type': 'text/javascript',
-                'src': '../../bundles/seutumaisa-history-search/service/SeutumaisaSearchService.js'
+                'src': '../../bundles/seutumaisa-history-search/service/SeutumaisaHistorySearchService.js'
             }, {
                 'type': 'text/javascript',
                 'src': '../../bundles/seutumaisa-history-search/Tile.js'

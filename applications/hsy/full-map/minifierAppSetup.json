@@ -428,7 +428,7 @@
         "bundlename": "seutumaisa-history-search",
         "metadata": {
             "Import-Bundle": {
-                "seutumaisa-search": {
+                "seutumaisa-history-search": {
                     "bundlePath": "../../../packages/"
                 }
             }
