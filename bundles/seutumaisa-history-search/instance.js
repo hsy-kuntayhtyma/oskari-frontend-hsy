@@ -92,9 +92,9 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaHistorySearch.BundleIn
             this._localization = Oskari.getLocalization(this.getName());
 
             // create the SeutumaisaHistorySearchService for handling search.
-            var seutumaisaSearchService = Oskari.clazz.create('Oskari.mapframework.bundle.seutumaisaHistorySearch.SeutumaisaHistorySearchService', sandbox, this.getLocalization().service);
-            me.sandbox.registerService(seutumaisaSearchService);
-            me.seutumaisaSearchService = seutumaisaSearchService;
+            var seutumaisaHistorySearchService = Oskari.clazz.create('Oskari.mapframework.bundle.seutumaisaHistorySearch.SeutumaisaHistorySearchService', sandbox, this.getLocalization().service);
+            me.sandbox.registerService(seutumaisaHistorySearchService);
+            me.seutumaisaHistorySearchService = seutumaisaHistorySearchService;
 
             sandbox.register(me);
             for (p in me.eventHandlers) {

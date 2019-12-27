@@ -46,24 +46,10 @@ Oskari.registerLocalization({
                         "sSortAscending":  ": lajittele sarake nousevasti",
                         "sSortDescending": ": lajittele sarake laskevasti"
                     },
-                    "select": {
-                        "rows": {
-                            "_": "Valittuna %d riviä",
-                            "0": "Klikkaa riviä valitaksesi sen",
-                            "1": "Valittuna vain yksi rivi"
-                        }
-                    },
                     "buttons": {
                         "copy": "Kopioi",
                         "csv": "CSV",
                         "print": "Tulosta"
-                    },
-                    "select": {
-                        "rows": {
-                            _: "%d riviä valittu",
-                            0: "Klikkaa riviä valitaksesi se",
-                            1: "Yksi rivi valittu"
-                        }
                     }
                 }
             }

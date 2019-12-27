@@ -20,7 +20,7 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaHistorySearch.Flyout',
         this.state = {};
         this.tabsContainer = null;
         this._localization = this.instance.getLocalization('flyout');
-        this.service = this.sb.getService('Oskari.mapframework.bundle.seutumaisaHistorySearch.SeutumaisaSearchService');
+        this.service = this.sb.getService('Oskari.mapframework.bundle.seutumaisaHistorySearch.SeutumaisaHistorySearchService');
         this.spinner = Oskari.clazz.create('Oskari.userinterface.component.ProgressSpinner');
         this.log = Oskari.log('Oskari.mapframework.bundle.seutumaisaHistorySearch.Flyout');
         this._templates = {
@@ -143,7 +143,7 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaHistorySearch.Flyout',
         _showResults: function (err, response, renderHandler) {
             var me = this;
             var tabLocale = me._getLocalization('resulttab');
-            var numberColumns = me.instance.conf.numberColumns || [7];
+            var numberColumns = me.instance.conf.numberColumns || [5];
 
             me.sb.postRequestByName('MapModulePlugin.RemoveFeaturesFromMapRequest', [null, null, 'SEUTUMAISA-HISTORY-SEARCH']);
 
@@ -183,19 +183,6 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaHistorySearch.Flyout',
             } );
 
             var table = me.searchResultContainer.find('table.datatable').DataTable();
-
-            table.on('select', function ( e, dt, type, indexes ) {
-                if ( type === 'row' ) {
-                    me._highlightSelectedRows();
-                }
-            });
-
-            table.on('deselect', function ( e, dt, type, indexes ) {
-                if ( type === 'row' ) {
-                    me._highlightSelectedRows();
-                }
-            });
-
             if (typeof renderHandler === 'function') {
                 renderHandler();
             }
@@ -287,13 +274,15 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaHistorySearch.Flyout',
             searchButton.insertTo(tabContainer.find('.buttons'));
 
             me.spinner.start();
-
-            this.service.getSearchFields(function (err, fields) {
+            console.log(this.service);
+            console.log(this.service.getHistorySearchFields());
+            this.service.getHistorySearchFields(function (err, fields) {
                 if (err) {
                     me.log.warn('Cannot get fields');
                     return;
                 }
 
+                console.log(fields);
                 fields.forEach(function(field) {
                     // create select input
                     if (field.type === 'select') {
