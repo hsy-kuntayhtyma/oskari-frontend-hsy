@@ -190,6 +190,7 @@ Oskari.clazz.define('Oskari.tampere.bundle.content-editor.view.SideContentEditor
          * @param  {Oskari.mapframework.bundle.mapwfs2.event.WFSFeatureGeometriesEvent}                  evt event
          */
         parseWFSFeatureGeometries: function (evt) {
+            console.log("parseWFSFeatureGeometries");
             var me = this;
             var layerIndex = this.allVisibleLayers.findIndex(function (layer) {
                 return layer.getId() == evt.getMapLayer().getId();
@@ -199,7 +200,10 @@ Oskari.clazz.define('Oskari.tampere.bundle.content-editor.view.SideContentEditor
                 // Not handle event
                 return;
             }
+            console.log(evt);
             evt.getGeometries().forEach(function (geometry) {
+                console.log("parseWFSFeatureGeometries GEOMETRY");
+                console.log(geometry);
                 me._addClickedFeature(geometry);
             });
         },
@@ -214,9 +218,11 @@ Oskari.clazz.define('Oskari.tampere.bundle.content-editor.view.SideContentEditor
         _findGeometryByFid: function (fid) {
             for (var i = 0; i < this.allClickedFeatures.length; i++) {
                 if (this.allClickedFeatures[i].fid == fid) {
+                    console.log("_findGeometryByFid IF LAUSE");
                     return this.allClickedFeatures[i];
                 }
             }
+            console.log("_findGeometryByFid");
             // did not find from own clicked features, try searching wfs layer
             return this._findGeometryByFidFromLayer(fid);
         },
@@ -229,6 +235,7 @@ Oskari.clazz.define('Oskari.tampere.bundle.content-editor.view.SideContentEditor
          * @private
          */
         _findGeometryByFidFromLayer: function (fid) {
+            console.log("_findGeometryByFidFromLayer");
             var layer = this.sandbox.findMapLayerFromSelectedMapLayers(this.selectedLayerId);
             var geometries = layer.getClickedGeometries();
             var wkt = new olFormatWKT();
@@ -297,9 +304,15 @@ Oskari.clazz.define('Oskari.tampere.bundle.content-editor.view.SideContentEditor
             me._handleInfoResult(me.currentData, 'edit', fid);
 
             var geometry = me._findGeometryByFid(fid);
+            console.log("FID & FINDGEOMETRYBY & GEOMETRY");
+            console.log(fid);
+            console.log(me._findGeometryByFid(fid));
+            console.log(geometry);
             if (geometry != null) {
                 me.layerGeometries = geometry;
             }
+            console.log("GEOMETRY TYPE");
+            console.log(me.layerGeometries.geometry.getType());
             me.setGeometryType(me.layerGeometries.geometry.getType());
             me._addDrawTools();
             me.currentEditFeatureFid = fid;
@@ -547,6 +560,8 @@ Oskari.clazz.define('Oskari.tampere.bundle.content-editor.view.SideContentEditor
         _fillLayerGeometries: function (geometries) {
             var me = this;
 
+            
+
             var fillGeometries = function (geom) {
                 if (geom != null) {
                     if (geom.type === 'MultiPoint') {
@@ -599,8 +614,13 @@ Oskari.clazz.define('Oskari.tampere.bundle.content-editor.view.SideContentEditor
                 return (me._geojson && me._geojson.features[0] && me._geojson.features[0].geometry) ? true : false;
             };
 
+            console.log("hasCreatedGeoJSON");
+            console.log(hasCreatedGeoJSON);
+
             if (this.operationMode == 'edit' && hasCreatedGeoJSON() ) {
                 me._geojson.features.forEach(function(feature) {
+                    console.log("FEATURE GEOMETRY FILLLAYERGEOMETRIES");
+                    console.log(feature.geometry);
                     fillGeometries(feature.geometry);
                 });
             } else if(this.operationMode == 'edit' && me.layerGeometries != null && me.layerGeometries.geometry != null) {

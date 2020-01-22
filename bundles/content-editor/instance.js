@@ -223,6 +223,8 @@ Oskari.clazz.define('Oskari.tampere.bundle.content-editor.ContentEditorBundleIns
          */
         eventHandlers: {
             GetInfoResultEvent: function (evt) {
+                console.log("GetInfoResultEvent");
+                console.log(evt);
                 if (this.sideContentEditor != null) {
                     var data = evt.getData();
                     var featuresIds = [];
@@ -239,11 +241,15 @@ Oskari.clazz.define('Oskari.tampere.bundle.content-editor.ContentEditorBundleIns
                 }
             },
             WFSFeatureGeometriesEvent: function (evt) {
+                console.log("WFSFeatureGeometriesEvent");
+                console.log(evt);
                 if (this.sideContentEditor != null) {
                     this.sideContentEditor.parseWFSFeatureGeometries(evt);
                 }
             },
             MapClickedEvent: function (event) {
+                console.log("MapClickedEvent");
+                console.log(event);
                 if (this.sideContentEditor != null) {
                     this.sideContentEditor.setClickCoords({
                         x: event.getLonLat().lon,
@@ -264,6 +270,8 @@ Oskari.clazz.define('Oskari.tampere.bundle.content-editor.ContentEditorBundleIns
                 }
             },
             WFSFeaturesSelectedEvent: function (evt) {
+                console.log("WFSFeaturesSelectedEvent");
+                console.log(evt);
                 if (this.sideContentEditor != null) {
                     var maplayer = evt.getMapLayer();
                     var featureIds = evt.getWfsFeatureIds();
