@@ -25,21 +25,14 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaHistorySearch.Bundle',
                 'src': '../../bundles/seutumaisa-history-search/instance.js'
             }, {
                 'type': 'text/javascript',
-                'src': '../../bundles/seutumaisa-history-search/Flyout.js'
-            }, {
-                'type': 'text/javascript',
                 'src': '../../bundles/seutumaisa-history-search/service/SeutumaisaHistorySearchService.js'
-            }, {
-                'type': 'text/javascript',
-                'src': '../../bundles/seutumaisa-history-search/Tile.js'
             }, {
                 'type': 'text/css',
                 'src': '../../bundles/seutumaisa-history-search/resources/scss/style.scss'
-            },
-            {
+            }, {
                 'type': 'text/javascript',
                 'src': '../../libraries/noUiSlider-13.1.5/nouislider.js'
-            },  {
+            }, {
                 'type': 'text/javascript',
                 'src': '../../libraries/js.cookie/js.cookie.js'
             }, {
