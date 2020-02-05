@@ -118,6 +118,15 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaSearch.BundleInstance'
             var state = me.getState();
             me.setState(state);
 
+            this.requestHandlers = {
+                addTabRequestHandler: Oskari.clazz.create(
+                    'Oskari.mapframework.bundle.seutumaisaSearch.request.AddTabRequestHandler',
+                    sandbox, this.plugins['Oskari.userinterface.Flyout'])
+            };
+            sandbox.requestHandler(
+                'SeutumaisaSearch.AddTabRequest',
+                this.requestHandlers.addTabRequestHandler);
+
 
         },
 

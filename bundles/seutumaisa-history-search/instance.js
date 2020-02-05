@@ -5,19 +5,26 @@
 */
 Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaHistorySearch.BundleInstance',
 
-    /**
-     * @method create called automatically on construction
-     * @static
+/**
+     * @static @method create called automatically on construction
+     *
+     * @param
+     * {Oskari.mapframework.bundle.seutumaisaSearch}
+     * instance
+     * Reference to component that created the tile
+     *
      */
     function () {
-        this.service = null;
         this.sandbox = null;
         this.started = false;
-        this.plugins = {};
         this._localization = null;
         this.mapModule = null;
-        this.seutumaisaSearchService = null;
-        this.state = this.state || {};
+        this.seutumaisaHistorySearchService = null;
+
+        this.container = null;
+        this.state = {};
+        this.tabsContainer = null;
+        this.spinner = Oskari.clazz.create('Oskari.userinterface.component.ProgressSpinner');
         this._templates = {
             searchRow: jQuery('<div class="row"><div class="title"></div><div class="field"></div><div class="clear"></div></div>'),
             slider: jQuery('<div><div class="slider-range"></div><div class="slider-range-values"><div style="float:left;"><input type="number" class="min"></div><div style="float:right;"><input type="number" class="max"></div><div style="clear:both;"></div></div>'),
@@ -25,10 +32,8 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaHistorySearch.BundleIn
         };
         this.searchFields = [];
         this.dialog = Oskari.clazz.create('Oskari.userinterface.component.Popup');
-        this.spinner = Oskari.clazz.create('Oskari.userinterface.component.ProgressSpinner');
-        this.tabsContainer = null;
-        this.container = null;
-
+        this.tabPriority = 5.0;
+        this.conf = this.conf || {};
     }, {
         /**
          * @static
@@ -87,21 +92,20 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaHistorySearch.BundleIn
          * @public
          */
         start: function () {
-            if (this.started) {
+            var me = this;
+            if (me.started) {
                 return;
             }
 
-            var me = this,
-                conf = me.conf,
-                sandboxName = conf ? conf.sandbox : 'sandbox',
+            me.started = true;
+
+            var conf = me.conf,
+                sandboxName = (conf ? conf.sandbox : null) || 'sandbox',
                 sandbox = Oskari.getSandbox(sandboxName),
                 p;
 
-            me.started = true;
             me.sandbox = sandbox;
-
             me.service = me.sandbox.getService('Oskari.mapframework.bundle.seutumaisaHistorySearch.SeutumaisaHistorySearchService');
-
             this._localization = Oskari.getLocalization(this.getName());
 
             // create the SeutumaisaHistorySearchService for handling search.
@@ -127,65 +131,43 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaHistorySearch.BundleIn
             /* stateful */
             sandbox.registerAsStateful(this.mediator.bundleId, this);
 
+            var p;
+            for (p in me.eventHandlers) {
+                if (me.eventHandlers.hasOwnProperty(p)) {
+                    sandbox.registerForEventByName(me, p);
+                }
+            }
+
             // handle state
             var state = me.getState();
             me.setState(state);
 
-
-        },
-
-        /**
-         * Update normal search tile text
-         * @method updateSearchTileText
-         * @param  {Integer}             count counter
-         */
-        updateSearchTileText: function (count) {
-            var me = this;
-            var tile = jQuery('div.oskari-tile.search div.oskari-tile-title');
-            if(count > 10) {
-                return;
+            // Default tab priority
+            if (me.conf && typeof me.conf.priority === 'number') {
+                me.tabPriority = me.conf.priority;
             }
-            if (tile.length === 0) {
-                setTimeout(function(){
-                    me.updateSearchTileText(count++);
-                },200);
-            } else {
-                tile.html(this._localization.searchTitle)
-            }
-        },
-        /**
-         * Implements Module protocol init method - does nothing atm
-         * @method init
-         * @public
-         */
-        init: function () {
-            return null;
-        },
-        /**
-         * Implements BundleInstance protocol update method - does nothing atm
-         * @method update
-         * @public
-         */
-        update: function () {
+
+            me.createUI();
+
 
         },
-        /**POISTA!!!!!!!
+        /**
          * Event is handled forwarded to correct #eventHandlers if found or discarded if not.
          * @method onEvent
          * @public
          * @param {Oskari.mapframework.event.Event} event a Oskari event object
          */
         onEvent: function (event) {
-            this.plugins['Oskari.userinterface.Flyout'].onEvent(event);
+            this.onEvent(event);
 
             var handler = this.eventHandlers[event.getName()];
             if (!handler) {
                 return;
             }
 
-            handler.apply(this, [event]);
+            return handler.apply(this, [event]);
         },
-        /**POISTA!!!???
+        /**
          * @property {Object} eventHandlers
          * @static
          */
@@ -203,10 +185,10 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaHistorySearch.BundleIn
                     return;
                 }
                 if (doOpen) {
-                    this.plugins['Oskari.userinterface.Flyout'].createUI();
+                    this.createUI();
 
                     // flyouts eventHandlers are registered
-                    for (p in this.plugins['Oskari.userinterface.Flyout'].getEventHandlers()) {
+                    for (p in this.getEventHandlers()) {
                         if (!this.eventHandlers[p]) {
                             this.sandbox.registerForEventByName(this, p);
                         }
@@ -214,97 +196,38 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaHistorySearch.BundleIn
                 }
             }
         },
-
         /**
-         * Implements BundleInstance protocol stop method
-         * @method stop
+         * Creates UI
+         * @method createUI
+         * @public
          */
-        stop: function () {
-            var sandbox = this.sandbox,
-                p,
-                request;
-            for (p in this.eventHandlers) {
-                if (this.eventHandlers.hasOwnProperty(p)) {
-                    sandbox.unregisterFromEventByName(this, p);
-                }
+        createUI: function () {
+            if (this.tabsContainer) {
+                return;
             }
 
-            request = Oskari.requestBuilder('userinterface.RemoveExtensionRequest')(this);
-            sandbox.request(this, request);
+            var me = this;
+            me._setDatepickerLanguage();
+            var tabsContainer = Oskari.clazz.create('Oskari.userinterface.component.TabContainer');
+            tabsContainer.addTabChangeListener(me.tabChanged);
+            me.tabsContainer = tabsContainer;
+            me.searchTab = me._getHistorySearchTab();
+            me.resultsTab = me._getHistorySearchResultsTab();
+            tabsContainer.addPanel(me.searchTab);
+            tabsContainer.addPanel(me.resultsTab);
+            tabsContainer.insertTo(jQuery('.seutumaisa-search'));
+            me.spinner.insertTo(jQuery('.tab-content.history-search-tab'));
 
-            sandbox.unregisterStateful(this.mediator.bundleId);
-            this.sandbox.unregister(this);
-            this.started = false;
-        },
+            var title = me.getLocalization('tabTitle'),
+                content = metadataCatalogueContainer,
+                priority = this.tabPriority,
+                id = 'oskari_seutumaisahistorysearch_tabpanel_header',
+                reqBuilder = Oskari.requestBuilder('Search.AddTabRequest'),
+                req = reqBuilder(title, content, priority, id);
 
-        /**POISTA!!!!!!!!!!!!!
-         * Implements Oskari.userinterface.Extension protocol startExtension method
-         * Creates a flyout and a tile:
-         * Oskari.mapframework.bundle.layerselection2.Flyout
-         * Oskari.mapframework.bundle.layerselection2.Tile
-         * @method startExtension
-         * @public
-         */
-        startExtension: function () {
-            this.plugins['Oskari.userinterface.Flyout'] = Oskari.clazz.create('Oskari.mapframework.bundle.seutumaisaHistorySearch.Flyout', this);
-            this.plugins['Oskari.userinterface.Tile'] = Oskari.clazz.create('Oskari.mapframework.bundle.seutumaisaHistorySearch.Tile', this);
-        },
-        /**POISTA!!!!!!!!!
-         * Implements Oskari.userinterface.Extension protocol stopExtension method
-         * Clears references to flyout and tile
-         * @method stopExtension
-         * @public
-         */
-        stopExtension: function () {
-            this.plugins['Oskari.userinterface.Flyout'] = null;
-            this.plugins['Oskari.userinterface.Tile'] = null;
+            me.sandbox.request(me, req);
         },
 
-        /** POISTA!!!!!!!!!
-         * Implements Oskari.userinterface.Extension protocol getPlugins method
-         * @method getPlugins
-         * @public
-         * @return {Object} references to flyout and tile
-         */
-        getPlugins: function () {
-            return this.plugins;
-        },
-        /**
-         * Gets title
-         * @method getTitle
-         * @public
-         * @return {String} localized text for the title of the component
-         */
-        getTitle: function () {
-            return this.getLocalization('title');
-        },
-        /**
-         * Gets description
-         * @method getDescription
-         * @public
-         * @return {String} localized text for the description of the component
-         */
-        getDescription: function () {
-            return this.getLocalization('desc');
-        },
-
-        /**
-         * @method getState
-         * @return {Object} bundle state as JSON
-         */
-        getState: function () {
-            return this.state;
-        },
-
-        /**
-         * @method setState
-         * @param {Object} state bundle state as JSON
-         */
-        setState: function (state) {
-            this.state = state;
-            this.plugins['Oskari.userinterface.Flyout'].clearHistorySearchTab(true,true);
-        },
-        
         /**
          * Handles tab changes
          * @method tabChanged
@@ -364,6 +287,7 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaHistorySearch.BundleIn
                 )
             );
         },
+
         _showResults: function (err, response, renderHandler) {
             var me = this;
             var tabLocale = me._getLocalization('resulttab');
@@ -432,7 +356,6 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaHistorySearch.BundleIn
             }
         },
 
-        //Luodaan tabi haulle
         _getHistorySearchTab: function () {
             var me = this;
             if (me.searchFields.length > 0) {
@@ -503,6 +426,7 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaHistorySearch.BundleIn
                     me.log.warn('Cannot get fields');
                     return;
                 }
+
                 fields.forEach(function(field) {
                     // create select input
                     if (field.type === 'select') {
@@ -691,7 +615,7 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaHistorySearch.BundleIn
             tab.setId('history-search-tab');
             return tab;
         },
-        //luodaan tulokset tabi
+
         _getHistorySearchResultsTab: function () {
             var me = this;
             me.searchResultContainer = jQuery('<div class="seutumaisa-history-search-results"></div>');
@@ -702,14 +626,105 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaHistorySearch.BundleIn
             tab.setId('history-search-results-tab');
             return tab;
         },
+        /**
+         * Interface method implementation, does nothing atm
+         * @method setState
+         * @public
+         * @param {Object} state state that this component should use
+         */
+        setState: function (state) {
+            this.state = state;
+        },
+        /**
+         * Update normal search tile text
+         * @method updateSearchTileText
+         * @param  {Integer}             count counter
+         */
+        updateSearchTileText: function (count) {
+            var me = this;
+            var tile = jQuery('div.oskari-tile.search div.oskari-tile-title');
+            if(count > 10) {
+                return;
+            }
+            if (tile.length === 0) {
+                setTimeout(function(){
+                    me.updateSearchTileText(count++);
+                },200);
+            } else {
+                tile.html(this._localization.searchTitle)
+            }
+        },
+        /**
+         * Implements Module protocol init method - does nothing atm
+         * @method init
+         * @public
+         */
+        init: function () {
+            return null;
+        },
+        /**
+         * Implements BundleInstance protocol update method - does nothing atm
+         * @method update
+         * @public
+         */
+        update: function () {
+
+        },
 
         /**
-         * Gets localization
-         * @method _getLocalization
-         * @private
+         * Implements BundleInstance protocol stop method
+         * @method stop
          */
-        _getLocalization: function (key) {
-            return this._localization[key];
+        stop: function () {
+            var sandbox = this.sandbox,
+                p,
+                request;
+            for (p in this.eventHandlers) {
+                if (this.eventHandlers.hasOwnProperty(p)) {
+                    sandbox.unregisterFromEventByName(this, p);
+                }
+            }
+
+            request = Oskari.requestBuilder('userinterface.RemoveExtensionRequest')(this);
+            sandbox.request(this, request);
+
+            sandbox.unregisterStateful(this.mediator.bundleId);
+            this.sandbox.unregister(this);
+            this.started = false;
+        },
+        /**
+         * Gets title
+         * @method getTitle
+         * @public
+         * @return {String} localized text for the title of the component
+         */
+        getTitle: function () {
+            return this.getLocalization('tabTitle');
+        },
+        /**
+         * Gets description
+         * @method getDescription
+         * @public
+         * @return {String} localized text for the description of the component
+         */
+        getDescription: function () {
+            return this.getLocalization('desc');
+        },
+
+        /**
+         * @method getState
+         * @return {Object} bundle state as JSON
+         */
+        getState: function () {
+            return this.state;
+        },
+        /**
+         * @method setState
+         * @param {Object} state bundle state as JSON
+         */
+        setState: function (state) {
+            this.state = state;
+            this.clearHistorySearchTab(true,true);
         }
 
     }, {
