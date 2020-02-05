@@ -2,7 +2,7 @@ Oskari.registerLocalization({
     "lang": "fi",
     "key": "seutumaisa-history-search",
     "value": {
-        "title" : "Maamassan historiahaku",
+        "tabTitle" : "Maamassan historiahaku",
         "desc" : "",
         "tile": {
             "title": "Maamassan historiahaku"
