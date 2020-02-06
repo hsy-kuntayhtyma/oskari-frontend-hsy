@@ -529,6 +529,42 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaSearch.Flyout',
             return tab;
         },
 
+        /**
+         *
+         *
+         */
+        addTab: function (item) {
+            var me = this,
+                flyout = jQuery(me.container);
+            // Change into tab mode if not already
+            if (me.tabsContainer.panels.length === 0) {
+                me.tabsContainer.insertTo(flyout);
+
+                if (me.instance.disableDefault !== true) {
+                    var defaultPanel = Oskari.clazz.create(
+                            'Oskari.userinterface.component.TabPanel'
+                        ),
+                        searchContainer = jQuery('div.seutumaisaSearchContainer');
+
+                    defaultPanel.setTitle(
+                        me.getTabTitle(),
+                        'oskari_seutumaisasearch_tabpanel_header'
+                    );
+                    defaultPanel.setContent(searchContainer);
+                    defaultPanel.setId('oskari_seutumaisasearch_tabpanel_header');
+                    defaultPanel.setPriority(me.instance.tabPriority);
+                    me.tabsContainer.addPanel(defaultPanel);
+                }
+            }
+
+            var panel = Oskari.clazz.create('Oskari.userinterface.component.TabPanel');
+            panel.setTitle(item.title, item.id);
+            panel.setId(item.id);
+            panel.setContent(item.content);
+            panel.setPriority(item.priority);
+            me.tabsContainer.addPanel(panel);
+        },
+
         _getSearchResultsTab: function () {
             var me = this;
             me.searchResultContainer = jQuery('<div class="seutumaisa-search-results"></div>');
