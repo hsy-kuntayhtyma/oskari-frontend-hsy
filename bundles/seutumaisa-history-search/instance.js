@@ -105,8 +105,12 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaHistorySearch.BundleIn
                 p;
 
             me.sandbox = sandbox;
+            
+
+
             me.service = me.sandbox.getService('Oskari.mapframework.bundle.seutumaisaHistorySearch.SeutumaisaHistorySearchService');
             this._localization = Oskari.getLocalization(this.getName());
+            me.createUI();
 
             // create the SeutumaisaHistorySearchService for handling search.
             var seutumaisaHistorySearchService = Oskari.clazz.create('Oskari.mapframework.bundle.seutumaisaHistorySearch.SeutumaisaHistorySearchService', sandbox, this.getLocalization().service);
@@ -146,8 +150,6 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaHistorySearch.BundleIn
             if (me.conf && typeof me.conf.priority === 'number') {
                 me.tabPriority = me.conf.priority;
             }
-
-            me.createUI();
 
 
         },
@@ -208,20 +210,22 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaHistorySearch.BundleIn
 
             var me = this;
             me._setDatepickerLanguage();
-            var tabsContainer = Oskari.clazz.create('Oskari.userinterface.component.TabContainer');
-            tabsContainer.addTabChangeListener(me.tabChanged);
-            me.tabsContainer = tabsContainer;
             me.searchTab = me._getHistorySearchTab();
             me.resultsTab = me._getHistorySearchResultsTab();
-            tabsContainer.addPanel(me.searchTab);
-            tabsContainer.addPanel(me.resultsTab);
-            tabsContainer.insertTo(jQuery('.seutumaisa-search'));
-            me.spinner.insertTo(jQuery('.tab-content.history-search-tab'));
 
-            var title = me.getLocalization('tabTitle'),
-                content = tabsContainer,
+            var title = me.getLocalization('title'),
+                content = searchTab,
                 priority = this.tabPriority,
                 id = 'oskari_seutumaisahistorysearch_tabpanel_header',
+                reqBuilder = Oskari.requestBuilder('Search.AddTabRequest'),
+                req = reqBuilder(title, content, priority, id);
+
+            me.sandbox.request(me, req);
+
+            var title = me.getLocalization('title'),
+                content = resultsTab,
+                priority = this.tabPriority,
+                id = 'oskari_seutumaisahistorysearchresults_tabpanel_header',
                 reqBuilder = Oskari.requestBuilder('Search.AddTabRequest'),
                 req = reqBuilder(title, content, priority, id);
 
@@ -290,7 +294,7 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaHistorySearch.BundleIn
 
         _showResults: function (err, response, renderHandler) {
             var me = this;
-            var tabLocale = me._getLocalization('resulttab');
+            var tabLocale = me.getLocalization('resulttab');
             var numberColumns = me.instance.conf.numberColumns || [5];
 
             me.sb.postRequestByName('MapModulePlugin.RemoveFeaturesFromMapRequest', [null, null, 'SEUTUMAISA-HISTORY-SEARCH']);
@@ -362,7 +366,7 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaHistorySearch.BundleIn
                 return;
             }
 
-            var tabLocale = me._getLocalization('searchtab');
+            var tabLocale = me.getLocalization('searchtab');
 
             var tab = Oskari.clazz.create('Oskari.userinterface.component.TabPanel');
             tab.setTitle(tabLocale.title);
@@ -699,7 +703,7 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaHistorySearch.BundleIn
          * @return {String} localized text for the title of the component
          */
         getTitle: function () {
-            return this.getLocalization('tabTitle');
+            return this.getLocalization('title');
         },
         /**
          * Gets description
