@@ -219,7 +219,7 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaHistorySearch.BundleIn
             me.spinner.insertTo(jQuery('.tab-content.history-search-tab'));
 
             var title = me.getLocalization('tabTitle'),
-                content = metadataCatalogueContainer,
+                content = tabsContainer,
                 priority = this.tabPriority,
                 id = 'oskari_seutumaisahistorysearch_tabpanel_header',
                 reqBuilder = Oskari.requestBuilder('Search.AddTabRequest'),
