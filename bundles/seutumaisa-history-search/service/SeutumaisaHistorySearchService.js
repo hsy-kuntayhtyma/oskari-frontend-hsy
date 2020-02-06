@@ -51,7 +51,6 @@
 
                 url: Oskari.urls.getRoute('GetSeutumaisaHistorySearchFields'),
                 success: function (pResp) {
-                    console.log("SUCCESS GETHISTORYFIELDS");
                     this.cache['historySearchFields'] = pResp;
                     Cookies.set('historySearchFields', pResp);
                     handler(null, pResp);
@@ -64,9 +63,6 @@
 
         },
         search: function (data, handler) {
-            console.log(data);
-            console.log(JSON.stringify(data));
-            console.log(typeof handler);
             if (typeof handler !== 'function') {
                 return;
             }
