@@ -22,10 +22,10 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaHistorySearch.Bundle',
 
         'scripts': [{
                 'type': 'text/javascript',
-                'src': '../../bundles/seutumaisa-history-search/instance.js'
+                'src': '../../bundles/seutumaisa-history-search/service/SeutumaisaHistorySearchService.js'
             }, {
                 'type': 'text/javascript',
-                'src': '../../bundles/seutumaisa-history-search/service/SeutumaisaHistorySearchService.js'
+                'src': '../../bundles/seutumaisa-history-search/instance.js'
             }, {
                 'type': 'text/css',
                 'src': '../../bundles/seutumaisa-history-search/resources/scss/style.scss'
