@@ -528,10 +528,21 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaSearch.Flyout',
             tab.setId('search-tab');
             return tab;
         },
-
         /**
-         *
-         *
+         * Change tab to wanted tab id
+         * @param {String} id panel id
+         */
+        changeTab: function (id) {
+            let me = this;
+            let panel = me.tabsContainer.getPanelById(id);
+            if (panel != null) {
+                me.tabsContainer.select(panel);
+            }
+        },
+        /**
+         * Adds tab
+         * @public @method addTab
+         * @param {Object} item tab item
          */
         addTab: function (item) {
             var me = this,

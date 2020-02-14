@@ -5,20 +5,17 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaSearch.request.AddTabR
 /**
  * @method create called automatically on construction
  * @static
- * @param {Oskari.Sandbox} sandbox
- *          reference to application sandbox
- * @param {Oskari.mapframework.bundle.seutumaisaSearch.StateHandlerBundleInstance} search
- *          reference to seutumaisaSearch
+ * @param {Oskari.mapframework.bundle.seutumaisaSearch.Flyout} search
+ *          reference to seutumaisaSearch flyout
  */
-    function (sandbox, search) {
-        this.sandbox = sandbox;
+    function (search) {
         this.search = search;
     }, {
     /**
      * @method handleRequest
      * @param {Oskari.mapframework.core.Core} core
      *      reference to the application core (reference sandbox core.getSandbox())
-     * @param {Oskari.mapframework.bundle.seutumaisaSearch.request.AddTabRequestHandler} request
+     * @param {Oskari.mapframework.bundle.seutumaisaSearch.request.AddTabRequest} request
      *      request to handle
      */
         handleRequest: function (core, request) {

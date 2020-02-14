@@ -3,10 +3,6 @@ Oskari.registerLocalization({
     "key": "seutumaisa-history-search",
     "value": {
         "title": "Maamassan historiahaku",
-        "desc": "",
-        "tile": {
-            "title": "Maamassan historiahaku"
-        },
         "searchtab": {
             "title": "Historiahaku",
             "noValues": "(arvoja ei saatavilla)",
@@ -14,6 +10,7 @@ Oskari.registerLocalization({
             "clear": "Tyhjennä"
         },
         "resulttab": {
+            "title" : "Historiahaun tulokset",
             "error": {
                 "title": "Virhe",
                 "message": "Historiahakua ei voitu suorittaa juuri nyt, kokeile hetken päästä uudelleen"
@@ -50,7 +47,6 @@ Oskari.registerLocalization({
                     "print": "Tulosta"
                 }
             }
-        },
-        "searchTitle": "Osoitehaku"
+        }
     }
 });

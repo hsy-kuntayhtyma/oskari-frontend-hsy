@@ -37,6 +37,13 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaSearch.Bundle', functi
                 'src': '../../bundles/seutumaisa-search/request/AddTabRequestHandler.js'
             }, {
                 'type': 'text/javascript',
+                'src': '../../bundles/seutumaisa-search/request/ChangeTabRequest.js'
+            }, {
+                'type': 'text/javascript',
+                'src': '../../bundles/seutumaisa-search/request/ChangeTabRequestHandler.js'
+            },
+            {
+                'type': 'text/javascript',
                 'src': '../../bundles/seutumaisa-search/Tile.js'
             }, {
                 'type': 'text/css',
