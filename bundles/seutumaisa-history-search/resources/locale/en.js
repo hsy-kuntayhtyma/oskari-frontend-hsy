@@ -3,10 +3,6 @@ Oskari.registerLocalization({
     "key": "seutumaisa-history-search",
     "value": {
         "title": "Maamassan historiahaku",
-        "desc": "",
-        "tile": {
-            "title": "Maamassan historiahaku"
-        },
         "searchtab": {
             "title": "History search",
             "noValues": "(values not available)",
@@ -14,6 +10,7 @@ Oskari.registerLocalization({
             "clear": "Clear"
         },
         "resulttab": {
+            "title" : "History search results",
             "error": {
                 "title": "Error",
                 "message": "Cannot search history, try again later"
@@ -57,8 +54,7 @@ Oskari.registerLocalization({
                     }
                 }
             }
-        },
-        "searchTitle": "Address search"
+        }
     }
 });
 
