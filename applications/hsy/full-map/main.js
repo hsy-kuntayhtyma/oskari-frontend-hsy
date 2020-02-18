@@ -75,6 +75,8 @@ import 'oskari-loader!../../../packages/map-location/bundle.js';
 
 import 'oskari-loader!../../../packages/seutumaisa-search/bundle.js';
 
+import 'oskari-loader!../../../packages/seutumaisa-history-search/bundle.js';
+
 
 import 'oskari-lazy-loader?admin-layerselector!oskari-frontend/packages/integration/bundle/admin-layerselector/bundle.js';
 import 'oskari-lazy-loader?admin-layerselector!oskari-frontend/packages/integration/bundle/bb/bundle.js';

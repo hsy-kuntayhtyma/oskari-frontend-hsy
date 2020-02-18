@@ -1,14 +1,14 @@
 /**
- * @class Oskari.mapframework.bundle.seutumaisaSearch.Bundle
+ * @class Oskari.mapframework.bundle.seutumaisaHistorySearch.Bundle
  *
  * Definition for bundle. See source for details.
  */
-Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaSearch.Bundle', function () {
+Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaHistorySearch.Bundle', function () {
 
 }, {
     'create': function () {
         var me = this;
-        var inst = Oskari.clazz.create('Oskari.mapframework.bundle.seutumaisaSearch.BundleInstance');
+        var inst = Oskari.clazz.create('Oskari.mapframework.bundle.seutumaisaHistorySearch.BundleInstance');
 
         return inst;
     },
@@ -22,37 +22,17 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaSearch.Bundle', functi
 
         'scripts': [{
                 'type': 'text/javascript',
-                'src': '../../bundles/seutumaisa-search/instance.js'
+                'src': '../../bundles/seutumaisa-history-search/service/SeutumaisaHistorySearchService.js'
             }, {
                 'type': 'text/javascript',
-                'src': '../../bundles/seutumaisa-search/Flyout.js'
-            }, {
-                'type': 'text/javascript',
-                'src': '../../bundles/seutumaisa-search/service/SeutumaisaSearchService.js'
-            }, {
-                'type': 'text/javascript',
-                'src': '../../bundles/seutumaisa-search/request/AddTabRequest.js'
-            }, {
-                'type': 'text/javascript',
-                'src': '../../bundles/seutumaisa-search/request/AddTabRequestHandler.js'
-            }, {
-                'type': 'text/javascript',
-                'src': '../../bundles/seutumaisa-search/request/ChangeTabRequest.js'
-            }, {
-                'type': 'text/javascript',
-                'src': '../../bundles/seutumaisa-search/request/ChangeTabRequestHandler.js'
-            },
-            {
-                'type': 'text/javascript',
-                'src': '../../bundles/seutumaisa-search/Tile.js'
+                'src': '../../bundles/seutumaisa-history-search/instance.js'
             }, {
                 'type': 'text/css',
-                'src': '../../bundles/seutumaisa-search/resources/scss/style.scss'
-            },
-            {
+                'src': '../../bundles/seutumaisa-history-search/resources/scss/style.scss'
+            }, {
                 'type': 'text/javascript',
                 'src': '../../libraries/noUiSlider-13.1.5/nouislider.js'
-            },  {
+            }, {
                 'type': 'text/javascript',
                 'src': '../../libraries/js.cookie/js.cookie.js'
             }, {
@@ -109,23 +89,23 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaSearch.Bundle', functi
         'locales': [{
             'lang': 'en',
             'type': 'text/javascript',
-            'src': '../../bundles/seutumaisa-search/resources/locale/en.js'
+            'src': '../../bundles/seutumaisa-history-search/resources/locale/en.js'
         }, {
             'lang': 'fi',
             'type': 'text/javascript',
-            'src': '../../bundles/seutumaisa-search/resources/locale/fi.js'
+            'src': '../../bundles/seutumaisa-history-search/resources/locale/fi.js'
         }, {
             'lang': 'sv',
             'type': 'text/javascript',
-            'src': '../../bundles/seutumaisa-search/resources/locale/sv.js'
+            'src': '../../bundles/seutumaisa-history-search/resources/locale/sv.js'
         }]
     },
     'bundle': {
         'manifest': {
-            'Bundle-Identifier': 'seutumaisa-search',
-            'Bundle-Name': 'seutumaisa-search',
+            'Bundle-Identifier': 'seutumaisa-history-search',
+            'Bundle-Name': 'seutumaisa-history-search',
             'Bundle-Author': [{
-                'Name': 'Marko Kuosmanne',
+                'Name': 'Oskari Rintamäki',
                 'Organisation': 'Sitowise Oy',
                 'Temporal': {
                     'Start': '2019',
@@ -140,8 +120,8 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaSearch.Bundle', functi
             }],
             'Bundle-Name-Locale': {
                 'fi': {
-                    'Name': 'seutumaisa-search',
-                    'Title': 'seutumaisa-search'
+                    'Name': 'seutumaisa-history-search',
+                    'Title': 'seutumaisa-history-search'
                 },
                 'en': {}
             },
@@ -159,4 +139,4 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaSearch.Bundle', functi
 
 });
 
-Oskari.bundle_manager.installBundleClass('seutumaisa-search', 'Oskari.mapframework.bundle.seutumaisaSearch.Bundle');
+Oskari.bundle_manager.installBundleClass('seutumaisa-history-search', 'Oskari.mapframework.bundle.seutumaisaHistorySearch.Bundle');

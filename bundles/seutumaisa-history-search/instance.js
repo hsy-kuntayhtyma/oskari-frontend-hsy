@@ -1,10 +1,11 @@
 /**
- * @class Oskari.mapframework.bundle.seutumaisaSearch.Flyout
- *
- */
-Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaSearch.Flyout',
+* @class Oskari.mapframework.bundle.seutumaisaHistorySearch.BundleInstance
+*
+* Oskari.mapframework.bundle.seutumaisaHistorySearch.
+*/
+Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaHistorySearch.BundleInstance',
 
-    /**
+/**
      * @static @method create called automatically on construction
      *
      * @param
@@ -13,16 +14,15 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaSearch.Flyout',
      * Reference to component that created the tile
      *
      */
-    function (instance) {
-        this.instance = instance;
-        this.sb = instance.getSandbox();
+    function () {
+        this.sandbox = null;
+        this.started = false;
+        this._localization = null;
+        this.mapModule = null;
+
         this.container = null;
         this.state = {};
-        this.tabsContainer = null;
-        this._localization = this.instance.getLocalization('flyout');
-        this.service = this.sb.getService('Oskari.mapframework.bundle.seutumaisaSearch.SeutumaisaSearchService');
         this.spinner = Oskari.clazz.create('Oskari.userinterface.component.ProgressSpinner');
-        this.log = Oskari.log('Oskari.mapframework.bundle.seutumaisaSearch.Flyout');
         this._templates = {
             searchRow: jQuery('<div class="row"><div class="title"></div><div class="field"></div><div class="clear"></div></div>'),
             slider: jQuery('<div><div class="slider-range"></div><div class="slider-range-values"><div style="float:left;"><input type="number" class="min"></div><div style="float:right;"><input type="number" class="max"></div><div style="clear:both;"></div></div>'),
@@ -30,67 +30,245 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaSearch.Flyout',
         };
         this.searchFields = [];
         this.dialog = Oskari.clazz.create('Oskari.userinterface.component.Popup');
+        this.conf = this.conf || {};
     }, {
+        /**
+         * @static
+         * @property __name
+         */
+        __name: 'seutumaisa-history-search',
+
+        /********************************** PUBLIC METHODS ***********************************/
         /**
          * @method getName
          * @public
          * @return {String} the name for the component
          */
         getName: function () {
-            return 'Oskari.mapframework.bundle.seutumaisaSearch.Flyout';
+            return this.__name;
         },
 
         /**
-         * Interface method implementation
-         * @public @method setEl
-         * @param {Object} el reference to the container in browser         *
+         * Sets the sandbox reference to this component
+         * @method setSandbox
+         * @public
+         * @param {Oskari.mapframework.sandbox.Sandbox} sandbox
          */
-        setEl: function (el) {
-            this.container = jQuery(el[0]);
-            this.container.addClass('seutumaisa-search');
+        setSandbox: function (sandbox) {
+            this.sandbox = sandbox;
         },
+
         /**
-        * Interface method implementation, assigns the HTML templates
-        * that will be used to create the UI
-        * @public @method startPlugin
-        */
-        startPlugin: function () {
-            this.createUI();
+         * Gets sandbox
+         * @method getSandbox
+         * @public
+         * @return {Oskari.mapframework.sandbox.Sandbox}
+         */
+        getSandbox: function () {
+            return this.sandbox;
         },
+
         /**
-         * Creates UI
-         * @method createUI
+         * Returns JSON presentation of bundles localization data for current language.
+         * If key-parameter is not given, returns the whole localization data.
+         * @method getLocalization
+         * @public
+         *
+         * @param {String} key (optional) if given, returns the value for key
+         * @return {String/Object} returns single localization string or
+         *      JSON object for complete data depending on localization
+         *      structure and if parameter key is given
+         */
+        getLocalization: function (key) {
+            if (!this._localization) {
+                this._localization = Oskari.getLocalization(this.getName());
+            }
+            if (key) {
+                return this._localization[key];
+            }
+            return this._localization;
+        },
+
+        /**
+         * Implements BundleInstance protocol start methdod
+         * @method start
          * @public
          */
-        createUI: function () {
-            if (this.tabsContainer) {
+        start: function () {
+            var me = this;
+            if (me.started) {
                 return;
             }
 
-            var me = this;
-            me._setDatepickerLanguage();
-            var tabsContainer = Oskari.clazz.create('Oskari.userinterface.component.TabContainer');
-            tabsContainer.addTabChangeListener(me.tabChanged);
-            me.tabsContainer = tabsContainer;
-            me.searchTab = me._getSearchTab();
-            me.resultsTab = me._getSearchResultsTab();
-            tabsContainer.addPanel(me.searchTab);
-            tabsContainer.addPanel(me.resultsTab);
-            tabsContainer.insertTo(me.container);
-            me.spinner.insertTo(jQuery('.tab-content.search-tab'));
+            me.started = true;
+
+            var conf = me.conf,
+                sandboxName = (conf ? conf.sandbox : null) || 'sandbox',
+                sandbox = Oskari.getSandbox(sandboxName),
+                p;
+
+            me.sandbox = sandbox;
+
+            this._localization = Oskari.getLocalization(this.getName());
+
+            // create the SeutumaisaHistorySearchService for handling search.
+            var seutumaisaHistorySearchService = Oskari.clazz.create('Oskari.mapframework.bundle.seutumaisaHistorySearch.SeutumaisaHistorySearchService', sandbox, this.getLocalization().service);
+            me.sandbox.registerService(seutumaisaHistorySearchService);
+
+            sandbox.register(me);
+            for (p in me.eventHandlers) {
+                if (me.eventHandlers.hasOwnProperty(p)) {
+                    sandbox.registerForEventByName(me, p);
+                }
+            }
+
+            this.mapModule = sandbox.findRegisteredModuleInstance('MainMapModule');
+
+            /* stateful */
+            sandbox.registerAsStateful(this.mediator.bundleId, this);
+
+            var p;
+            for (p in me.eventHandlers) {
+                if (me.eventHandlers.hasOwnProperty(p)) {
+                    sandbox.registerForEventByName(me, p);
+                }
+            }
+
+            // handle state
+            var state = me.getState();
+            me.setState(state);
+
+            // Default tab priority
+            if (me.conf && typeof me.conf.priority === 'number') {
+                me.tabPriority = me.conf.priority;
+            }
+
+            me._createUI();
         },
 
         /**
-         * Handles tab changes
-         * @method tabChanged
+         * Event is handled forwarded to correct #eventHandlers if found or discarded if not.
+         * @method onEvent
          * @public
-         * @param  {Object}   previous previous tab
-         * @param  {Object}   current  current tab
+         * @param {Oskari.mapframework.event.Event} event a Oskari event object
          */
-        tabChanged: function (previous, current) {
+        onEvent: function (event) {
+            this.onEvent(event);
+
+            var handler = this.eventHandlers[event.getName()];
+            if (!handler) {
+                return;
+            }
+
+            return handler.apply(this, [event]);
         },
 
-        _getSearchValues: function (){
+        /**
+         * @property {Object} eventHandlers
+         * @static
+         */
+        eventHandlers: {
+
+        },
+
+        /**
+         * Interface method implementation, does nothing atm
+         * @method setState
+         * @public
+         * @param {Object} state state that this component should use
+         */
+        setState: function (state) {
+            this.state = state;
+        },
+        /**
+         * Implements Module protocol init method - does nothing atm
+         * @method init
+         * @public
+         */
+        init: function () {
+            return null;
+        },
+        /**
+         * Implements BundleInstance protocol update method - does nothing atm
+         * @method update
+         * @public
+         */
+        update: function () {
+
+        },
+
+        /**
+         * Implements BundleInstance protocol stop method
+         * @method stop
+         */
+        stop: function () {
+            var sandbox = this.sandbox,
+                p;
+            for (p in this.eventHandlers) {
+                if (this.eventHandlers.hasOwnProperty(p)) {
+                    sandbox.unregisterFromEventByName(this, p);
+                }
+            }
+
+            sandbox.unregisterStateful(this.mediator.bundleId);
+            this.sandbox.unregister(this);
+            this.started = false;
+        },
+
+        /**
+         * @method getState
+         * @return {Object} bundle state as JSON
+         */
+        getState: function () {
+            return this.state;
+        },
+        /**
+         * @method setState
+         * @param {Object} state bundle state as JSON
+         */
+        setState: function (state) {
+            this.state = state;
+            this._clearHistorySearchTab(true,true);
+        },
+        /*************************************************************************************/
+
+        /********************************** PRIVATE METHODS **********************************/
+
+        /**
+         * Creates UI
+         * @private @method createUI
+         * @public
+         */
+        _createUI: function () {
+            var me = this;
+            //me._setDatepickerLanguage();
+            me.searchTab = me._getHistorySearchTab();
+            me.resultsTab = me._getHistorySearchResultsTab();
+
+            var title = me.getLocalization('searchtab')['title'],
+                content = me.searchTab,
+                priority = this.tabPriority,
+                id = 'seutumaisa_historysearch',
+                reqBuilder = Oskari.requestBuilder('SeutumaisaSearch.AddTabRequest'),
+                req = reqBuilder(title, content, priority, id);
+
+            me.sandbox.request(me, req);
+
+            var title = me.getLocalization('resulttab')['title'],
+                content = me.resultsTab,
+                priority = this.tabPriority,
+                id = 'seutumaisa_historysearch_results',
+                reqBuilder = Oskari.requestBuilder('SeutumaisaSearch.AddTabRequest'),
+                req = reqBuilder(title, content, priority, id);
+
+            me.sandbox.request(me, req);
+        },
+
+        /**
+         * Gets search values
+         * @private @method _getSearchValues
+         */
+        _getSearchValues: function () {
             var me = this;
             var values = {};
             me.searchFields.forEach(function(field) {
@@ -107,92 +285,18 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaSearch.Flyout',
         },
 
         /**
-         * Sets datepicker language
-         * @method  _setDatepickerLanguage
-         * @private
+         * Shows history search results.
+         * @privat @method _showResults
+         * @param {Object} err error
+         * @param {Object} response response data
+         * @param {Function} renderHandler render handler
          */
-        _setDatepickerLanguage: function () {
-            var storedLanguage = Cookies.get('oskari.language');
-
-            var lang = null;
-            if (storedLanguage == null) {
-                var supportedLanguages = Oskari.getSupportedLanguages();
-                lang = 'en-GB';
-                for (var i = 0; i < supportedLanguages.length; i++) {
-                    if (supportedLanguages[i].indexOf('en') > -1) {
-                        break;
-                    }
-
-                    if (supportedLanguages[i].indexOf('fi') > -1) {
-                        lang = 'fi';
-                        break;
-                    }
-                }
-            } else {
-                lang = storedLanguage;
-            }
-
-            jQuery.datepicker.setDefaults(
-                jQuery.extend(
-                    jQuery.datepicker.regional[lang],
-                    {'dateFormat': 'yy-mm-dd'}
-                )
-            );
-        },
-
-        _highlightSelectedRows: function () {
-            var me = this;
-            var table = me.searchResultContainer.find('table.datatable').DataTable();
-
-            me.sb.postRequestByName('MapModulePlugin.RemoveFeaturesFromMapRequest', [null, null, 'SEUTUMAISA-SEARCH']);
-
-            var features = [];
-            for (var i = 0; i < table.rows('.selected').data().length; i++) {
-                var selectedData = table.rows('.selected').data()[i];
-                var geoJSON = selectedData[selectedData.length-1];
-                features.push({
-                    type: 'Feature',
-                    geometry: JSON.parse(geoJSON)
-                });
-            }
-            var geojsonObject = {
-              'type': 'FeatureCollection',
-              'crs': {
-                'type': 'name',
-                'properties': {
-                  'name': 'EPSG:3879'
-                }
-              },
-              'features': features
-            };
-
-            var featureStyle = {
-              stroke: {
-                color: 'rgba(0,135,135,0.7)',
-                width: 2
-              },
-              fill: {
-                color: 'rgba(0,170,163,0.7)'
-              }
-            };
-
-            var rn = 'MapModulePlugin.AddFeaturesToMapRequest';
-            me.sb.postRequestByName(rn, [geojsonObject, {
-                layerId: 'SEUTUMAISA-SEARCH',
-                clearPrevious: true,
-                layerOptions: null,
-                centerTo: true,
-                featureStyle: featureStyle,
-                attributes: null
-            }]);
-        },
-
         _showResults: function (err, response, renderHandler) {
             var me = this;
-            var tabLocale = me._getLocalization('resulttab');
-            var numberColumns = me.instance.conf.numberColumns || [7];
+            var tabLocale = me.getLocalization('resulttab');
+            var numberColumns = [5];
 
-            me.sb.postRequestByName('MapModulePlugin.RemoveFeaturesFromMapRequest', [null, null, 'SEUTUMAISA-SEARCH']);
+            me.sandbox.postRequestByName('MapModulePlugin.RemoveFeaturesFromMapRequest', [null, null, 'SEUTUMAISA-HISTORY-SEARCH']);
 
             if (err) {
                 me.dialog.show(tabLocale.error.title, tabLocale.error.message);
@@ -206,7 +310,7 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaSearch.Flyout',
                 return;
             }
 
-            me.tabsContainer.select(me.resultsTab);
+            me.sandbox.postRequestByName('SeutumaisaSearch.ChangeTabRequest', ['seutumaisa_historysearch_results']);
 
             me.searchResultContainer.empty();
             me.searchResultContainer.append('<div class="datatable-container"><div class="export-buttons"></div><table class="datatable"></table></div>');
@@ -231,53 +335,55 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaSearch.Flyout',
 
             var table = me.searchResultContainer.find('table.datatable').DataTable();
 
-            table.on('select', function ( e, dt, type, indexes ) {
-                if ( type === 'row' ) {
-                    me._highlightSelectedRows();
-                }
-            });
-
-            table.on('deselect', function ( e, dt, type, indexes ) {
-                if ( type === 'row' ) {
-                    me._highlightSelectedRows();
-                }
-            });
+            // This hack fixes error when changes tab and showing results for it.
+            // First page header cell widths are not sync in data cell widths.
+            setTimeout(function(){
+                table.draw();
+            }, 100);
 
             if (typeof renderHandler === 'function') {
                 renderHandler();
             }
         },
 
-        clearSearchTab: function (emptyResults, emptyCache) {
-            var me = this;
-            var clearResults = emptyResults || false;
-            var clearCache = emptyCache || false;
+        /**
+         * Clears history search tab
+         * @private @method _clearHistorySearchTab
+         * @param {Boolean} emptyResults  empty results
+         * @param {Boolean} emptyCache  empty cache
+         */
+        _clearHistorySearchTab: function (emptyResults, emptyCache) {
+            let me = this;
+            let clearResults = emptyResults || false;
+            let clearCache = emptyCache || false;
             me.searchFields.forEach(function(field) {
                 var c = field.clazz;
                 c.reset();
             });
-            me.sb.postRequestByName('MapModulePlugin.RemoveFeaturesFromMapRequest', []);
 
-            if(clearResults === true) {
-                jQuery('div.seutumaisa-search-results').empty();
-                this.tabsContainer.select(me.searchTab);
+            me.sandbox.postRequestByName('MapModulePlugin.RemoveFeaturesFromMapRequest', []);
+
+            if (clearResults === true) {
+                jQuery('div.seutumaisa-history-search-results').empty();
             }
 
             if(clearCache === true) {
-                Cookies.remove('searchFields');
+                Cookies.remove('historySearchFields');
             }
         },
 
-        _getSearchTab: function () {
+        /**
+         * Gets history search tab container.
+         * @private @method _getHistorySearchTab
+         */
+        _getHistorySearchTab: function () {
             var me = this;
+            var service = me.sandbox.getService('Oskari.mapframework.bundle.seutumaisaHistorySearch.SeutumaisaHistorySearchService');
             if (me.searchFields.length > 0) {
                 return;
             }
 
-            var tabLocale = me._getLocalization('searchtab');
-
-            var tab = Oskari.clazz.create('Oskari.userinterface.component.TabPanel');
-            tab.setTitle(tabLocale.title);
+            var tabLocale = me.getLocalization('searchtab');
 
             var selectOptions = {
                 placeholder_text: '',
@@ -287,7 +393,9 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaSearch.Flyout',
                 allowReset: true
             };
 
-            var tabContainer = jQuery('<div class="search-tab-container"><div class="fields"></div><div class="buttons"></div></div>');
+            var tabContainer = jQuery('<div class="history-search-tab-container"><div class="fields"></div><div class="buttons"></div></div>');
+
+            me.spinner.insertTo(tabContainer);
 
             var resetButton = Oskari.clazz.create('Oskari.userinterface.component.Button');
 
@@ -298,12 +406,12 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaSearch.Flyout',
                     var c = field.clazz;
                     c.reset();
                 });
-                me.sb.postRequestByName('MapModulePlugin.RemoveFeaturesFromMapRequest', []);
+                me.sandbox.postRequestByName('MapModulePlugin.RemoveFeaturesFromMapRequest', []);
             };
             jQuery(resetButton.getElement()).longpress(function() {
-                me.clearSearchTab(false, true);
+                me._clearHistorySearchTab(false, true);
             }, function() {
-                me.clearSearchTab(false, false);
+                me._clearHistorySearchTab(false, false);
             }, 5000);
 
             resetButton.insertTo(tabContainer.find('.buttons'));
@@ -313,16 +421,15 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaSearch.Flyout',
             searchButton.setTitle(tabLocale.search);
             searchButton.setHandler(function() {
                 var values = me._getSearchValues();
-                me.spinner.insertTo(jQuery('.tab-content.search-tab'));
                 me.spinner.start();
 
-                me.service.search(values, function (err, response) {
+                service.search(values, function (err, response) {
                     me.spinner.stop();
                     var renderHandler = null;
 
                     if (values.planned_date && response.data.length > 0) {
                         renderHandler = function () {
-                            jQuery('.seutumaisa-search-results').find('table.datatable').DataTable().rows().select();
+                            jQuery('.seutumaisa-history-search-results').find('table.datatable').DataTable().rows().select();
                         };
                     }
 
@@ -333,8 +440,7 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaSearch.Flyout',
             searchButton.insertTo(tabContainer.find('.buttons'));
 
             me.spinner.start();
-
-            this.service.getSearchFields(function (err, fields) {
+            service.getHistorySearchFields(function (err, fields) {
                 if (err) {
                     me.log.warn('Cannot get fields');
                     return;
@@ -483,8 +589,6 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaSearch.Flyout',
 
                         range.find('.datepicker').datepicker('option', 'gotoCurrent', true);
 
-
-
                         row.find('.field').append(range);
                         tabContainer.find('.fields').append(row);
 
@@ -524,154 +628,28 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaSearch.Flyout',
                 me.spinner.stop();
             });
 
-            tab.setContent(tabContainer);
-            tab.setId('search-tab');
-            return tab;
+            return tabContainer;
         },
+
         /**
-         * Change tab to wanted tab id
-         * @param {String} id panel id
+         * Gets history search results tab container.
+         * @private @method _getHistorySearchResultsTab
          */
-        changeTab: function (id) {
-            let me = this;
-            let panel = me.tabsContainer.getPanelById(id);
-            if (panel != null) {
-                me.tabsContainer.select(panel);
-            }
-        },
-        /**
-         * Adds tab
-         * @public @method addTab
-         * @param {Object} item tab item
-         */
-        addTab: function (item) {
-            var me = this,
-                flyout = jQuery(me.container);
-            // Change into tab mode if not already
-            if (me.tabsContainer.panels.length === 0) {
-                me.tabsContainer.insertTo(flyout);
-
-                if (me.instance.disableDefault !== true) {
-                    var defaultPanel = Oskari.clazz.create(
-                            'Oskari.userinterface.component.TabPanel'
-                        ),
-                        searchContainer = jQuery('div.seutumaisaSearchContainer');
-
-                    defaultPanel.setTitle(
-                        me.getTabTitle(),
-                        'oskari_seutumaisasearch_tabpanel_header'
-                    );
-                    defaultPanel.setContent(searchContainer);
-                    defaultPanel.setId('oskari_seutumaisasearch_tabpanel_header');
-                    defaultPanel.setPriority(me.instance.tabPriority);
-                    me.tabsContainer.addPanel(defaultPanel);
-                }
-            }
-
-            var panel = Oskari.clazz.create('Oskari.userinterface.component.TabPanel');
-            panel.setTitle(item.title, item.id);
-            panel.setId(item.id);
-            panel.setContent(item.content);
-            panel.setPriority(item.priority);
-            me.tabsContainer.addPanel(panel);
-        },
-
-        _getSearchResultsTab: function () {
+        _getHistorySearchResultsTab: function () {
             var me = this;
-            me.searchResultContainer = jQuery('<div class="seutumaisa-search-results"></div>');
-            var tab = Oskari.clazz.create('Oskari.userinterface.component.TabPanel');
-            tab.setTitle('Hakutulokset');
-
-            tab.setContent(me.searchResultContainer);
-            tab.setId('search-results-tab');
-            return tab;
-        },
-
-        /**
-         * Gets event handlers
-         * @method getEventHandlers
-         * @public
-         */
-        getEventHandlers: function () {
-
-        },
-
-        /**
-         * On event
-         * @method onEvent
-         * @param  {Object} event
-         */
-        onEvent: function (event) {
-
-        },
-
-        /**
-         * Interface method implementation, does nothing atm
-         * @method stopPlugin
-         * @public
-         */
-        stopPlugin: function () {
-
-        },
-
-        /**
-         * Gets localization
-         * @method _getLocalization
-         * @private
-         */
-        _getLocalization: function (key) {
-            return this._localization[key];
-        },
-
-        /**
-         * Gets title
-         * @method getTitle
-         * @public
-         * @return {String} localized text for the title of the flyout
-         */
-        getTitle: function () {
-            return this._getLocalization('title');
-        },
-
-        /**
-         * Gets description
-         * @method getDescription
-         * @public
-         * @return {String} localized text for the description of the flyout.
-         */
-        getDescription: function () {
-            return this._getLocalization('desc');
-        },
-
-        /**
-         * Interface method implementation, does nothing atm
-         * @method getOptions
-         * @public
-         */
-        getOptions: function () {
-
-        },
-
-        /**
-         * Interface method implementation, does nothing atm
-         * @method setState
-         * @public
-         * @param {Object} state state that this component should use
-         */
-        setState: function (state) {
-            this.state = state;
-        },
-        /**
-         * @method refresh
-         * @public
-         */
-        refresh: function () {
-
+            me.searchResultContainer = jQuery('<div class="seutumaisa-history-search-results"></div>');
+            return me.searchResultContainer;
         }
+        /*************************************************************************************/
+
+
+
+
+
     }, {
         /**
-         * @static @property {String[]} protocol
+         * @property {String[]} protocol
+         * @static
          */
-        protocol: ['Oskari.userinterface.Flyout']
-    }
-);
+        protocol: ['Oskari.bundle.BundleInstance', 'Oskari.mapframework.module.Module']
+    });
