@@ -2,15 +2,15 @@ Oskari.registerLocalization({
     "lang": "en",
     "key": "seutumaisa-history-search",
     "value": {
-        "title": "Maamassan historiahaku",
+        "title": "Report",
         "searchtab": {
-            "title": "History search",
+            "title": "Report",
             "noValues": "(values not available)",
             "search": "Search",
             "clear": "Clear"
         },
         "resulttab": {
-            "title" : "History search results",
+            "title" : "Report results",
             "error": {
                 "title": "Error",
                 "message": "Cannot search history, try again later"

@@ -2,15 +2,15 @@ Oskari.registerLocalization({
     "lang": "fi",
     "key": "seutumaisa-history-search",
     "value": {
-        "title": "Maamassan historiahaku",
+        "title": "Raportointi",
         "searchtab": {
-            "title": "Historiahaku",
+            "title": "Raportointi",
             "noValues": "(arvoja ei saatavilla)",
             "search": "Hae",
             "clear": "Tyhjennä"
         },
         "resulttab": {
-            "title" : "Historiahaun tulokset",
+            "title" : "Raportoinnin tulokset",
             "error": {
                 "title": "Virhe",
                 "message": "Historiahakua ei voitu suorittaa juuri nyt, kokeile hetken päästä uudelleen"
