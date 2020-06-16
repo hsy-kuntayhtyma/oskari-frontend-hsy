@@ -52,7 +52,6 @@ import 'oskari-loader!oskari-frontend/packages/framework/bundle/printout/bundle.
 
 import 'oskari-loader!oskari-frontend/packages/framework/bundle/postprocessor/bundle.js';
 
-import 'oskari-loader!oskari-frontend-contrib/packages/analysis/ol/analyse/bundle.js';
 import 'oskari-loader!oskari-frontend/packages/framework/bundle/geometryeditor/bundle.js';
 
 import 'oskari-loader!oskari-frontend/packages/framework/bundle/myplacesimport/bundle.js';
