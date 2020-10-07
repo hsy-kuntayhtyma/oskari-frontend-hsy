@@ -24,9 +24,6 @@
                 "oskariui": {
                     "bundlePath": "oskari-frontend/packages/framework/bundle/"
                 },
-                "mapwfs2": {
-                    "bundlePath": "oskari-frontend/packages/mapping/ol/"
-                },
                 "mapuserlayers": {
                     "bundlePath": "oskari-frontend/packages/mapping/ol/"
                 },
@@ -86,7 +83,7 @@
         "metadata": {
             "Import-Bundle": {
                 "search": {
-                    "bundlePath": "../../../packages/"
+                    "bundlePath": "oskari-frontend/packages/framework/bundle/"
                 }
             },
             "Require-Bundle-Instance": []
@@ -249,9 +246,6 @@
             "Import-Bundle": {
                 "analyse": {
                     "bundlePath": "oskari-frontend-contrib/packages/analysis/ol/"
-                },
-                "geometryeditor": {
-                    "bundlePath": "oskari-frontend/packages/framework/bundle/"
                 }
             }
         }
@@ -354,7 +348,7 @@
         "metadata": {
             "Import-Bundle": {
                 "content-editor": {
-                    "bundlePath": "../../../packages/"
+                    "bundlePath": "oskari-frontend-contrib/packages/tampere/bundle/"
                 }
             }
         }
