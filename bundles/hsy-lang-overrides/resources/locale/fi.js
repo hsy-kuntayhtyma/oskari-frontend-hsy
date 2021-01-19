@@ -40,8 +40,7 @@ Oskari.registerLocalization({
         }, {
             "title": "Latauskori",
             "tags": "ohje_latauskori"
-        },
-        {
+        }, {
             "title": "Karttatasojen hallinta",
             "tags": "ohje_karttatasot_hallinta"
         }]
