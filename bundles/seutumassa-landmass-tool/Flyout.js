@@ -1,4 +1,5 @@
 import React from 'react';
+import styled from 'styled-components';
 import ReactDOM from 'react-dom';
 import { LandMassTool, } from './view/';
 import { LocaleProvider } from 'oskari-ui/util';
@@ -26,6 +27,7 @@ Oskari.clazz.define('Oskari.hsy.bundle.seutumassa-landmass-tool.Flyout',
         //this.announcementsListHandler.addStateListener(() => this.render());
         this.seutumassaFields = null;
     }, {
+
         /**
          * @method setEl
          * @param {Object} el
@@ -38,11 +40,13 @@ Oskari.clazz.define('Oskari.hsy.bundle.seutumassa-landmass-tool.Flyout',
          * Interface method implementation
          */
         setEl: function (el, flyout, width, height) {
+            console.log(flyout[0]);
+            console.log(el[0]);
+            flyout[0].setAttribute('id', 'landmass-tool-container');
             this.container = el[0];
+            this.container.setAttribute('id', 'landmass-tool-content');
         },
-
-        
-
+    
         /**
          * Interface method implementation, does nothing atm
          * @method startPlugin
@@ -50,30 +54,6 @@ Oskari.clazz.define('Oskari.hsy.bundle.seutumassa-landmass-tool.Flyout',
         
         startPlugin: function () {
             this.render();
-
-            // var me = this,
-            // conf = me.conf,
-            // sandboxName = conf ? conf.sandbox : 'sandbox',
-            // sandbox = Oskari.getSandbox(sandboxName);
-
-            // me.started = true;
-            // me.sandbox = sandbox;
-
-            // this._localization = Oskari.getLocalization(this.getName());
-
-            // // create the SeutumaisaSearchService for handling search.
-            // var seutumassaLandmassToolService = Oskari.clazz.create('Oskari.hsy.bundle.seutumassa-landmass-tool.SeutumassaLandmassToolService', sandbox, this.getLocalization().service);
-            // me.sandbox.registerService(seutumassaLandmassToolService);
-            // me.seutumassaLandmassToolService = seutumassaLandmassToolService;
-
-            // seutumassaLandmassToolService.getSearchFields(function (err, fields) {
-            //     if (err) {
-            //         me.log.warn('Cannot get fields');
-            //         return;
-            //     }
-            //     console.log(fields);
-            //     this.seutumassaFields = fields;
-            // });
         },
 
         /**

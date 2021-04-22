@@ -3,97 +3,230 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Controller, LocaleConsumer } from 'oskari-ui/util';
 
+/* API */
+import { getSeutumassaToolFields, getLandmassAreaByCoordinates, getPersonById, getLandmassDataByLandmassAreaId } from '../resources/api/SeutumassaLandmassToolApi.js';
+
+import { inputFields } from '../resources/inputFields.js'
+
 /* COMPONENTS */
 import ActionSelector from './components/ActionSelector';
 import StepWizard from './components/StepWizard';
 
-const dummyData = {
-  // "id": 142,
-  // "maamassakohde_id": 9,
-  // "kelpoisuusluokkaryhma": "keski",
-  // "kelpoisuusluokka": "s4",
-  // "tiedontuottaja_id": 2,
-  // "planned_begin_date": "2021-03-17T22:00:00.000+00:00",
-  // "planned_end_date": "2021-03-30T21:00:00.000+00:00",
-  // "amount_remaining": 82048,
-  // "lisatieto": "Lisätietoja tänne",
-  // "varattu": null,
-  // "muokattu": "2021-03-18T08:31:30.917+00:00",
-  // "luotu": "2019-05-01T08:42:56.006+00:00",
-  // "realized_begin_date": "2021-03-26",
-  // "realized_end_date": "2021-03-31",
-  // "pilaantuneisuus": "pilaantunut maa, alemman ohjearvon ylittämä",
-  // "tiedon_luotettavuus": "A",
-  // "amount_total": null,
-  // "kunta": null,
-  // "external_id": null,
-  // "alkupera_id": null,
-  // "maamassan_ryhma": "moreenimaalajit",
-  // "maamassan_tila": "alijaama/tarvittava",
-  // "attachments": null,
-  // "maamassan_laji": "siltti"
-};
-
-// const login = "testuser";
-// const password = "password";
-// const authString = `${username}:${password}`;
-
 const LandMassTool = () => {
 
-  const [landMassData, setLandMassData] = useState(null);
+  const sandbox = Oskari.getSandbox();
+  const mapModule = sandbox.findRegisteredModuleInstance('MainMapModule');
+  const map = mapModule.getMap();
+
+  const flyoutContainer = document.getElementById('landmass-tool-container');
+  flyoutContainer.style.setProperty("transition", "opacity 0.3s ease-out", "important");
+  flyoutContainer.style.setProperty("max-width", "calc(100% - 200px)", "important");
+  flyoutContainer.style.setProperty("border-radius", "10px", "important");
+  flyoutContainer.style.setProperty("overflow", "hidden", "important");
+
+  const flyoutContent = document.getElementById('landmass-tool-content');
+
+  const [landmassData, setLandmassData] = useState(null);
+  const [landmassDataTable, setLandmassDataTable] = useState([]);
   const [inputDefinitions, setInputDefinitions] = useState([]);
 
-  console.log(landMassData);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const [isMapClickActive, setIsMapClickActive] = useState(false);
+
+  const [actionSelectorState, setActionSelectorState] = useState(0);
+  
+  const handleEnableMapClick = () => {
+    map.on('click', handleMapClick);
+    //setIsMapClickActive(false);
+  };
+
+  const handleDisableMapClick = () => {
+    map.un('click', handleMapClick);
+    //setIsMapClickActive(true);
+  };
 
   useEffect(() => {
-    jQuery.ajax({
-      type: 'GET',
-      dataType: 'json',
-      data: { all: true },
-      url: Oskari.urls.getRoute('GetSeutumassaToolFields'),
-      success: function (pResp) {
-        //console.log(pResp);
-        setInputDefinitions(pResp);
-          //handler(null, pResp);
-      },
-      error: function (jqXHR, textStatus) {
-          handler('Error', []);
-      }
-    });
+    //console.log(actionSelectorState);
+    switch(actionSelectorState) {
+      case 0:
+
+      break;
+      case 1:
+
+      break;
+      case 2:
+        //flyoutContainer.style.setProperty("opacity", "0.5", "important");
+      break;
+      case 3:
+
+      break;
+    }
+  }, [actionSelectorState]);
+
+  useEffect(() => {
+    //console.log(inputFields);
+
+    setInputDefinitions(inputFields);
+
+    // getSeutumassaToolFields().then(response => {
+    //   console.log(response);
+    //   setInputDefinitions(response);
+    // });
+
+    const handleExtensionUpdatedEvents = () => {
+      
+      var extensionUpdatedEventsModule = {
+          init: function (sandbox) {
+            sandbox.registerForEventByName(this, 'userinterface.ExtensionUpdatedEvent');
+          },
+          getName: function () {
+              return 'ExtensionUpdatedEventsModule';
+          },
+          onEvent: function (event) {
+              if(event.getExtension().getName() === 'seutumassa-landmass-tool'){
+
+                var viewState = event.getViewState();
+
+                if(viewState === 'attach') {
+                    flyoutContainer.style.setProperty("opacity", "1", "important");
+                    sandbox.postRequestByName('MapModulePlugin.GetFeatureInfoActivationRequest', ['disable']);
+                    sandbox.postRequestByName('WfsLayerPlugin.ActivateHighlightRequest', ['disable']);
+                } else {
+                    flyoutContainer.style.setProperty("opacity", "0", "important");
+                    handleResetLandmassTool();
+                    sandbox.postRequestByName('DrawTools.StopDrawingRequest', ['newGeometry', true]);
+                    sandbox.postRequestByName('MapModulePlugin.GetFeatureInfoActivationRequest', [true]);
+                    sandbox.postRequestByName('WfsLayerPlugin.ActivateHighlightRequest', [true]);
+                }
+              }
+          }
+      };
+
+      sandbox.register(extensionUpdatedEventsModule);
+    };
+
+    handleExtensionUpdatedEvents();
+
   },[]);
 
+  const handleResetLandmassTool = () => {
+    setActionSelectorState(0);
+    setLandmassData(null);
+    setLandmassDataTable([]);
+  };
 
+  const handleMapClick = (evt) => {
 
-  // useEffect(() => {
-  //   const url = 'http://localhost:8090/api/v1/landmassarea/136';
+    const body = { lontitude: evt.coordinate[0], latitude: evt.coordinate[1] };
+    setIsLoading(true);
+    flyoutContainer.style.setProperty("opacity", "1", "important");
+    getLandmassAreaByCoordinates(body).then(response => {
+        console.log(response);
 
-  //   let headers = new Headers();
-  //   headers.set('Authorization', 'Basic ' + btoa(authString))
-  //   fetch(url,{method: 'GET', headers: headers})
-  //       .then(function (response) {
-  //           console.log (response)
-  //           return response
-  //       });
+        if(response !== undefined && response.length > 0) {
+          let data = response[0];
+          handleDisableMapClick();
+          setActionSelectorState(0);
+          //setLandmassData(data);
+          if(data.hasOwnProperty('omistaja_id') && data.omistaja_id !== null) {
+            getPersonById(data.omistaja_id).then(ownerData => {
+              var newData = {...data, ...ownerData};
+              console.log(newData);
+              setLandmassData(newData);
+              setIsLoading(false);
 
-  // });
+            });
+          } else {
+            setLandmassData(data);
+            setIsLoading(false);
 
-  const handleSelectGeometry = (id) => {
-        setLandMassData(dummyData);
+          }
+
+          if(data.hasOwnProperty('id')){
+            getLandmassDataByLandmassAreaId(data.id).then(response => {
+            console.log(response);
+            setLandmassDataTable(response);
+          })}
+        } else {
+          setIsLoading(false);
+        }
+
+    });
   };
 
   const handleDrawNewGeometry = () => {
-    console.log("handleDrawNewGeometry");
+    setActionSelectorState(1);
+    handleDisableMapClick();
+    setLandmassDataTable([]);
+    //sandbox.postRequestByName('DrawTools.StopDrawingRequest', ['newGeometry', true]);
+
+    var drawEventModule = {
+      init: function (sandbox) {
+        sandbox.unregisterFromEventByName(this, 'DrawingEvent');
+        sandbox.registerForEventByName(this, 'DrawingEvent');
+      },
+      getName: function () {
+          return 'DrawEventModule';
+      },
+      onEvent: function (event) {
+          if(event.getIsFinished() === true){
+            sandbox.postRequestByName('DrawTools.StopDrawingRequest', ['newGeometry']);
+            sandbox.unregisterFromEventByName(this, 'DrawingEvent');
+            console.log(event.getGeoJson());
+              event.getGeoJson().features.length > 0 && setLandmassData(landmassData => {
+                return { ...landmassData, geom: event.getGeoJson() }
+              });
+          }
+      }
+    };
+
+    sandbox.register(drawEventModule);
+
+    Oskari.getSandbox().postRequestByName('DrawTools.StartDrawingRequest', [
+            'newGeometry',
+            'Polygon',
+            {
+                buffer: 200,
+                allowMultipleDrawing: 'single',
+                drawControl: true,
+                modifyControl: true
+            }]
+    );
   };
 
+  const handleSelectGeometry = () => {
+
+    if(actionSelectorState !== 2){
+      console.log("actionSelectorState !== 2");
+      setActionSelectorState(2);
+    } else {
+      console.log("actionSelectorState === 2");
+      setActionSelectorState(0);
+    }
+    sandbox.postRequestByName('DrawTools.StopDrawingRequest', ['newGeometry', true]);
+    handleEnableMapClick();
+  };
+  
   const handleDownloadShapeFile = () => {
+    setActionSelectorState(3);
     console.log("handleDownloadShapeFile");
   };
-
+  
   return (
     <>
-    {/* <StepWizard enumDefinitions={enumDefinitions.definitions} landMassData={landMassData} setLandMassData={setLandMassData}/> */}
-    { landMassData !== null ? <StepWizard inputDefinitions={inputDefinitions} landMassData={landMassData} setLandMassData={setLandMassData} /> :
+    { landmassData !== null ?
+      <StepWizard 
+        inputDefinitions={inputDefinitions}
+        landmassData={landmassData}
+        setLandmassData={setLandmassData}
+        landmassDataTable={landmassDataTable}
+        setLandmassDataTable={setLandmassDataTable}
+        handleResetLandmassTool={handleResetLandmassTool}
+      /> :
       <ActionSelector
+          isLoading={isLoading}
+          actionSelectorState={actionSelectorState}
           handleSelectGeometry={handleSelectGeometry}
           handleDrawNewGeometry={handleDrawNewGeometry}
           handleDownloadShapeFile={handleDownloadShapeFile}
