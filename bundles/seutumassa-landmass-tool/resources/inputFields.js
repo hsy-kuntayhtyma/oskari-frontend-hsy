@@ -1,315 +1,406 @@
+import React from "react";
+import styled from 'styled-components';
+
 export const inputFields = [
     [
         {
             "id": "nimi",
             "title": "Nimi",
-            "type": "textfield"
+            "description": "Anna tähän maamassakohteen nimi.",
+            "type": "textfield",
+            "rules": [{ required: false }]
         },
         {
+            "id": "osoite",
+            "title": "Osoite",
+            "description": "Anna tähän maamassakohteen osoite.",
+            "type": "textfield",
+            "rules": [{ required: false }]
+        },
+        {
+            "id": "kunta",
+            "title": "Kunta",
+            "description": "Valitse avautuvalta listalta maamassakohteen kunta.",
+            "type": "select",
+            "placeHolderText": "Valitse",
+            "rules": [{ required: true, message: 'Valitse kunta' }],
+            "values": [
+                {
+                    "id": "049",
+                    "title": "Espoo",
+                },
+                {
+                    "id": "091",
+                    "title": "Helsinki",
+                },
+                {
+                    "id": "092",
+                    "title": "Vantaa"
+                }
+            ]
+        },
+        {
+            "id": "kohdetyyppi",
+            "title": "Kohdetyyppi",
+            "description": "Valitse avautuvalta listalta maamassakohteeseen sopiva kohdetyyppi.",
+            "type": "select",
+            "placeHolderText": "Valitse",
+            "rules": [{ required: true, message: 'Valitse kohdetyyppi' }],
             "values": [
                 {
                     "id": "kaavoitusalue",
-                    "title": "kaavoitusalue"
+                    "title": "Kaavoitusalue",
                 },
                 {
                     "id": "käsittelypaikka",
-                    "title": "käsittelypaikka"
+                    "title": "Käsittelypaikka"
                 },
                 {
                     "id": "loppusijoituspaikka",
-                    "title": "loppusijoituspaikka"
+                    "title": "Loppusijoituspaikka"
                 },
                 {
                     "id": "maanottoalue",
-                    "title": "maanottoalue"
+                    "title": "Maanottoalue"
                 },
                 {
                     "id": "pima-alue",
-                    "title": "pima-alue"
+                    "title": "Pima-alue"
                 },
                 {
                     "id": "suunnittelualue",
-                    "title": "suunnittelualue"
+                    "title": "Suunnittelualue"
                 },
                 {
                     "id": "työmaa",
-                    "title": "työmaa"
+                    "title": "Työmaa"
                 },
                 {
                     "id": "välivarasto",
-                    "title": "välivarasto"
+                    "title": "Välivarasto"
                 }
-            ],
-            "id": "kohdetyyppi",
-            "title": "Kohdetyyppi",
-            "type": "select",
-            "placeHolderText": "Valitse"
+            ]
         },
         {
+            "id": "vaihe",
+            "title": "Vaihe",
+            "description": "Valitse avautuvalta listalta maamassakohteeseen sopiva suunnitteluvaihe.",
+            "type": "select",
+            "placeHolderText": "Valitse",
+            "rules": [{ required: true, message: 'Valitse vaihe' }],
             "values": [
                 {
                     "id": "asemakaavoitus",
-                    "title": "asemakaavoitus"
+                    "title": "Asemakaavoitus"
                 },
                 {
                     "id": "ei relevantti tieto",
-                    "title": "ei relevantti tieto"
+                    "title": "Ei relevantti tieto"
                 },
                 {
                     "id": "esi- ja yleissuunnittelu",
-                    "title": "esi- ja yleissuunnittelu"
+                    "title": "Esi- ja yleissuunnittelu"
                 },
                 {
                     "id": "esirakentaminen",
-                    "title": "esirakentaminen"
+                    "title": "Esirakentaminen"
                 },
                 {
                     "id": "katu- ja puistosuunnittelu",
-                    "title": "katu- ja puistosuunnittelu"
+                    "title": "Katu- ja puistosuunnittelu"
                 },
                 {
                     "id": "rakennussuunnittelu",
-                    "title": "rakennussuunnittelu"
+                    "title": "Rakennussuunnittelu"
                 },
                 {
                     "id": "rakentaminen",
-                    "title": "rakentaminen"
+                    "title": "Rakentaminen"
                 },
                 {
                     "id": "yleiskaavoitus",
-                    "title": "yleiskaavoitus"
+                    "title": "Yleiskaavoitus"
                 }
-            ],
-            "id": "vaihe",
-            "title": "Vaihe",
-            "type": "select",
-            "placeHolderText": "Valitse"
+            ]
         }
     ],
     [
         {
             "id": "henkilo_nimi",
             "title": "Nimi",
-            "type": "textfield"
+            "description": "Kirjaa tähän kohdetta hallinnoivan tahon nimi.",
+            "type": "textfield",
+            "rules": [{ required: true, message: 'Syötä nimi' }]
         },
         {
             "id": "henkilo_email",
             "title": "Email",
-            "type": "email"
+            "description": "Kirjaa tähän kohdetta hallinnoivan tahon sähköpostiosoite.",
+            "type": "email",
+            "rules": [{ required: true, type:'email', message: 'Syötä email' }]
         },
         {
             "id": "henkilo_puhelin",
             "title": "Puhelin",
-            "type": "textfield"
+            "description": "Kirjaa tähän kohdetta hallinnoivan tahon puhelinnumero.",
+            "type": "textfield",
+            "rules": [{ required: true, message: 'Syötä puhelin' }]
         },
         {
             "id": "henkilo_organisaatio",
             "title": "Organisaatio",
-            "type": "textfield"
+            "description": "Kirjaa tähän kohdetta hallinnoivan tahon edustama organisaatio.",
+            "type": "textfield",
+            "rules": [{ required: true, message: 'Syötä organisaatio' }]
         }
     ],
     [
         {
-            "id": "arvioitu_alku_pvm",
-            "title": "Arvioitu alku kk",
-            "type": "month"
+            "id": "alku_pvm",
+            "title": "Arvioitu kohteen aloitus kuukausi",
+            "description": "Valitse avautuvasta kalenterista kohteen toteutuksen arvioitu aloitusajankohta. Arvion ei tarvitse olla tarkka, vaan suuntaa antava.",
+            "type": "month",
+            "rules": [{ required: true, message: 'Valitse arvioitu kohteen aloitus kuukausi' }]
         },
         {
-            "id": "arvioitu_lopetus_pvm",
-            "title": "Arvioitu lopetus kk",
-            "type": "month"
-        },
-        {
-            "id": "toteutunut_alku_pvm",
-            "title": "Toteutunut alku kk",
-            "type": "month"
-        },
-        {
-            "id": "toteutunut_lopetus_pvm",
-            "title": "Toteutunut lopetus kk",
-            "type": "month"
+            "id": "loppu_pvm",
+            "title": "Arvioitu kohteen lopetus kuukausi",
+            "description": "Valitse avautuvasta kalenterista kohteen toteutuksen arvioitu lopetusajankohta. Arvion ei tarvitse olla tarkka, vaan suuntaa antava.",
+            "type": "month",
+            "rules": [{ required: true, message: 'Valitse arvioitu kohteen lopetus kuukausi' }]
         }
     ],
     [
         {
             "id": "maamassatiedot",
             "title": "Maamassan tiedot",
-            "type": "table"
+            "description": "Kirjaa tälle sivulle edellä kirjatun kohteen kaikki maamassalajit omille riveilleen.",
+            "type": "table",
+            "rules": [{ required: false }]
         }
     ],
     [
         {
+            "id": "maamassan_tila",
+            "title": "Maamassan tila",
+            "description": "Valitse avautuvalta listalta maamassakohteen massan tila. Joko Kaivettava (ylijäämä) tai tarvittava (alijäämä).",
+            "type": "select",
+            "placeHolderText": "Valitse",
+            "rules": [{ required: true,  message: 'Valitse maamassan tila'  }],
             "values": [
                 {
                     "id": "alijäämä",
-                    "title": "alijäämä"
+                    "title": "Alijäämä"
                 },
                 {
                     "id": "alijäämä/tarvittava",
-                    "title": "alijäämä/tarvittava"
+                    "title": "Alijäämä/tarvittava"
                 },
                 {
                     "id": "ylijäämä",
-                    "title": "ylijäämä"
+                    "title": "Ylijäämä"
                 },
                 {
                     "id": "ylijäämä/kaivettava",
-                    "title": "ylijäämä/kaivettava"
+                    "title": "Ylijäämä/kaivettava"
                 }
-            ],
-            "id": "maamassan_tila",
-            "title": "Maamassan tila",
-            "type": "select",
-            "placeHolderText": "Valitse"
+            ]
         },
         {
+            "id": "maamassan_ryhma",
+            "title": "Maamassan ryhmä",
+            "description": "Valitse avautuvalta listalta kohteen maamassalajin pääryhmä.",
+            "type": "select",
+            "placeHolderText": "Valitse",
             "values": [
                 {
                     "id": "eloperäiset maalajit",
-                    "title": "eloperäiset maalajit"
+                    "title": "Eloperäiset maalajit"
                 },
                 {
                     "id": "hienorakeiset maalajit",
-                    "title": "hienorakeiset maalajit"
+                    "title": "Hienorakeiset maalajit"
                 },
                 {
                     "id": "karkearakeiset maalajit",
-                    "title": "karkearakeiset maalajit"
+                    "title": "Karkearakeiset maalajit"
                 },
                 {
                     "id": "moreenimaalajit",
-                    "title": "moreenimaalajit"
+                    "title": "Moreenimaalajit"
                 },
                 {
                     "id": "uusiomateriaalit",
-                    "title": "uusiomateriaalit"
+                    "title": "Uusiomateriaalit"
                 }
-            ],
-            "id": "maamassan_ryhma",
-            "title": "Maamassan ryhmä",
-            "type": "select",
-            "placeHolderText": "Valitse"
+            ]
         },
         {
+            "id": "maamassan_laji",
+            "title": "Maamassan laji",
+            "description": "Valitse avautuvalta listalta kohteen tarkka maamassalaji.",
+            "type": "select",
+            "placeHolderText": "Valitse",
             "values": [
                 {
                     "id": "asfalttimurske-/rouhe",
-                    "title": "asfalttimurske-/rouhe"
+                    "title": "Asfalttimurske-/rouhe"
                 },
                 {
                     "id": "betonimurske",
-                    "title": "betonimurske"
+                    "title": "Betonimurske"
                 },
                 {
                     "id": "hiekka",
-                    "title": "hiekka"
+                    "title": "Hiekka"
                 },
                 {
                     "id": "hiekkamoreeni",
-                    "title": "hiekkamoreeni"
+                    "title": "Hiekkamoreeni"
                 },
                 {
                     "id": "kalkki",
-                    "title": "kalkki"
+                    "title": "Kalkki"
                 },
                 {
                     "id": "kevytbetoni- ja kevytsora-jätteet",
-                    "title": "kevytbetoni- ja kevytsora-jätteet"
+                    "title": "Kevytbetoni- ja kevytsora-jätteet"
                 },
                 {
                     "id": "kivi",
-                    "title": "kivi"
+                    "title": "Kivi"
                 },
                 {
                     "id": "lieju",
-                    "title": "lieju"
+                    "title": "Lieju"
                 },
                 {
                     "id": "lohkare",
-                    "title": "lohkare"
+                    "title": "Lohkare"
                 },
                 {
                     "id": "louhe",
-                    "title": "louhe"
+                    "title": "Louhe"
                 },
                 {
                     "id": "rengasrouhe",
-                    "title": "rengasrouhe"
+                    "title": "Rengasrouhe"
                 },
                 {
                     "id": "savi",
-                    "title": "savi"
+                    "title": "Savi"
                 },
                 {
                     "id": "siltti",
-                    "title": "siltti"
+                    "title": "Siltti"
                 },
                 {
                     "id": "silttimoreeni",
-                    "title": "silttimoreeni"
+                    "title": "Silttimoreeni"
                 },
                 {
                     "id": "sora",
-                    "title": "sora"
+                    "title": "Sora"
                 },
                 {
                     "id": "soramoreeni",
-                    "title": "soramoreeni"
+                    "title": "Soramoreeni"
                 },
                 {
                     "id": "tiilimurske",
-                    "title": "tiilimurske"
+                    "title": "Tiilimurske"
                 },
                 {
                     "id": "tuhka ja kuona",
-                    "title": "tuhka ja kuona"
+                    "title": "Tuhka ja kuona"
                 },
                 {
                     "id": "turve",
-                    "title": "turve"
+                    "title": "Turve"
                 },
                 {
                     "id": "täyttömaa",
-                    "title": "täyttömaa"
+                    "title": "Täyttömaa"
                 },
                 {
                     "id": "valimohiekka",
-                    "title": "valimohiekka"
+                    "title": "Valimohiekka"
                 }
-            ],
-            "id": "maamassan_laji",
-            "title": "Maamassan laji",
-            "type": "select",
-            "placeHolderText": "Valitse"
+            ]
         },
         {
-            "id": "maara",
+            "id": "amount_total",
             "title": "Määrä (m³)",
-            "type": "number"
+            "description": `Kirjaa kohteen määrä kuutioina. Lisätietoja kuutioiden määrittelystä löydät ${<a href="https://www.rakennustieto.fi/html/liitteet/infraryl/Infra_2015_Maaramittausohje.pdf#page=167">täältä</a>}`,
+            "type": "number",
+            "rules": [{ required: true, message: 'Syötä määrä' }]
+        },
+        {
+            "id": "varattu",
+            "title": "Varattu",
+            "description": "Valitse onko maamassa varattu.",
+            "type": "boolean",
+            "rules": [{ required: false }]
+        },
+        {
+            "id": "planned_begin_date",
+            "title": "Arvioitu aloitusajankohta",
+            "description": "Valitse avautuvasta kalenterista maamassalajin toteutuksen arvioitu aloitusajankohta.",
+            "type": "month",
+            "rules": [{ required: true, message: 'Valitse arvioitu aloitusajankohta' }]
+        },
+        {
+            "id": "planned_end_date",
+            "title": "Arvioitu lopetusajankohta",
+            "description": "Valitse avautuvasta kalenterista maamassalajin toteutuksen arvioitu lopetusajankohta.",
+            "type": "month",
+            "rules": [{ required: true, message: 'Valitse arvioitu lopetusajankohta' }]
+        },
+        {
+            "id": "realized_begin_date",
+            "title": "Toteutunut aloitusajankohta",
+            "description": "Valitse avautuvasta kalenterista maamassalajin toteutunut aloitusajankohta.",
+            "type": "month",
+            "rules": [{ required: false }]
+        },
+        {
+            "id": "realized_end_date",
+            "title": "Toteutunut lopetusajankohta",
+            "description": "Valitse avautuvasta kalenterista maamassalajin toteutunut lopetusajankohta.",
+            "type": "month",
+            "rules": [{ required: false }]
         }
     ],
     [
         {
+            "id": "kelpoisuusluokkaryhma",
+            "title": "Kelpoisuusluokkaryhmä",
+            "description": "Valitse avautuvalta listalta maamassalajin kelpoisuusluokka yleisemmällä ryhmätasolla.",
+            "type": "select",
+            "placeHolderText": "Valitse",
+            "rules": [{ required: false }],
             "values": [
                 {
-                    "id": "huono (u1-u4/tv)",
-                    "title": "huono (u1-u4/tv)"
-                },
-                {
                     "id": "hyvä (s1-s3/h1-h2)",
-                    "title": "hyvä (s1-s3/h1-h2)"
+                    "title": "Hyvä (s1-s3/h1-h2)"
                 },
                 {
                     "id": "keski (s4/h3-h4)",
-                    "title": "keski (s4/h3-h4)"
+                    "title": "Keski (s4/h3-h4)"
+                },
+                {
+                    "id": "huono (u1-u4/tv)",
+                    "title": "Huono (u1-u4/tv)"
                 }
-            ],
-            "id": "kelpoisuusluokka_ryhma",
-            "title": "Kelpoisuusluokkaryhmä",
-            "type": "select",
-            "placeHolderText": "Valitse"
+            ]
         },
         {
+            "id": "kelpoisuusluokka",
+            "title": "Kelpoisuusluokka",
+            "description": "Valitse avautuvalta listalta kohteen kelpoisuusluokka tarkemmalla tasolla.",
+            "type": "select",
+            "placeHolderText": "Valitse",
+            "rules": [{ required: false }],
             "values": [
                 {
                     "id": "h1",
@@ -359,49 +450,57 @@ export const inputFields = [
                     "id": "u3u4",
                     "title": "u3u4"
                 }
-            ],
-            "id": "kelpoisuusluokka",
-            "title": "Kelpoisuusluokka",
-            "type": "select",
-            "placeHolderText": "Valitse"
+            ]
         },
         {
+            "id": "pilaantuneisuus",
+            "title": "Pilaantuneisuus",
+            "description": "Valitse avautuvalta listalta kohteen pilaantuneisuus-tieto.",
+            "type": "select",
+            "placeHolderText": "Valitse",
+            "rules": [{ required: false }],
             "values": [
                 {
                     "id": "pilaantumaton maa",
-                    "title": "pilaantumaton maa"
+                    "title": "Pilaantumaton maa"
                 },
                 {
                     "id": "pilaantunut maa, alemman ohjearvon ylittämä",
-                    "title": "pilaantunut maa, alemman ohjearvon ylittämä"
+                    "title": "Pilaantunut maa, alemman ohjearvon ylittämä"
                 },
                 {
                     "id": "pilaantunut maa, ylemmän ohjearvon ylittämä",
-                    "title": "pilaantunut maa, ylemmän ohjearvon ylittämä"
+                    "title": "Pilaantunut maa, ylemmän ohjearvon ylittämä"
                 },
                 {
                     "id": "vaarallinen jäte (jätelainsäädäntö)",
-                    "title": "vaarallinen jäte (jätelainsäädäntö)"
+                    "title": "Vaarallinen jäte (jätelainsäädäntö)"
                 }
-            ],
-            "id": "pilaantuneisuus",
-            "title": "Pilaantuneisuus",
-            "type": "select",
-            "placeHolderText": "Valitse"
+            ]
         }
     ],
     [
         {
             "id": "lisatieto",
             "title": "Lisätieto",
-            "type": "textarea"
+            "description": "Kirjaa tähän kohteeseen mahdollisesti liittyviä muita tarkentavia tietoja.",
+            "type": "textarea",
+            "rules": [{ required: false }],
         },
         {
             "id": "tiedontuottaja",
             "title": "Tiedontuottaja",
-            "type": "textfield"
+            "description": "Anna tähän kohdetta koskevien maamassatietojen kirjaajan tiedot.",
+            "type": "textfield",
+            "rules": [{ required: false }],
         },
         {
+            "id": "tiedon_luotettavuus",
+            "title": "Tiedon luotettavuus",
+            "description": "Valitse avautuvalta listalta kohteen maamassatietojen luotettavuus.",
+            "type": "select",
+            "placeHolderText": "Valitse",
+            "rules": [{ required: false }],
             "values": [
                 {
                     "id": "A",
@@ -415,11 +514,7 @@ export const inputFields = [
                     "id": "C",
                     "title": "C"
                 }
-            ],
-            "id": "tiedon_luotettavuus",
-            "title": "Tiedon luotettavuus",
-            "type": "select",
-            "placeHolderText": "Valitse"
+            ]
         }
     ]
 ];

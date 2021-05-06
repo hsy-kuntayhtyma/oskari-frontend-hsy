@@ -1,0 +1,15 @@
+.ant-picker-cell {
+    text-align: center;
+}
+
+.ant-picker-cell-inner {
+    text-align: center;
+}
+
+.ant-popover {
+    z-index: 999999 !important;
+}
+
+.ant-select-dropdown {
+    z-index: 999999 !important;
+}

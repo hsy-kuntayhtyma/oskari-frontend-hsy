@@ -3,7 +3,8 @@ const login = "testuser";
 const password = "password";
 const authString = `${login}:${password}`;
 
-
+const url = 'http://localhost:9902/landmass_api/api/v1/';
+//const url = 'http://localhost:8090/api/v1/';
 
 export function getSeutumassaToolFields(url) {
   return fetch(Oskari.urls.getRoute('GetSeutumassaToolFields'), {
@@ -19,7 +20,7 @@ export function getSeutumassaToolFields(url) {
  }
 
 export function getLandmassAreaByCoordinates(body) {
-  return fetch('http://localhost:8090/api/v1/landmassareabycoordinates', {
+  return fetch(url+'landmassareabycoordinates', {
     method: 'POST',
     body: JSON.stringify(body),
     headers: {
@@ -36,8 +37,97 @@ export function getLandmassAreaByCoordinates(body) {
     });
 };
 
+export function addLandmassArea(body){
+  return fetch(url+'landmassarea', {
+    method: 'POST',
+    body: JSON.stringify(body),
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic ' + btoa(authString)
+    }
+  })
+    .then(response => response.json())
+    .then(data => {
+      return data;
+    }) 
+    .catch(err => {
+        return err;
+    });
+};
+
+export function updateLandmassArea(body){
+  return fetch(url+'landmassarea/'+body.id, {
+    method: 'PUT',
+    body: JSON.stringify(body),
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic ' + btoa(authString)
+    }
+  })
+    .then(response => response.json())
+    .then(data => {
+      return data;
+    }) 
+    .catch(err => {
+        return err;
+    });
+};
+
 export function getLandmassDataByLandmassAreaId(id) {
-  return fetch('http://localhost:8090/api/v1/landmassdatabyareaid/'+id, {
+  return fetch(url+'landmassdatabyareaid/'+id, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic ' + btoa(authString)
+    }
+  })
+    .then(response => response.json())
+    .then(data => {
+      return data;
+    })
+    .catch(err => {
+      return err;
+  });
+};
+
+export function addLandmassData(body){
+  return fetch(url+'landmassdata/', {
+    method: 'POST',
+    body: JSON.stringify(body),
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic ' + btoa(authString)
+    }
+  })
+    .then(response => response.json())
+    .then(data => {
+      return data;
+    }) 
+    .catch(err => {
+        return err;
+    });
+};
+
+export function updateLandmassData(body){
+  return fetch(url+'landmassdata/'+body.id, {
+    method: 'PUT',
+    body: JSON.stringify(body),
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic ' + btoa(authString)
+    }
+  })
+    .then(response => response.json())
+    .then(data => {
+      return data;
+    }) 
+    .catch(err => {
+        return err;
+    });
+};
+
+export function getPersonById(id){
+  return fetch(url+'person/'+id, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -53,9 +143,10 @@ export function getLandmassDataByLandmassAreaId(id) {
   });
 };
 
-export function getPersonById(id){
-  return fetch('http://localhost:8090/api/v1/person/'+id, {
-    method: 'GET',
+export function addPerson(body){
+  return fetch(url+'person/', {
+    method: 'POST',
+    body: JSON.stringify(body),
     headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Basic ' + btoa(authString)
@@ -66,8 +157,26 @@ export function getPersonById(id){
       return data;
     }) 
     .catch(err => {
-      return err;
-  });
-}
+        return err;
+    });
+};
+
+export function updatePerson(body){
+  return fetch(url+'person/'+body.id, {
+    method: 'PUT',
+    body: JSON.stringify(body),
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic ' + btoa(authString)
+    }
+  })
+    .then(response => response.json())
+    .then(data => {
+      return data;
+    }) 
+    .catch(err => {
+        return err;
+    });
+};
 
 

@@ -40,8 +40,8 @@ Oskari.clazz.define('Oskari.hsy.bundle.seutumassa-landmass-tool.Flyout',
          * Interface method implementation
          */
         setEl: function (el, flyout, width, height) {
-            console.log(flyout[0]);
-            console.log(el[0]);
+            //console.log(flyout[0]);
+            //console.log(el[0]);
             flyout[0].setAttribute('id', 'landmass-tool-container');
             this.container = el[0];
             this.container.setAttribute('id', 'landmass-tool-content');
