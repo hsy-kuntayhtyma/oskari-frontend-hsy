@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Form, Table, Popover, DatePicker, Tag, Space, Select, Switch, Steps, Button, Input, InputNumber, message, Divider } from 'antd';
-
+import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { Controller, LocaleConsumer } from 'oskari-ui/util';
 
 import moment from 'moment';
@@ -13,6 +13,7 @@ import locale from 'antd/es/date-picker/locale/fi_FI';
 
 import '../../resources/css/styles.css';
 import 'antd/dist/antd.css';
+import { List } from "rc-field-form";
 
 const { Step } = Steps;
 const { Option } = Select;
@@ -70,6 +71,14 @@ const StyledFormItemContainer = styled.div`
   } */
 `;
 
+const StyledFormListContainer = styled.div`
+  width: 100%;
+`;
+
+const StyledFormList = styled(Form.List)`
+
+`;
+
 const StyledFormItem = styled(Form.Item)`
   margin-bottom: 0;
   width: 100%;
@@ -77,6 +86,7 @@ const StyledFormItem = styled(Form.Item)`
     width: 100%;
   }
 `;
+
 
 const StyledTableContainer = styled.div`
   display: flex;
@@ -335,7 +345,7 @@ const NumberFormItem = ({id, name, description, rules}) => (
         }
         title={<StyledDescriptionTitle>{name}</StyledDescriptionTitle>}>
             <Button type="primary">?</Button>
-      </Popover> 
+      </Popover>
     }
   </StyledFormItemContainer>
 );
@@ -405,6 +415,56 @@ const TextAreaFormItem = ({id, name, description, placeholder, rules}) => (
     >
       <TextArea style={{resize: 'vertical'}} placeholder={placeholder}/>
     </StyledFormItem>
+    {
+      description !== null &&
+      <Popover
+        placement="topRight"
+        content={
+            <StyledDescriptionContent>
+              {description !== null && description}
+            </StyledDescriptionContent>
+        }
+        title={<StyledDescriptionTitle>{name}</StyledDescriptionTitle>}>
+            <Button type="primary">?</Button>
+      </Popover> 
+    }
+  </StyledFormItemContainer>
+);
+
+const ListFormItem = ({id, name, description, placeholder, rules}) => (
+  <StyledFormItemContainer>
+    <StyledFormListContainer>
+      <StyledFormList
+        name="linkit"
+      >
+        {
+        (fields, { add, remove }) => (
+          <>
+            {fields.map(({ key, name, fieldKey, ...restField }) => (
+              // <Space key={key} style={{ display: 'flex', marginBottom: 8 }} align="baseline">
+              <div>
+                <StyledFormItem
+                  {...restField}
+                  name={[name, 'linkki']}
+                  fieldKey={[fieldKey, 'linkki']}
+                  //rules={[{ required: true, message: 'Missing first name' }]}
+                >
+                  <Input placeholder={placeholder} />
+                </StyledFormItem>
+                <MinusCircleOutlined onClick={() => remove(name)} />
+                </div>
+              // </Space>
+            ))}
+            <StyledFormItem>
+              <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
+                Lisää linkki
+              </Button>
+            </StyledFormItem>
+          </>
+        )
+        }
+      </StyledFormList>
+    </StyledFormListContainer>
     {
       description !== null &&
       <Popover
@@ -641,7 +701,17 @@ const steps = [
                   placeholder={inputDefinitionGroup.title}
                   rules={inputDefinitionGroup.rules ? inputDefinitionGroup.rules : []}
                 />
-              }
+              } 
+              // else if (inputDefinitionGroup.type === 'list'){
+              //   return <ListFormItem
+              //     key={inputDefinitionGroup.id}
+              //     id={inputDefinitionGroup.id}
+              //     name={inputDefinitionGroup.title}
+              //     description={inputDefinitionGroup.description ? inputDefinitionGroup.description : null}
+              //     placeholder={inputDefinitionGroup.placeHolderText}
+              //     rules={inputDefinitionGroup.rules ? inputDefinitionGroup.rules : []}
+              //   />
+              // }
           })}
          </StyledSelectorGroup>
         </StyledStepsContent>

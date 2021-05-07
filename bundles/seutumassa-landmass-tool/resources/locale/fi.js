@@ -3,13 +3,13 @@ Oskari.registerLocalization(
         "lang": "fi",
         "key": "seutumassa-landmass-tool",
         "value": {
-            "title": "Maassatyökalu",
+            "title": "Tietojen syöttö",
             "desc": "",
             "flyout": {
-                "title": "Maassatyökalu"
+                "title": "Tietojen syöttö"
             },
             "tile": {
-                "title": "Maassatyökalu"
+                "title": "Tietojen syöttö"
             },
             "addNewForm": "New Announcement",
             "delete": "Delete",

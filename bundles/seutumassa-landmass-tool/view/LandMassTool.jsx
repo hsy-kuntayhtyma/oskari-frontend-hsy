@@ -169,6 +169,13 @@ const LandMassTool = () => {
 
           if(data.hasOwnProperty('id')){
             getLandmassDataByLandmassAreaId(data.id).then(response => {
+              // response && response.map((landmassData, index) => {
+              //   if(landmassData.hasOwnProperty('linkit')){
+              //     if(response[index].linkit === null){
+              //       response[index].linkit = [];
+              //     }
+              //   }
+              // });
               console.log(response);
               setLandmassDataTable(response);
           })}
@@ -254,6 +261,8 @@ const LandMassTool = () => {
   const handleSelectGeometry = () => {
     setActionSelectorState(3);
     sandbox.postRequestByName('DrawTools.StopDrawingRequest', ['newGeometry', true]);
+    console.log(sandbox);
+    sandbox.postRequestByName('MapModulePlugin.MapLayerUpdateRequest', [70, true]);
   };
   
   const handleDownloadShapeFile = () => {
@@ -299,6 +308,7 @@ const LandMassTool = () => {
       amount_total: data.amount_total || null,
       amount_remaining: data.amount_remaining || null,
       lisatieto: data.lisatieto || null,
+      liitteet: data.liitteet || null,
       varattu: data.varattu || null,
       //muokattu: moment().toISOString() || null, // Triggers in DB will handle this.
       pilaantuneisuus: data.pilaantuneisuus || null,
@@ -306,7 +316,7 @@ const LandMassTool = () => {
       //kunta: data.kunta || null,
       maamassan_tila: data.maamassan_tila || null,
       maamassan_ryhma: data.maamassan_ryhma || null,
-      maamassan_laji: data.maamassan_laji || null
+      maamassan_laji: data.maamassan_laji || null,
     };
 
     if(maamassakohde.id !== null) { // Landmass area exists
@@ -333,8 +343,6 @@ const LandMassTool = () => {
           });
         }
     } else {  // Landmass area does not exist
-      console.log("Add new landmass area");
-      console.log(maamassakohde);
       if(henkilo.id !== null){
         updatePerson(henkilo);
       } else {
@@ -350,6 +358,7 @@ const LandMassTool = () => {
                   getLandmassDataByLandmassAreaId(maamassatieto.maamassakohde_id).then(response => {
                     setLandmassDataTable(response);
                     setCurrentStep(3);
+                    
                 })}
               });
             });
@@ -357,8 +366,8 @@ const LandMassTool = () => {
       }
     }
     
-    console.log(maamassakohde);
-    console.log(henkilo);
+    // console.log(maamassakohde);
+    // console.log(henkilo);
     console.log(maamassatieto);
   };
 
