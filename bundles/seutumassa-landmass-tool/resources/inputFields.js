@@ -137,14 +137,14 @@ export const inputFields = [
             "title": "Email",
             "description": "Kirjaa tähän kohdetta hallinnoivan tahon sähköpostiosoite.",
             "type": "email",
-            "rules": [{ required: true, type:'email', message: 'Syötä email' }]
+            "rules": [{ required: true, type:'email', message: 'Syötä email osoite' }]
         },
         {
             "id": "henkilo_puhelin",
             "title": "Puhelin",
             "description": "Kirjaa tähän kohdetta hallinnoivan tahon puhelinnumero.",
             "type": "textfield",
-            "rules": [{ required: true, message: 'Syötä puhelin' }]
+            "rules": [{ required: true, message: 'Syötä puhelinnumero' }]
         },
         {
             "id": "henkilo_organisaatio",
@@ -331,7 +331,7 @@ export const inputFields = [
         {
             "id": "amount_total",
             "title": "Määrä (m³)",
-            "description": `Kirjaa kohteen määrä kuutioina. Lisätietoja kuutioiden määrittelystä löydät ${<a href="https://www.rakennustieto.fi/html/liitteet/infraryl/Infra_2015_Maaramittausohje.pdf#page=167">täältä</a>}`,
+            "description": <p>Kirjaa kohteen määrä kuutioina. Lisätietoja kuutioiden määrittelystä löydät <a target="_blank" href="https://www.rakennustieto.fi/html/liitteet/infraryl/Infra_2015_Maaramittausohje.pdf#page=167">täältä</a></p>,
             "type": "number",
             "rules": [{ required: true, message: 'Syötä määrä' }]
         },
@@ -515,6 +515,22 @@ export const inputFields = [
                     "title": "C"
                 }
             ]
-        }
+        },
+        {
+            "id": "liitteet",
+            "title": "Linkki",
+            "description": "Lisää tähän linkki maamassatietoja koskevista lisätiedoista.",
+            "type": "textfield",
+            "placeHolderText": "Lisää linkki",
+            "rules": [{ required: false }],
+        },
+        // {
+        //     "id": "linkit",
+        //     "title": "Linkit",
+        //     "description": "Lisää tähän maamassatietoja koskevia linkkejä.",
+        //     "type": "list",
+        //     "placeHolderText": "Lisää linkki",
+        //     "rules": [{ required: false }],
+        // },
     ]
 ];

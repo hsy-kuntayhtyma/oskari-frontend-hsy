@@ -3,8 +3,8 @@ const login = "testuser";
 const password = "password";
 const authString = `${login}:${password}`;
 
-const url = 'http://localhost:9902/landmass_api/api/v1/';
-//const url = 'http://localhost:8090/api/v1/';
+//const url = 'http://localhost:9902/landmass_api/api/v1/';
+const url = 'http://localhost:8090/api/v1/';
 
 export function getSeutumassaToolFields(url) {
   return fetch(Oskari.urls.getRoute('GetSeutumassaToolFields'), {
