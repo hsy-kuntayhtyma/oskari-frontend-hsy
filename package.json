@@ -10,7 +10,8 @@
     "antd": "^4.15.3",
     "moment": "2.24.0",
     "oskari-frontend": "https://git@github.com/oskariorg/oskari-frontend.git#1.56.0",
-    "oskari-frontend-contrib": "https://git@github.com/oskariorg/oskari-frontend-contrib.git#1.56.0"
+    "oskari-frontend-contrib": "https://git@github.com/oskariorg/oskari-frontend-contrib.git#1.56.0",
+    "shapefile": "^0.6.6"
   },
   "resolutions": {
     "moment": "2.24.0"

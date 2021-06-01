@@ -189,20 +189,12 @@ export const inputFields = [
             "rules": [{ required: true,  message: 'Valitse maamassan tila'  }],
             "values": [
                 {
-                    "id": "alijäämä",
-                    "title": "Alijäämä"
-                },
-                {
                     "id": "alijäämä/tarvittava",
-                    "title": "Alijäämä/tarvittava"
-                },
-                {
-                    "id": "ylijäämä",
-                    "title": "Ylijäämä"
+                    "title": "Tarvittava (alijäämä)"
                 },
                 {
                     "id": "ylijäämä/kaivettava",
-                    "title": "Ylijäämä/kaivettava"
+                    "title": "Kaivettava (ylijäämä)"
                 }
             ]
         },
@@ -329,7 +321,7 @@ export const inputFields = [
             ]
         },
         {
-            "id": "amount_total",
+            "id": "amount_remaining",
             "title": "Määrä (m³)",
             "description": <p>Kirjaa kohteen määrä kuutioina. Lisätietoja kuutioiden määrittelystä löydät <a target="_blank" href="https://www.rakennustieto.fi/html/liitteet/infraryl/Infra_2015_Maaramittausohje.pdf#page=167">täältä</a></p>,
             "type": "number",

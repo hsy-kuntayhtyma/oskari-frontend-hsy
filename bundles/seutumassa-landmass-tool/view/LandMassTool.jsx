@@ -1,23 +1,22 @@
 import React, { useState, useEffect } from "react";
-import PropTypes from 'prop-types';
 import '../resources/css/styles.css';
-import styled, { createGlobalStyle } from 'styled-components';
-import { Controller, LocaleConsumer } from 'oskari-ui/util';
+import { createGlobalStyle } from 'styled-components';
+import { LocaleConsumer } from 'oskari-ui/util';
+var shapefile = require("shapefile");
+import GeoJSON from 'ol/format/GeoJSON';
+
+import {getCenter} from 'ol/extent';
+import {Circle as CircleStyle, Fill, Stroke, Style} from 'ol/style';
+import { Vector as VectorSource} from 'ol/source';
+import { Vector as VectorLayer} from 'ol/layer';
 
 import moment from 'moment';
 
 /* API */
 import {
-  getSeutumassaToolFields,
   getPersonById,
-  addPerson,
-  updatePerson,
   getLandmassAreaByCoordinates,
-  addLandmassArea,
-  updateLandmassArea,
   getLandmassDataByLandmassAreaId,
-  addLandmassData,
-  updateLandmassData
 } from '../resources/api/SeutumassaLandmassToolApi.js';
 
 import { inputFields } from '../resources/inputFields.js'
@@ -34,7 +33,7 @@ const GlobalStyle = createGlobalStyle`
       }
     }};
   }
-`
+`;
 
 const LandMassTool = () => {
   
@@ -49,7 +48,7 @@ const LandMassTool = () => {
   flyoutContainer.style.setProperty("border-radius", "10px", "important");
   flyoutContainer.style.setProperty("overflow", "hidden", "important");
 
-  const flyoutContent = document.getElementById('landmass-tool-content');
+  //const flyoutContent = document.getElementById('landmass-tool-content');
 
   const [landmassData, setLandmassData] = useState(null);
   const [landmassDataTable, setLandmassDataTable] = useState([]);
@@ -57,7 +56,7 @@ const LandMassTool = () => {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const [isMapClickActive, setIsMapClickActive] = useState(false);
+  //const [isMapClickActive, setIsMapClickActive] = useState(false);
 
   const [actionSelectorState, setActionSelectorState] = useState(0);
 
@@ -85,14 +84,7 @@ const LandMassTool = () => {
   }, [actionSelectorState]);
 
   useEffect(() => {
-    //const locale = Oskari.getLocalization('landmass-tool-container');
-  
     setInputDefinitions(inputFields);
-
-    // getSeutumassaToolFields().then(response => {
-    //   console.log(response);
-    //   setInputDefinitions(response);
-    // });
 
     const handleExtensionUpdatedEvents = () => {
       var extensionUpdatedEventsModule = {
@@ -113,8 +105,13 @@ const LandMassTool = () => {
                     sandbox.postRequestByName('WfsLayerPlugin.ActivateHighlightRequest', ['disable']);
                 } else {
                     map.un('click', handleMapClick);
-                    flyoutContainer.style.setProperty("opacity", "0", "important");
+                    map.getLayers().forEach(layer => {
+                      layer.get('name') === 'geoJSONPreview' && map.removeLayer(layer);
+                    });
+                    setActionSelectorState(0);
+                    setCurrentStep(0);
                     handleResetLandmassTool();
+                    flyoutContainer.style.setProperty("opacity", "0", "important");
                     sandbox.postRequestByName('DrawTools.StopDrawingRequest', ['newGeometry', true]);
                     sandbox.postRequestByName('MapModulePlugin.GetFeatureInfoActivationRequest', [true]);
                     sandbox.postRequestByName('WfsLayerPlugin.ActivateHighlightRequest', [true]);
@@ -134,55 +131,107 @@ const LandMassTool = () => {
     setCurrentStep(0);
     setLandmassData(null);
     setLandmassDataTable([]);
+    handleClearGeoJSONPreview();
   };
 
   const handleMapClick = (evt) => {
+
+  //   const userRoles = [
+  //     {
+  //         "name": "Guest",
+  //         "id": 1
+  //     },
+  //     {
+  //       "name": "Admin",
+  //       "id": 3
+  //     },
+  //     {
+  //       "name": "HSY",
+  //       "id": 4
+  //     },
+  //     {
+  //       "name": "SeutuMaisa_Espoo",
+  //       "id": 19
+  //     },
+  //     {
+  //       "name": "SeutuMaisa_Helsinki",
+  //       "id": 20
+  //     },
+  //     {
+  //       "name": "SeutuMaisa_Vantaa",
+  //       "id": 21
+  //     }
+  // ];
+
+    const userRoles = Oskari.user().getRoles();
     const body = { lontitude: evt.coordinate[0], latitude: evt.coordinate[1] };
     setIsLoading(true);
     getLandmassAreaByCoordinates(body).then(response => {
-        if(response !== undefined && response.length > 0) {
-          map.un('click', handleMapClick);
-          setActionSelectorState(0);
-          let data = response[0];
+      console.log(response);
 
-          if(data.hasOwnProperty('alku_pvm')){
-             data.alku_pvm = data.alku_pvm !== null ? moment(data.alku_pvm) : null;
-          }
+      const setData = (data) => {
+        setActionSelectorState(0);
+        map.un('click', handleMapClick);
+        if(data.hasOwnProperty('alku_pvm')){
+           data.alku_pvm = data.alku_pvm !== null ? moment(data.alku_pvm) : null;
+        }
 
-          if(data.hasOwnProperty('loppu_pvm')){
-            data.loppu_pvm = data.loppu_pvm !== null ? moment(data.loppu_pvm) : null;
-          }
+        if(data.hasOwnProperty('loppu_pvm')){
+          data.loppu_pvm = data.loppu_pvm !== null ? moment(data.loppu_pvm) : null;
+        }
 
-          if(data.hasOwnProperty('omistaja_id') && data.omistaja_id !== null) {
-            getPersonById(data.omistaja_id).then(ownerData => {
-              console.log(ownerData);
-              var newData = {...data, ...ownerData};
-              console.log(newData);
-              setLandmassData(newData);
-              setIsLoading(false);
-
-            });
-          } else {
-            setLandmassData(data);
+        if(data.hasOwnProperty('omistaja_id') && data.omistaja_id !== null) {
+          getPersonById(data.omistaja_id).then(ownerData => {
+            var newData = {...data, ...ownerData};
+            setLandmassData(newData);
             setIsLoading(false);
-          }
-
-          if(data.hasOwnProperty('id')){
-            getLandmassDataByLandmassAreaId(data.id).then(response => {
-              // response && response.map((landmassData, index) => {
-              //   if(landmassData.hasOwnProperty('linkit')){
-              //     if(response[index].linkit === null){
-              //       response[index].linkit = [];
-              //     }
-              //   }
-              // });
-              console.log(response);
-              setLandmassDataTable(response);
-          })}
+          });
         } else {
+          setLandmassData(data);
           setIsLoading(false);
         }
 
+        if(data.hasOwnProperty('id')){
+          getLandmassDataByLandmassAreaId(data.id).then(response => {
+            // response && response.map((landmassData, index) => {
+            //   if(landmassData.hasOwnProperty('linkit')){
+            //     if(response[index].linkit === null){
+            //       response[index].linkit = [];
+            //     }
+            //   }
+            // });
+            setLandmassDataTable(response);
+          })
+        }
+      };
+
+      const setInvalidUser = () => {
+            setIsLoading(false);
+            setActionSelectorState(-1);
+      };
+
+
+      if(!response.error && response !== undefined &&
+        userRoles.some(role => role.id === 3) ||
+        userRoles.some(role => role.id === 4) ||
+        userRoles.some(role => role.id === 19) ||
+        userRoles.some(role => role.id === 20) ||
+        userRoles.some(role => role.id === 21)
+        ){
+        const data = response[0];
+        if(data !== undefined){
+          userRoles.some(role => role.id === 3) || userRoles.some(role => role.id === 4) ?
+          setData(data) : userRoles.some(role => role.id === 19) && data.kunta === "049" ?
+          setData(data) : userRoles.some(role => role.id === 20) && data.kunta === "091" ?
+          setData(data) : userRoles.some(role => role.id === 21) && data.kunta === "092" ?
+          setData(data) : setInvalidUser();
+        } else {
+          //setActionSelectorState(0);
+          setIsLoading(false);
+        }
+      } else {
+        setInvalidUser();
+      }
     });
   };
 
@@ -210,12 +259,10 @@ const LandMassTool = () => {
             sandbox.postRequestByName('DrawTools.StopDrawingRequest', ['newGeometry']);
             sandbox.unregisterFromEventByName(this, 'DrawingEvent');
 
-
             var geoJson = event.getGeoJson();
             var crs = geoJson.crs;
             var coordinates = [];
             var geomType;
-
 
             if(geoJson.features[0].geometry.type === 'Point'){
               geomType = 'Point';
@@ -224,7 +271,6 @@ const LandMassTool = () => {
               geomType = 'MultiPolygon';
               coordinates[0] = geoJson.features[0].geometry.coordinates;
             }
-            console.log(geoJson);
 
               var geom = {
               "crs": {
@@ -236,6 +282,8 @@ const LandMassTool = () => {
               "coordinates": coordinates,
               "type": geomType
             };
+
+            console.log(geom);
 
               event.getGeoJson().features.length > 0 && setLandmassData(landmassData => {
                 return { ...landmassData, geom: geom }
@@ -261,114 +309,257 @@ const LandMassTool = () => {
   const handleSelectGeometry = () => {
     setActionSelectorState(3);
     sandbox.postRequestByName('DrawTools.StopDrawingRequest', ['newGeometry', true]);
-    console.log(sandbox);
     sandbox.postRequestByName('MapModulePlugin.MapLayerUpdateRequest', [70, true]);
   };
-  
-  const handleDownloadShapeFile = () => {
-    setActionSelectorState(4);
-    console.log("handleDownloadShapeFile");
+
+  const handleClearGeoJSONPreview = () => {
+   map.getLayers().forEach(layer => {
+      layer.get('name') === 'geoJSONPreview' && map.removeLayer(layer);
+    });
   };
 
-  const handleSaveAndAddNewLandmassData = (data) => {
-    const maamassakohde = {
-      id: data.id || null,
-      nimi: data.nimi || null,
-      osoite: data.osoite || null,
-      geom: data.geom,
-      kohdetyyppi: data.kohdetyyppi || null,
-      vaihe: data.vaihe || null,
-      omistaja_id: data.omistaja_id || null,
-      alku_pvm: data.alku_pvm ? data.alku_pvm.toISOString() : null,
-      loppu_pvm: data.loppu_pvm ? data.loppu_pvm.toISOString() : null,
-      //lisatieto: data.lisatieto || null,
-      kunta: data.kunta || null,
-      status: data.status || null,
-      //maamassan_tila: data.maamassan_tila || null,
-    };
+  const handleAddGeoJSONPreview = (geojsonObject) => {
 
-    const henkilo = {
-      id: data.henkilo_id || null,
-      henkilo_email: data.henkilo_email || null,
-      henkilo_nimi: data.henkilo_nimi || null,
-      henkilo_organisaatio: data.henkilo_organisaatio || null,
-      henkilo_puhelin: data.henkilo_puhelin || null
-    };
-
-    const maamassatieto = {
-      id: data.maamassatieto_id || null,
-      maamassakohde_id: data.maamassakohde_id || null,
-      kelpoisuusluokkaryhma: data.kelpoisuusluokkaryhma || null,
-      kelpoisuusluokka: data.kelpoisuusluokka || null,
-      tiedontuottaja_id: data.tiedontuottaja_id || null,
-      planned_begin_date: data.planned_begin_date ? data.planned_begin_date.toISOString() : null,
-      planned_end_date: data.planned_end_date ? data.planned_end_date.toISOString() : null,
-      realized_begin_date: data.realized_begin_date ? data.realized_begin_date.toISOString() : null,
-      realized_end_date: data.realized_end_date ? data.realized_end_date.toISOString() : null,
-      amount_total: data.amount_total || null,
-      amount_remaining: data.amount_remaining || null,
-      lisatieto: data.lisatieto || null,
-      liitteet: data.liitteet || null,
-      varattu: data.varattu || null,
-      //muokattu: moment().toISOString() || null, // Triggers in DB will handle this.
-      pilaantuneisuus: data.pilaantuneisuus || null,
-      tiedon_luotettavuus: data.tiedon_luotettavuus || null,
-      //kunta: data.kunta || null,
-      maamassan_tila: data.maamassan_tila || null,
-      maamassan_ryhma: data.maamassan_ryhma || null,
-      maamassan_laji: data.maamassan_laji || null,
-    };
-
-    if(maamassakohde.id !== null) { // Landmass area exists
-      console.log("Update landmass area by id");
-      updateLandmassArea(maamassakohde);
-        if(maamassatieto.id !== null) {
-          updateLandmassData(maamassatieto).then(response => {
-            console.log(response);
-            if(maamassakohde.hasOwnProperty('id')){
-              getLandmassDataByLandmassAreaId(maamassakohde.id).then(response => {
-                setLandmassDataTable(response);
-                setCurrentStep(3);
-            })}
-          });
-        } else {
-          maamassatieto.maamassakohde_id = maamassakohde.id;
-          addLandmassData(maamassatieto).then(response => {
-            console.log(response);
-            if(maamassakohde.hasOwnProperty('id')){
-              getLandmassDataByLandmassAreaId(maamassakohde.id).then(response => {
-                setLandmassDataTable(response);
-                setCurrentStep(3);
-            })}
-          });
-        }
-    } else {  // Landmass area does not exist
-      if(henkilo.id !== null){
-        updatePerson(henkilo);
-      } else {
-        addPerson(henkilo).then(response => {
-          console.log(response);
-          maamassakohde.omistaja_id = response.henkilo_id;
-            addLandmassArea(maamassakohde).then(landmassAreaResponse => {
-              console.log(landmassAreaResponse);
-              maamassatieto.maamassakohde_id = landmassAreaResponse.id;
-              addLandmassData(maamassatieto).then(landmassDataResponse => {
-                console.log(landmassDataResponse);
-                if(maamassakohde.hasOwnProperty('id')){
-                  getLandmassDataByLandmassAreaId(maamassatieto.maamassakohde_id).then(response => {
-                    setLandmassDataTable(response);
-                    setCurrentStep(3);
-                    
-                })}
-              });
-            });
-        })
-      }
-    }
+    var image = new CircleStyle({
+      radius: 5,
+      fill: null,
+      stroke: new Stroke({color: 'rgb(56, 182, 255)', width: 5}),
+    });
     
-    // console.log(maamassakohde);
-    // console.log(henkilo);
-    console.log(maamassatieto);
+    var styles = {
+      'Point': new Style({
+        image: image,
+      }),
+      'LineString': new Style({
+        stroke: new Stroke({
+          color: 'rgb(56, 182, 255)',
+          width: 1,
+        }),
+      }),
+      'MultiLineString': new Style({
+        stroke: new Stroke({
+          color: 'rgb(56, 182, 255)',
+          width: 1,
+        }),
+      }),
+      'MultiPoint': new Style({
+        image: image,
+      }),
+      'MultiPolygon': new Style({
+        stroke: new Stroke({
+          color: 'rgb(56, 182, 255)',
+          width: 1,
+        }),
+        fill: new Fill({
+          color: 'rgba(255, 255, 0, 0.1)',
+        }),
+      }),
+      'Polygon': new Style({
+        stroke: new Stroke({
+          color: 'rgb(0, 162, 255)',
+          //lineDash: [4],
+          width: 3,
+        }),
+        fill: new Fill({
+          color: 'rgba(56, 182, 255, 0.6)',
+        }),
+      }),
+      'GeometryCollection': new Style({
+        stroke: new Stroke({
+          color: 'magenta',
+          width: 2,
+        }),
+        fill: new Fill({
+          color: 'magenta',
+        }),
+        image: new CircleStyle({
+          radius: 10,
+          fill: null,
+          stroke: new Stroke({
+            color: 'magenta',
+          }),
+        }),
+      }),
+      'Circle': new Style({
+        stroke: new Stroke({
+          color: 'red',
+          width: 2,
+        }),
+        fill: new Fill({
+          color: 'rgba(255,0,0,0.2)',
+        }),
+      }),
+    };
+    
+    var styleFunction = function (feature) {
+      return styles[feature.getGeometry().getType()];
+    };
+
+      var vectorSource = new VectorSource({
+        features: new GeoJSON().readFeatures(geojsonObject),
+      });
+
+      handleClearGeoJSONPreview();
+      
+      var vectorLayer = new VectorLayer({
+        name: "geoJSONPreview",
+        source: vectorSource,
+        style: styleFunction,
+      });
+
+      map.addLayer(vectorLayer);
+      //map.getView().fit(transformExtent(vectorSource.getExtent(), 'EPSG:3879', map.getView().getProjection()), { size: map.getSize() });
+
+      console.log(vectorSource);
+
+      function flyTo(location, done) {
+        var duration = 4000;
+        //var zoom = map.getView().getZoom();
+        var parts = 2;
+        var called = false;
+        function callback(complete) {
+          --parts;
+          if (called) {
+            return;
+          }
+          if (parts === 0 || !complete) {
+            called = true;
+            done(complete);
+          }
+        }
+        map.getView().animate(
+          {
+            center: location,
+            duration: duration,
+          },
+          callback
+        );
+        map.getView().animate(
+          {
+            zoom: 3,
+            duration: duration / 2,
+          },
+          {
+            zoom: 8,
+            duration: duration / 2,
+          },
+          callback
+        );
+      };
+
+      var center = getCenter(vectorSource.getExtent());
+
+      // var hasPolygon = vectorSource.getFeatures().some(feature => feature.getGeometry().getType() === 'Polygon');
+      // var hasPoint = vectorSource.getFeatures().some(feature => feature.getGeometry().getType() === 'Point');
+
+      // var typesArray = [hasPolygon, hasPoint];
+
+
+      console.log(vectorSource.getFeatures()[0].getGeometry().getType());
+
+      // if(typesArray.filter(value => value === true).length > 1){
+      //   console.log("Featurecollection contains more than one geometry types, not cool");
+      // } else {
+        //console.log(typesArray);
+        const mergeCoordinates = vectorSource.getFeatures().map(feature => {
+          //console.log(feature.getGeometry().getType());
+          return feature.getGeometry().getCoordinates();
+          //console.log(feature.getGeometry().getCoordinates());
+        });
+  
+        // map.getView().animate({
+        //   center: center,
+        //   zoom: 5,
+        //   duration: 2000,
+        // });
+  
+        var geoJson = geojsonObject;
+        var crs = {
+          "type": "name",
+          "properties": {
+              "name": "EPSG:3879"
+          }
+        };
+  
+        //var coordinates = [];
+        //var geomType = vectorSource.getFeatures()[0].getGeometry().getType();
+  
+        // if(vectorSource.getFeatures()[0].getGeometry().getType() === 'Point'){
+        //   geomType = 'Point';
+        //   coordinates = geoJson.features[0].geometry.coordinates;
+        // } else if(vectorSource.getFeatures()[0].getGeometry().getType() === 'Polygon'){
+        //   geomType = 'MultiPolygon';
+        //   coordinates[0] = geoJson.features[0].geometry.coordinates;
+        // }
+  
+          var geom = {
+            "crs": crs,
+            "coordinates": mergeCoordinates,
+            "type": vectorSource.getFeatures()[0].getGeometry().getType() === 'Polygon' ? 'MultiPolygon' :
+            vectorSource.getFeatures()[0].getGeometry().getType() === 'Point' && 'Point'
+          };
+  
+          flyTo(center, function () {
+            console.log(geom);
+            setTimeout(function () {
+              geoJson.features.length > 0 && setLandmassData(landmassData => {
+                return { ...landmassData, geom: geom }
+              });
+            }, 500);
+          });
+      //}
+  };
+  
+  const handleDownloadShapeFile = (e) => {
+
+    const featureCollection =  {
+      'type': 'FeatureCollection',
+      'crs': {
+        'type': 'name',
+        'properties': {
+          'name': 'EPSG:3879',
+        },
+      },
+      'features': [],
+    };
+
+    setActionSelectorState(4);
+    let input = document.createElement('input');
+    input.type = 'file';
+    input.onchange = (e) => {
+          // console.log(e);
+          // you can use this method to get file and perform respective operations
+              let files = Array.from(input.files);
+              setActionSelectorState(0);
+
+              var file = files[0];
+              if (!file) {
+                return;
+              }
+
+              var reader = new FileReader();
+              reader.onload = function(e) {
+                var contents = e.target.result;
+                //console.log(contents);
+                shapefile.open(contents)
+                .then(source => source.read()
+                  .then(function log(result) {
+                    if (result.done) return;
+                    //console.log(result.value);
+                    featureCollection.features.push(result.value);
+                    //console.log(featureCollection);
+                    return source.read().then(log);
+                  }
+                  )).then(() => {
+                    //console.log(featureCollection);
+                    handleAddGeoJSONPreview(featureCollection);
+                  })
+                .catch(error => console.error(error.stack));
+              };
+              reader.readAsArrayBuffer(file);
+          };
+    input.click();
+
   };
 
   const handleSaveAndClose = (data) => {
@@ -381,6 +572,8 @@ const LandMassTool = () => {
     <GlobalStyle actionSelectorState={actionSelectorState} />
     { landmassData !== null ?
       <StepWizard
+        isLoading={isLoading}
+        setIsLoading={setIsLoading}
         currentStep={currentStep}
         setCurrentStep={setCurrentStep}
         inputDefinitions={inputDefinitions}
@@ -388,13 +581,14 @@ const LandMassTool = () => {
         setLandmassData={setLandmassData}
         landmassDataTable={landmassDataTable}
         setLandmassDataTable={setLandmassDataTable}
-        handleSaveAndAddNewLandmassData={handleSaveAndAddNewLandmassData}
+        //handleSaveAndAddNewLandmassData={handleSaveAndAddNewLandmassData}
         handleSaveAndClose={handleSaveAndClose}
         handleResetLandmassTool={handleResetLandmassTool}
       /> :
       <ActionSelector
           isLoading={isLoading}
           actionSelectorState={actionSelectorState}
+          setActionSelectorState={setActionSelectorState}
           handleSelectGeometry={handleSelectGeometry}
           handleDrawNewGeometry={handleDrawNewGeometry}
           handleDownloadShapeFile={handleDownloadShapeFile}

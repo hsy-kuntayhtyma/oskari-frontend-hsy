@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from 'prop-types';
 import styled, { keyframes, css } from 'styled-components';
-import { Button, Spin, Space } from 'antd';
+import { Result, Button, Spin, Space } from 'antd';
 import { GatewayOutlined, EnvironmentOutlined, AimOutlined, FileOutlined } from '@ant-design/icons';
 
 const fadeBorder = keyframes`
@@ -23,7 +23,6 @@ const fadeBorder = keyframes`
   }
 `
 
-
 const StyledActionSelectorContainer = styled.div`
     display: flex;
     flex-direction: column;
@@ -33,18 +32,18 @@ const StyledActionSelectorContainer = styled.div`
 `;
 //    animation: ${props => props.active === "true" ? "1s " +fadeBorder+ " ease-out infinite" : "none"};
 const StyledButton = styled(Button)`
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    animation: ${props => (props.active === 'true' ? css`${fadeBorder} 1.5s ease-in infinite` : '')} ;
-    min-width: 250px;
-    height: 50px;
-    margin: 10px;
-    border-radius: 5px;
-    box-shadow: ${props => props.active === "true" ? "0px 5px 6px -10px rgb(0 0 0 / 77%)" : "0px 5px 10px -8px rgb(0 0 0 / 77%)"};
-    background-color: ${props => props.active === "true" && "#00AAA3"};
-    color: ${props => props.active === "true" ? "#fafafa" : "#3c3c3c"};
+    position: relative !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    animation: ${props => (props.active === 'true' ? css`${fadeBorder} 1.5s ease-in infinite` : '')};
+    min-width: 250px !important;
+    height: 50px !important;
+    margin: 10px !important;
+    border-radius: 5px !important;
+    box-shadow: ${props => props.active === "true" ? "0px 5px 6px -10px rgb(0 0 0 / 77%) !important" : "0px 5px 10px -8px rgb(0 0 0 / 77%) !important"};
+    background-color: ${props => props.active === "true" && "#00AAA3 !important"};
+    color: ${props => props.active === "true" ? "#fafafa !important" : "#3c3c3c !important"};
     &:hover {
         transform: scale(1.02);
         background-color: #00AAA3 !important;
@@ -63,6 +62,7 @@ const StyledButton = styled(Button)`
 const ActionSelector = ({
     isLoading,
     actionSelectorState,
+    setActionSelectorState,
     handleSelectGeometry,
     handleDrawNewGeometry,
     handleDownloadShapeFile
@@ -111,19 +111,37 @@ const ActionSelector = ({
                 handleDownloadShapeFile();
             },
             active: actionSelectorState === 4 ? "true" : "false",
-            disabled: true
+            disabled: false
         }
     ];
 
     return (
     <StyledActionSelectorContainer>
-    {
-        isLoading ?
-        <Space size="middle">
+        { isLoading ? <Space size="middle">
             <Spin size="large" />
-        </Space> : 
-            buttons.map(button => <StyledButton disabled={button.disabled} key={button.id} icon={button.icon} onClick={button.onClick} active={button.active}>{button.name}</StyledButton>)
-    }
+        </Space> : actionSelectorState === -1 ? <Result
+           title="Käyttöoikeutesi eivät riitä tiedon muokkaamiseen"
+           extra={
+             <Button type="primary" key="console" onClick={() => setActionSelectorState(0)}>
+               Sulje
+             </Button>
+           }
+           /> : actionSelectorState === -2 ? <Result
+           title="Haluatko varmasti sulkea tietojen syötön?"
+           extra={
+             <Button type="primary" key="console" onClick={() => setActionSelectorState(0)}>
+               Sulje
+             </Button>
+           }
+           /> : buttons.map(button => (
+            <StyledButton
+                disabled={button.disabled}
+                key={button.id} icon={button.icon}
+                onClick={button.onClick}
+                active={button.active}>{button.name}
+            </StyledButton>
+            ))
+        }
     </StyledActionSelectorContainer>
     );
 };

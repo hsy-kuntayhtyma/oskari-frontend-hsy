@@ -3,6 +3,7 @@ const login = "testuser";
 const password = "password";
 const authString = `${login}:${password}`;
 
+//const url = 'http://10.21.0.27:9902/landmass_api/api/v1/';
 //const url = 'http://localhost:9902/landmass_api/api/v1/';
 const url = 'http://localhost:8090/api/v1/';
 
@@ -13,7 +14,7 @@ export function getSeutumassaToolFields(url) {
     .then(response => response.json())
     .then(data => {
       return data;
-    }) 
+    })
     .catch(err => {
       return err;
   });
@@ -73,6 +74,23 @@ export function updateLandmassArea(body){
     });
 };
 
+export function deleteLandmassAreaById(id){
+  return fetch(url+'landmassarea/'+id, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic ' + btoa(authString)
+    }
+  })
+    .then(response => response.json())
+    .then(data => {
+      return data;
+    }) 
+    .catch(err => {
+        return err;
+    });
+}
+
 export function getLandmassDataByLandmassAreaId(id) {
   return fetch(url+'landmassdatabyareaid/'+id, {
     method: 'GET',
@@ -125,6 +143,23 @@ export function updateLandmassData(body){
         return err;
     });
 };
+
+export function deleteLandmassDataById(id){
+  return fetch(url+'landmassdata/'+id, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic ' + btoa(authString)
+    }
+  })
+    .then(response => response.json())
+    .then(data => {
+      return data;
+    }) 
+    .catch(err => {
+        return err;
+    });
+}
 
 export function getPersonById(id){
   return fetch(url+'person/'+id, {
