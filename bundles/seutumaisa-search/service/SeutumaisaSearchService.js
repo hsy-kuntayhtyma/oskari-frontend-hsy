@@ -40,10 +40,10 @@
                 handler(null,this.cache['searchFields']);
                 return;
             }
-            if(Cookies.getJSON('searchFields')) {
-                handler(null, Cookies.getJSON('searchFields'));
-                return;
-            }
+            // if(Cookies.getJSON('searchFields')) {
+            //     handler(null, Cookies.getJSON('searchFields'));
+            //     return;
+            // }
 
             jQuery.ajax({
                 type: 'GET',
@@ -52,7 +52,7 @@
                 url: Oskari.urls.getRoute('GetSeutumaisaSearchFields'),
                 success: function (pResp) {
                     this.cache['searchFields'] = pResp;
-                    Cookies.set('searchFields', pResp);
+                    //Cookies.set('searchFields', pResp);
                     handler(null, pResp);
                 },
                 error: function (jqXHR, textStatus) {

@@ -8,7 +8,7 @@ import GeoJSON from 'ol/format/GeoJSON';
 import {getCenter} from 'ol/extent';
 import {Circle as CircleStyle, Fill, Stroke, Style} from 'ol/style';
 import { Vector as VectorSource} from 'ol/source';
-import { Vector as VectorLayer} from 'ol/layer';
+import { Vector as VectorLayer } from 'ol/layer';
 
 import moment from 'moment';
 
@@ -19,7 +19,7 @@ import {
   getLandmassDataByLandmassAreaId,
 } from '../resources/api/SeutumassaLandmassToolApi.js';
 
-import { inputFields } from '../resources/inputFields.js'
+import { inputFields } from '../resources/inputFields.js';
 
 /* COMPONENTS */
 import ActionSelector from './components/ActionSelector';
@@ -49,7 +49,7 @@ const LandMassTool = () => {
   flyoutContainer.style.setProperty("overflow", "hidden", "important");
 
   //const flyoutContent = document.getElementById('landmass-tool-content');
-
+  const [modalContent, setModalContent] = useState(null);
   const [landmassData, setLandmassData] = useState(null);
   const [landmassDataTable, setLandmassDataTable] = useState([]);
   const [inputDefinitions, setInputDefinitions] = useState([]);
@@ -125,6 +125,17 @@ const LandMassTool = () => {
     handleExtensionUpdatedEvents();
 
   },[]);
+
+  const handleMapRefresh = () => {
+      handleClearGeoJSONPreview();
+    var now = Date.now();
+
+    Oskari.getSandbox().findAllSelectedMapLayers().forEach(layer => {
+      if(layer.getLayerType() === "wms"){
+        Oskari.getSandbox().postRequestByName('MapModulePlugin.MapLayerUpdateRequest', [layer.getId(), true, {t: now}]);
+      }
+    });
+  };
 
   const handleResetLandmassTool = () => {
     setActionSelectorState(0);
@@ -496,7 +507,7 @@ const LandMassTool = () => {
             "crs": crs,
             "coordinates": mergeCoordinates,
             "type": vectorSource.getFeatures()[0].getGeometry().getType() === 'Polygon' ? 'MultiPolygon' :
-            vectorSource.getFeatures()[0].getGeometry().getType() === 'Point' && 'Point'
+            vectorSource.getFeatures()[0].getGeometry().getType() === 'Point' && vectorSource.getFeatures().length > 1 ? 'MultiPoint' : 'Point'
           };
   
           flyTo(center, function () {
@@ -551,7 +562,7 @@ const LandMassTool = () => {
                     return source.read().then(log);
                   }
                   )).then(() => {
-                    //console.log(featureCollection);
+                    console.log(featureCollection);
                     handleAddGeoJSONPreview(featureCollection);
                   })
                 .catch(error => console.error(error.stack));
@@ -584,6 +595,9 @@ const LandMassTool = () => {
         //handleSaveAndAddNewLandmassData={handleSaveAndAddNewLandmassData}
         handleSaveAndClose={handleSaveAndClose}
         handleResetLandmassTool={handleResetLandmassTool}
+        modalContent={modalContent}
+        setModalContent={setModalContent}
+        handleMapRefresh={handleMapRefresh}
       /> :
       <ActionSelector
           isLoading={isLoading}
@@ -592,6 +606,8 @@ const LandMassTool = () => {
           handleSelectGeometry={handleSelectGeometry}
           handleDrawNewGeometry={handleDrawNewGeometry}
           handleDownloadShapeFile={handleDownloadShapeFile}
+          modalContent={modalContent}
+          setModalContent={setModalContent}
       />
     }
 
