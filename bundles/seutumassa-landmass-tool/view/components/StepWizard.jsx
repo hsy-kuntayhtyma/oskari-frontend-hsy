@@ -16,7 +16,6 @@ import 'antd/dist/antd.css';
 
 /* API */
 import {
-  getSeutumassaToolFields,
   getPersonById,
   addPerson,
   updatePerson,
@@ -182,6 +181,12 @@ const StyledSuccessSubtitleContainer = styled.div`
   padding: 20px;
 `;
 
+const StyledBottomText = styled.div`
+  color: #1890ff;
+  text-align: center;
+  font-weight: bold;
+`;
+
 const StepWizard = ({
     isLoading,
     setIsLoading,
@@ -192,13 +197,14 @@ const StepWizard = ({
     setLandmassData,
     landmassDataTable,
     setLandmassDataTable,
-    handleResetLandmassTool
+    handleResetLandmassTool,
+    modalContent,
+    setModalContent,
+    handleMapRefresh
 }) => {
 
 const [form] = Form.useForm();
 const [successMessage, setSuccessMessage] = useState(null);
-
-const [modalContent, setModalContent] = useState(null);
 
 const handleModalSubmitActions = () => {
   //setIsModalLoading(true);
@@ -209,15 +215,16 @@ const handleModalSubmitActions = () => {
     case "deleteLandmassAreaById":
       console.log("deleteLandmassAreaById");
       console.log(modalContent.id);
-      // deleteLandmassAreaById(modalContent.id).then(response => {
-      //   setTimeout(() => {
-      //     setModalContent({...modalContent, loading: false});
-      //   }, 1500);
-      //   setTimeout(() => {
-      //     setModalContent(null);
-      //     handleResetLandmassTool();
-      //   }, 2500);
-      // });
+      deleteLandmassAreaById(modalContent.id).then(response => {
+        handleMapRefresh();
+        setTimeout(() => {
+          setModalContent({...modalContent, loading: false});
+        }, 1500);
+        setTimeout(() => {
+          setModalContent(null);
+          handleResetLandmassTool();
+        }, 2500);
+      });
     break
     case "deleteLandmassDataById":
       console.log("deleteLandmassDataById");
@@ -300,6 +307,7 @@ const handlePrevious = () => {
 };
 
 const handleSuccessMessage = (maamassakohde, maamassatieto) => {
+  handleMapRefresh();
   setSuccessMessage({
     title: "Tallennus onnistui",
     subtitle: <StyledSuccessSubtitleContainer>
@@ -873,6 +881,7 @@ const steps = [
               <Button
                 key="buy"
                 onClick={() => {
+                  
                   handleResetLandmassTool();
                 }}
                 >
@@ -1113,7 +1122,7 @@ const steps = [
           </Form.Item>
         </StyledStepNavigators>
         <StyledDoneContainer>
-          {/* {landmassData !== null && landmassData.id && currentStep === 0 &&
+          {landmassData !== null && landmassData.id && currentStep === 0 &&
             <StyledStepNavigatorButton
             danger
             icon={<DeleteOutlined />}
@@ -1130,20 +1139,24 @@ const steps = [
             >
               Poista kohde
             </StyledStepNavigatorButton>
-          } */}
-          <StyledStepNavigatorButton
+          }
+          { currentStep === steps.length - 2 && <StyledStepNavigatorButton
             type="primary" 
             htmlType="submit"
             icon={<SaveOutlined />}
-            disabled={ currentStep != steps.length - 2 || currentStep === steps.length - 1}
+           // disabled={ currentStep != steps.length - 2 || currentStep === steps.length - 1}
+           //disabled={ currentStep != steps.length - 2 }
           >
               Tallenna
-          </StyledStepNavigatorButton>
+          </StyledStepNavigatorButton>}
           {/* <StyledStepNavigatorButton type="primary"  htmlType="submit" disabled={ currentStep != steps.length - 1}>
               Tallenna ja sulje
           </StyledStepNavigatorButton> */}
         </StyledDoneContainer>
       </StyledStepsAction>
+      <StyledBottomText>
+        Käyttämällä SeutuMassa-palvelua annat HSY:lle luvan tallentaa tietosi rekisteriimme sekä jakaa niitä muille palvelun käyttäjille.
+      </StyledBottomText>
       </Form>
       <Modal
         title={modalContent && modalContent.title ? modalContent.title : ""}

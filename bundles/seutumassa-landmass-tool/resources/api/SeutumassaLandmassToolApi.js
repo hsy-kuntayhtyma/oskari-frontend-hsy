@@ -1,24 +1,23 @@
-
 const login = "testuser";
 const password = "password";
 const authString = `${login}:${password}`;
 
-//const url = 'http://10.21.0.27:9902/landmass_api/api/v1/';
+const url = 'http://10.21.0.27:9902/landmass_api/api/v1/';
 //const url = 'http://localhost:9902/landmass_api/api/v1/';
-const url = 'http://localhost:8090/api/v1/';
+//const url = 'http://localhost:8090/api/v1/';
 
-export function getSeutumassaToolFields(url) {
-  return fetch(Oskari.urls.getRoute('GetSeutumassaToolFields'), {
-    method: 'GET',
-  })
-    .then(response => response.json())
-    .then(data => {
-      return data;
-    })
-    .catch(err => {
-      return err;
-  });
- }
+// export function getSeutumassaToolFields(url) {
+//   return fetch(Oskari.urls.getRoute('GetSeutumassaToolFields'), {
+//     method: 'GET',
+//   })
+//     .then(response => response.json())
+//     .then(data => {
+//       return data;
+//     })
+//     .catch(err => {
+//       return err;
+//   });
+//  }
 
 export function getLandmassAreaByCoordinates(body) {
   return fetch(url+'landmassareabycoordinates', {

@@ -5,14 +5,14 @@ export const inputFields = [
     [
         {
             "id": "nimi",
-            "title": "Nimi",
+            "title": "Massakohteen nimi",
             "description": "Anna tähän maamassakohteen nimi.",
             "type": "textfield",
             "rules": [{ required: false }]
         },
         {
             "id": "osoite",
-            "title": "Osoite",
+            "title": "Massakohteen osoite",
             "description": "Anna tähän maamassakohteen osoite.",
             "type": "textfield",
             "rules": [{ required: false }]
@@ -127,7 +127,7 @@ export const inputFields = [
     [
         {
             "id": "henkilo_nimi",
-            "title": "Nimi",
+            "title": "Maamassasta vastaavan nimi",
             "description": "Kirjaa tähän kohdetta hallinnoivan tahon nimi.",
             "type": "textfield",
             "rules": [{ required: true, message: 'Syötä nimi' }]
@@ -174,7 +174,7 @@ export const inputFields = [
         {
             "id": "maamassatiedot",
             "title": "Maamassan tiedot",
-            "description": "Kirjaa tälle sivulle edellä kirjatun kohteen kaikki maamassalajit omille riveilleen.",
+            "description": "Kirjaa tälle sivulle edellä kirjatun kohteen kaikki maamassalajit omille riveilleen. Voit myös muokata taulukon rivi kerrallaan.",
             "type": "table",
             "rules": [{ required: false }]
         }
@@ -439,8 +439,12 @@ export const inputFields = [
                     "title": "u2"
                 },
                 {
-                    "id": "u3u4",
-                    "title": "u3u4"
+                    "id": "u3",
+                    "title": "u3"
+                },
+                {
+                    "id": "u4",
+                    "title": "u4"
                 }
             ]
         },
@@ -505,6 +509,10 @@ export const inputFields = [
                 {
                     "id": "C",
                     "title": "C"
+                },
+                {
+                    "id": "D",
+                    "title": "D"
                 }
             ]
         },

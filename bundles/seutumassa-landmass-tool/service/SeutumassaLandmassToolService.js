@@ -31,57 +31,57 @@
         getSandbox: function () {
             return this.sandbox;
         },
-        getSearchFields: function (handler) {
-            if (typeof handler !== 'function') {
-                return;
-            }
+        // getSearchFields: function (handler) {
+        //     if (typeof handler !== 'function') {
+        //         return;
+        //     }
 
-            if (this.cache['searchFields']) {
-                handler(null,this.cache['searchFields']);
-                return;
-            }
-            if(Cookies.getJSON('searchFields')) {
-                handler(null, Cookies.getJSON('searchFields'));
-                return;
-            }
+        //     if (this.cache['searchFields']) {
+        //         handler(null,this.cache['searchFields']);
+        //         return;
+        //     }
+        //     if(Cookies.getJSON('searchFields')) {
+        //         handler(null, Cookies.getJSON('searchFields'));
+        //         return;
+        //     }
 
-            jQuery.ajax({
-                type: 'GET',
-                dataType: 'json',
+        //     jQuery.ajax({
+        //         type: 'GET',
+        //         dataType: 'json',
 
-                url: Oskari.urls.getRoute('GetSeutumaisaSearchFields'),
-                success: function (pResp) {
-                    this.cache['searchFields'] = pResp;
-                    Cookies.set('searchFields', pResp);
-                    handler(null, pResp);
-                },
-                error: function (jqXHR, textStatus) {
-                    handler('Error', []);
-                }
-            });
+        //         url: Oskari.urls.getRoute('GetSeutumaisaSearchFields'),
+        //         success: function (pResp) {
+        //             this.cache['searchFields'] = pResp;
+        //             Cookies.set('searchFields', pResp);
+        //             handler(null, pResp);
+        //         },
+        //         error: function (jqXHR, textStatus) {
+        //             handler('Error', []);
+        //         }
+        //     });
 
 
-        },
-        search: function (data, handler) {
-            if (typeof handler !== 'function') {
-                return;
-            }
+        // },
+        // search: function (data, handler) {
+        //     if (typeof handler !== 'function') {
+        //         return;
+        //     }
 
-            jQuery.ajax({
-                type: 'POST',
-                dataType: 'json',
-                data: {
-                    params: JSON.stringify(data)
-                },
-                url: Oskari.urls.getRoute('SeutumaisaSearch'),
-                success: function (pResp) {
-                    handler(null, pResp);
-                },
-                error: function (jqXHR, textStatus) {
-                    handler('Error', []);
-                }
-            });
-        }
+        //     jQuery.ajax({
+        //         type: 'POST',
+        //         dataType: 'json',
+        //         data: {
+        //             params: JSON.stringify(data)
+        //         },
+        //         url: Oskari.urls.getRoute('SeutumaisaSearch'),
+        //         success: function (pResp) {
+        //             handler(null, pResp);
+        //         },
+        //         error: function (jqXHR, textStatus) {
+        //             handler('Error', []);
+        //         }
+        //     });
+        // }
     }, {
         'protocol': ['Oskari.mapframework.service.Service']
     });
