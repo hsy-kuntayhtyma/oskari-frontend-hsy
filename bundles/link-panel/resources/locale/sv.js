@@ -5,7 +5,7 @@ Oskari.registerLocalization({
         "title": "Link panel",
         "desc": "",
         "use-rights" : "Käyttöehdot sv",
-        "use-rights-url" : "https://www.hsy.fi/fi/asiantuntijalle/avoindata/karttapalvelu/Sivut/Karttapalvelun-k%c3%a4ytt%c3%b6ehdot.aspx",
+        "use-rights-url" : "https://www.hsy.fi/sv/luftkvalitet-och-klimat/geodata/oppen-karttjanst/",
         "open-data" : "Avoin data sv",
         "open-data-url" : "https://www.hsy.fi/avoindata"
     }
