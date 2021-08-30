@@ -267,3 +267,11 @@ Oskari.registerLocalization({
 }
 , true);
     
+Oskari.registerLocalization({
+    "lang": "en",
+    "key": "Logoplugin",
+    "value": {
+        "privacy-statement" : "Privacy statement",
+        "privacy-statement-url" : "https://www.hsy.fi/globalassets/hsy/tiedostot/general-privacy-statement-26.11.2020_.pdf"
+    }
+});
