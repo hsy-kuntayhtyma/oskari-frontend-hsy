@@ -267,3 +267,11 @@ Oskari.registerLocalization({
 }
 , true);
     
+Oskari.registerLocalization({
+    "lang": "sv",
+    "key": "Logoplugin",
+    "value": {
+        "privacy-statement" : "Integritetspolicy",
+        "privacy-statement-url" : "https://www.hsy.fi/globalassets/hsy/tiedostot/allman-integritetspolicy-26.11.2020_.pdf"
+    }
+});

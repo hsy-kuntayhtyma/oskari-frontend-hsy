@@ -19,6 +19,20 @@ jQuery(document).ready(function() {
             app.init(appSetup);
             app.startApplication(function () {
                 var sb = Oskari.getSandbox();
+                
+                // Add privacy statement link to logoplugin
+                var logoService = sb.getService('Oskari.map.LogoPluginService');
+                if (logoService !== null) {
+                    var label = Oskari.getLocalization('Logoplugin')['privacy-statement'];
+                    var URL = Oskari.getLocalization('Logoplugin')['privacy-statement-url'];
+                    var options = {
+                        id: label,
+                        callback: function() {
+                            window.open(URL, '_blank');
+                        }
+                    };
+                    logoService.addLabel(label, options);
+                }
             });
         },
         error: function (jqXHR, textStatus) {

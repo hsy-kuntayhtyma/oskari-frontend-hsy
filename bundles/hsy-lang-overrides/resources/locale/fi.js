@@ -266,4 +266,12 @@ Oskari.registerLocalization({
     }
 }
 , true);
-    
+ 
+Oskari.registerLocalization({
+    "lang": "fi",
+    "key": "Logoplugin",
+    "value": {
+        "privacy-statement" : "Tietosuojaseloste",
+        "privacy-statement-url" : "https://www.hsy.fi/globalassets/hsy/tiedostot/yleinen-tietosuojaseloste-26.11.2020.pdf"
+    }
+});
