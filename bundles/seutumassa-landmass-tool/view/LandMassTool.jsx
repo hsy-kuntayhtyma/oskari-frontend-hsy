@@ -171,6 +171,10 @@ const LandMassTool = () => {
   //     {
   //       "name": "SeutuMaisa_Vantaa",
   //       "id": 21
+  //     },
+  //     {
+  //       "name": "SeutuMassa_HSY",
+  //       "id": 22
   //     }
   // ];
 
@@ -227,11 +231,12 @@ const LandMassTool = () => {
         userRoles.some(role => role.id === 4) ||
         userRoles.some(role => role.id === 19) ||
         userRoles.some(role => role.id === 20) ||
-        userRoles.some(role => role.id === 21)
+        userRoles.some(role => role.id === 21) ||
+        userRoles.some(role => role.id === 22)
         ){
         const data = response[0];
         if(data !== undefined){
-          userRoles.some(role => role.id === 3) || userRoles.some(role => role.id === 4) ?
+          userRoles.some(role => role.id === 3) || userRoles.some(role => role.id === 4) || userRoles.some(role => role.id === 22) ?
           setData(data) : userRoles.some(role => role.id === 19) && data.kunta === "049" ?
           setData(data) : userRoles.some(role => role.id === 20) && data.kunta === "091" ?
           setData(data) : userRoles.some(role => role.id === 21) && data.kunta === "092" ?

@@ -505,6 +505,10 @@ const SelectorFormItem = ({id, name, description, placeholder, rules, enumDefini
   //     {
   //       "name": "SeutuMaisa_Vantaa",
   //       "id": 21
+  //     },
+  //     {
+  //       "name": "SeutuMassa_HSY",
+  //       "id": 22
   //     }
   // ];
 
@@ -526,7 +530,7 @@ const SelectorFormItem = ({id, name, description, placeholder, rules, enumDefini
           key={enumDefinition.title+'_' + index}
           value={enumDefinition.id}
           disabled={
-            userRoles.some(role => role.id === 3) || userRoles.some(role => role.id === 4) ?
+            userRoles.some(role => role.id === 3) || userRoles.some(role => role.id === 4) || userRoles.some(role => role.id === 22) ?
             false : userRoles.some(role => role.id === 19) && enumDefinition.id === "049" ?
             false : userRoles.some(role => role.id === 20) && enumDefinition.id === "091" ?
             false : userRoles.some(role => role.id === 21) && enumDefinition.id === "092" ?
