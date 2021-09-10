@@ -1,8 +1,10 @@
-const login = "testuser";
-const password = "password";
+const login = "hsy_landmass_api_user";
+const password = "8PDAsq^Md14udI(e";
 const authString = `${login}:${password}`;
 
-const url = 'http://10.21.0.27:9902/landmass_api/api/v1/';
+const url = 'https://seutumassa.hsy.fi/landmass_api/api/v1/';
+//const url = 'http://10.21.0.13:9903/landmass_api/api/v1/';
+//const url = 'http://10.21.0.27:9902/landmass_api/api/v1/';
 //const url = 'http://localhost:9902/landmass_api/api/v1/';
 //const url = 'http://localhost:8090/api/v1/';
 
