@@ -493,7 +493,7 @@ export const inputFields = [
         {
             "id": "tiedon_luotettavuus",
             "title": "Tiedon luotettavuus",
-            "description": "Valitse avautuvalta listalta kohteen maamassatietojen luotettavuus.",
+            "description": <div><p>A, Laatu varmistetaan kairauksilla, näytetutkimuksilla ja/tai maatutkalla ennen rakentamista ja rakenteet suunnitellaan ja toteutetaan tutkimustulosten mukaan.</p><p>B, Laatua ei tutkita tarkasti (kairaus- ja näytemäärä on vähäinen) tai laatu on arvioitu.</p><p>C, Laatu todetaan vasta rakentamisen aikana ja rakentamisaikataulu sovitetaan siten, että korjaaviin toimenpiteisiin on mahdollisuus.</p></div>,
             "type": "select",
             "placeHolderText": "Valitse",
             "rules": [{ required: false }],
@@ -509,10 +509,6 @@ export const inputFields = [
                 {
                     "id": "C",
                     "title": "C"
-                },
-                {
-                    "id": "D",
-                    "title": "D"
                 }
             ]
         },
