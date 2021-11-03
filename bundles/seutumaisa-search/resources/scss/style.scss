@@ -31,6 +31,15 @@ div.oskari-flyoutcontent {
                         text-align: right;
                     }
 
+                    .dataTables_scroll {
+                        overflow: auto;
+
+                        .dataTables_scrollHead,
+                        .dataTables_scrollBody{
+                            overflow: initial !important;
+                        }
+                    }
+
                 }
             }
         }
