@@ -385,7 +385,7 @@ const handleSaveAndAddNewLandmassData = (data) => {
     amount_remaining: data.amount_remaining || null,
     lisatieto: data.lisatieto || null,
     liitteet: data.liitteet || null,
-    varattu: data.varattu || null,
+    varattu: data.varattu || false,
     //muokattu: moment().toISOString() || null, // Triggers in DB will handle this.
     pilaantuneisuus: data.pilaantuneisuus || null,
     tiedon_luotettavuus: data.tiedon_luotettavuus || null,
@@ -428,6 +428,12 @@ const handleSaveAndAddNewLandmassData = (data) => {
             setIsLoading(false);
             handleSuccessMessage(maamassakohde, maamassatieto);
           }
+        });
+      }
+      if(henkilo.id !== null){
+        updatePerson(henkilo).then(response => {
+          setIsLoading(false);
+          handleSuccessMessage(maamassakohde, maamassatieto);
         });
       }
     });
