@@ -252,7 +252,7 @@ const handleNewLandmassData = () => {
       maamassakohde_id:  null,
       kelpoisuusluokkaryhma: null,
       kelpoisuusluokka:  null,
-      tiedontuottaja_id: null,
+      tiedontuottaja: null,
       planned_begin_date:  null,
       planned_end_date: null,
       realized_begin_date: null,
@@ -318,8 +318,8 @@ const handleSuccessMessage = (maamassakohde, maamassatieto) => {
         <p>Osoite: {maamassakohde.osoite || "-"}</p>
         <p>Kohdetyyppi: {maamassakohde.kohdetyyppi || "-"}</p>
         <p>Vaihe: {maamassakohde.vaihe || "-"}</p>
-        <p>Aloitus kk: {moment().format("MM-YYYY", maamassakohde.alku_pvm) || "-"}</p>
-        <p>Lopetus kk: {moment().format("MM-YYYY", maamassakohde.loppu_pvm) || "-"}</p>
+        <p>Aloitus kk: {maamassakohde.alku_pvm !== null ? moment(maamassakohde.alku_pvm).format("MM-YYYY") : "-"}</p>
+        <p>Lopetus kk: {maamassakohde.loppu_pvm !== null ? moment(maamassakohde.loppu_pvm).format("MM-YYYY") : "-"}</p>
         <p>Kunta: {maamassakohde.kunta === "049" && "Espoo" || maamassakohde.kunta === "091" && "Helsinki" || maamassakohde.kunta === "092" && "Vantaa" || "-"}</p>
         <p>Status: {maamassakohde.status || "-"}</p>
       </div>
@@ -328,10 +328,10 @@ const handleSuccessMessage = (maamassakohde, maamassatieto) => {
         {/* <p>Id: {maamassatieto.maamassatieto_id || "-"}</p> */}
         <p>Kelpoisuusluokkaryhmä: {maamassatieto.kelpoisuusluokkaryhma || "-"}</p>
         <p>Kelpoisuusluokka: {maamassatieto.kelpoisuusluokka || "-"}</p>
-        <p>Suunniteltu aloitus kk: {moment().format("MM-YYYY", maamassatieto.planned_begin_date) || "-"}</p>
-        <p>Suunniteltu lopetus kk: {moment().format("MM-YYYY", maamassatieto.planned_end_date) || "-"}</p>
-        <p>Toteutunut aloitus kk: {moment().format("MM-YYYY", maamassatieto.realized_begin_date) || "-"}</p>
-        <p>Toteutunut lopetus kk: {moment().format("MM-YYYY", maamassatieto.planned_end_date) || "-"}</p>
+        <p>Suunniteltu aloitus kk: {maamassatieto.planned_begin_date !== null ? moment(maamassatieto.planned_begin_date).format("MM-YYYY") : "-"}</p>
+        <p>Suunniteltu lopetus kk: {maamassatieto.planned_end_date !== null ? moment(maamassatieto.planned_end_date).format("MM-YYYY") : "-"}</p>
+        <p>Toteutunut aloitus kk: {maamassatieto.realized_begin_date !== null ? moment(maamassatieto.realized_begin_date).format("MM-YYYY") : "-"}</p>
+        <p>Toteutunut lopetus kk: {maamassatieto.realized_end_date !== null  ? moment(maamassatieto.realized_end_date).format("MM-YYYY") : "-"}</p>
         <p>Massaa jäljellä: {maamassatieto.amount_remaining || "-"}</p>
         <p>Status: {maamassatieto.status || "-"}</p>
         <p>Lisätiedot: {maamassatieto.lisatieto || "-"}</p>
@@ -377,7 +377,7 @@ const handleSaveAndAddNewLandmassData = (data) => {
     maamassakohde_id: data.maamassakohde_id || null,
     kelpoisuusluokkaryhma: data.kelpoisuusluokkaryhma || null,
     kelpoisuusluokka: data.kelpoisuusluokka || null,
-    tiedontuottaja_id: data.tiedontuottaja_id || null,
+    tiedontuottaja: data.tiedontuottaja || null,
     planned_begin_date: data.planned_begin_date ? data.planned_begin_date.toISOString() : null,
     planned_end_date: data.planned_end_date ? data.planned_end_date.toISOString() : null,
     realized_begin_date: data.realized_begin_date ? data.realized_begin_date.toISOString() : null,
@@ -385,7 +385,7 @@ const handleSaveAndAddNewLandmassData = (data) => {
     amount_remaining: data.amount_remaining || null,
     lisatieto: data.lisatieto || null,
     liitteet: data.liitteet || null,
-    varattu: data.varattu || null,
+    varattu: data.varattu || false,
     //muokattu: moment().toISOString() || null, // Triggers in DB will handle this.
     pilaantuneisuus: data.pilaantuneisuus || null,
     tiedon_luotettavuus: data.tiedon_luotettavuus || null,
@@ -397,39 +397,42 @@ const handleSaveAndAddNewLandmassData = (data) => {
 
   if(maamassakohde.id !== null) { // Landmass area exists
     setIsLoading(true);
-    updateLandmassArea(maamassakohde).then(() => {
-      if(maamassatieto.id !== null) {
-        updateLandmassData(maamassatieto).then(response => {
-          if(maamassakohde.hasOwnProperty('id')){
-            getLandmassDataByLandmassAreaId(maamassakohde.id).then(response => {
+    addPerson(henkilo).then(response => {
+      maamassakohde.omistaja_id = response.henkilo_id;
+      updateLandmassArea(maamassakohde).then(() => {
+        if(maamassatieto.id !== null) {
+          updateLandmassData(maamassatieto).then(landmassDataResponse => {
+            if(maamassakohde.hasOwnProperty('id')){
+              getLandmassDataByLandmassAreaId(maamassakohde.id).then(landmassDataResponse => {
+                setIsLoading(false);
+                setLandmassDataTable(landmassDataResponse);
+                handleSuccessMessage(maamassakohde, maamassatieto);
+                //setCurrentStep(3);
+              })
+            } else {
               setIsLoading(false);
-              setLandmassDataTable(response);
-              handleSuccessMessage(maamassakohde, maamassatieto);
-              //setCurrentStep(3);
-            })
-          } else {
-            setIsLoading(false);
-            handleSuccessMessage(maamassakohde, maamassatieto);
-          }
-        });
-      } else {
-        maamassatieto.maamassakohde_id = maamassakohde.id;
-        maamassatieto.amount_total = data.amount_remaining;
-        setIsLoading(true);
-        addLandmassData(maamassatieto).then(response => {
-          if(maamassakohde.hasOwnProperty('id')){
-            getLandmassDataByLandmassAreaId(maamassakohde.id).then(response => {
-              setIsLoading(false); 
-              setLandmassDataTable(response);
-              //setCurrentStep(3);
               handleSuccessMessage(maamassakohde, maamassatieto);
             }
-          )} else {
-            setIsLoading(false);
-            handleSuccessMessage(maamassakohde, maamassatieto);
-          }
-        });
-      }
+          });
+        } else {
+          maamassatieto.maamassakohde_id = maamassakohde.id;
+          maamassatieto.amount_total = data.amount_remaining;
+          setIsLoading(true);
+          addLandmassData(maamassatieto).then(landmassDataResponse => {
+            if(maamassakohde.hasOwnProperty('id')){
+              getLandmassDataByLandmassAreaId(maamassakohde.id).then(landmassDataResponse => {
+                setIsLoading(false); 
+                setLandmassDataTable(landmassDataResponse);
+                //setCurrentStep(3);
+                handleSuccessMessage(maamassakohde, maamassatieto);
+              }
+            )} else {
+              setIsLoading(false);
+              handleSuccessMessage(maamassakohde, maamassatieto);
+            }
+          });
+        }
+      });
     });
   } else {  // Landmass area does not exist
     setIsLoading(true);
@@ -861,7 +864,7 @@ const steps = [
                         maamassakohde_id:  null,
                         kelpoisuusluokkaryhma: null,
                         kelpoisuusluokka:  null,
-                        tiedontuottaja_id: null,
+                        tiedontuottaja: null,
                         planned_begin_date:  null,
                         planned_end_date: null,
                         realized_begin_date: null,
