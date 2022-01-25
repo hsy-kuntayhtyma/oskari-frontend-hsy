@@ -335,7 +335,7 @@ const handleSuccessMessage = (maamassakohde, maamassatieto) => {
         <p>Massaa jäljellä: {maamassatieto.amount_remaining || "-"}</p>
         <p>Status: {maamassatieto.status || "-"}</p>
         <p>Lisätiedot: {maamassatieto.lisatieto || "-"}</p>
-        <p>Liitteet: {maamassatieto.liitteet || "-"}</p>
+        <p>Linkki: {maamassatieto.liitteet || "-"}</p>
         <p>Varattu: {maamassatieto.varattu ? "Kyllä" : "Ei" || "-"}</p>
         <p>Pilaantuneisuus: {maamassatieto.pilaantuneisuus || "-"}</p>
         <p>Tiedon luotettavuus: {maamassatieto.tiedon_luotettavuus || "-"}</p>
