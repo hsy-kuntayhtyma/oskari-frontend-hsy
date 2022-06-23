@@ -323,7 +323,7 @@ export const inputFields = [
         {
             "id": "amount_remaining",
             "title": "Määrä (m³)",
-            "description": <p>Kirjaa kohteen määrä kuutioina. Lisätietoja kuutioiden määrittelystä löydät <a target="_blank" href="https://www.rakennustieto.fi/html/liitteet/infraryl/Infra_2015_Maaramittausohje.pdf#page=167">täältä</a></p>,
+            "description": <div><p>Kirjaa kohteen määrä kuutioina.</p><p>Kun kyseessä on maamassavarat, niin kyseessä on ktr-kuutio. Jos kyseessä on maamassatarve, niin rtr-kuutio.</p><p>Lisätietoja kuutioiden määrittelystä löydät <a target="_blank" href="https://www.rakennustieto.fi/html/liitteet/infraryl/Infra_2015_Maaramittausohje.pdf#page=167">täältä</a></p></div>,
             "type": "number",
             "rules": [{ required: true, message: 'Syötä määrä' }]
         },
