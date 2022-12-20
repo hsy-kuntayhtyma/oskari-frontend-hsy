@@ -9,8 +9,8 @@
     "acorn": "^6.1.1",
     "antd": "^4.15.3",
     "moment": "2.24.0",
-    "oskari-frontend": "https://git@github.com/oskariorg/oskari-frontend.git#1.56.0",
-    "oskari-frontend-contrib": "https://git@github.com/oskariorg/oskari-frontend-contrib.git#1.56.0",
+    "oskari-frontend": "https://git@github.com/oskariorg/oskari-frontend.git#2.9.1",
+    "oskari-frontend-contrib": "https://git@github.com/oskariorg/oskari-frontend-contrib.git#2.9.1",
     "shapefile": "^0.6.6"
   },
   "resolutions": {
@@ -29,7 +29,6 @@
     "start:dev": "npm run dev-mode:on && node ./node_modules/oskari-frontend/node_modules/webpack-dev-server/bin/webpack-dev-server.js --config ./node_modules/oskari-frontend/webpack.config.js --hot --env.appdef=devapp:applications/hsy",
     "build:dev": "npm run dev-mode:on && node ./node_modules/oskari-frontend/node_modules/webpack/bin/webpack.js --config ./node_modules/oskari-frontend/webpack.config.js --mode production --progress --env.appdef=applications/hsy",
     "sprite": "node ./node_modules/oskari-frontend/webpack/sprite.js",
-    "postinstall": "npm run dev-mode && node ./node_modules/oskari-frontend/scripts/copy-cesium",
     "test": "eslint --config ./node_modules/oskari-frontend/.eslintrc.js bundles",
     "storybook": "npm run dev-mode:off && start-storybook"
   },
