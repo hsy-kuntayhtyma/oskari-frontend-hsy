@@ -9,10 +9,12 @@ import moment from 'moment';
 
 //import 'moment/locale/fi.js';
 //import '../../../../node_modules/moment/locale/fi.js';
+
 import locale from 'antd/es/date-picker/locale/fi_FI';
 
 import '../../resources/css/styles.css';
-import 'antd/dist/antd.css';
+import 'antd/es/date-picker/style/index.css';
+// import 'antd/dist/antd.css';
 
 /* API */
 import {
