@@ -43,7 +43,7 @@ p.login_header {
 
 #toolsDiv {
     overflow-y: auto;
-    height:calc(100% - 50px) !important;
+    height:calc(100% - 60px);
     overflow-x: hidden;
 }
 
@@ -56,7 +56,13 @@ p.login_header {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
+
+  table {
+    border: 0;
+    margin: 0;
+  }
 }
+
 
 .oskari-tile {
     border-bottom: 1px solid $tummaTurkoosi !important;
