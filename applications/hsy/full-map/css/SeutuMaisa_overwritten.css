@@ -34,9 +34,7 @@ p.login_header {
   overflow-x: hidden; }
 
 #logosDiv {
-  position: absolute;
   height: 50px;
-  width: 100%;
   bottom: 0px; }
 
 #logos {
@@ -130,12 +128,15 @@ button.approve, input.approve {
 .layerselector2-layer-filter {
   display: none; }
 
-.logoplugin .icon {
-  background-image: url("../hsy-logo_50px.png") !important;
-  height: 26px !important;
-  width: 50px !important;
-  background-color: transparent !important; }
-
+.mapplugin.logoplugin img.logo {
+  /* Works with the 50px logo included with server binaries */ 
+  height: 37px;
+  width: 60px;
+  background-color: #00858C;
+  padding: 5px;
+  border-radius: 5px;
+  translate: 0 -10px;
+}
 div.mapplugin.backgroundLayerSelectionPlugin div.bg {
   opacity: 0.6; }
 
