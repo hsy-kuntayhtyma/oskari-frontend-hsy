@@ -17,6 +17,28 @@ jQuery(document).ready(function() {
             }
 
             app.init(appSetup);
+            // TODO: move to db
+            // font is not recognized by theming and that is the point of it
+            // for keeping the font that is defined for the page/overwritten.css
+            Oskari.app.getTheming().setTheme({
+                "font": "dont_change",
+                "color": {
+                    "icon": "#2C2A29",
+                    "accent": "#007377",
+                    "primary": "#00AAA3"
+                },
+                "map": {
+                    "navigation": {
+                        "roundness": 40,
+                        "opacity": 0.8,
+                        "color": {
+                            "primary": "#ffffff",
+                            "accent": "#00AAA3",
+                            "text": "#000000"
+                        }
+                    }
+                }
+            });
             app.startApplication(function () {
                 var sb = Oskari.getSandbox();
                 
