@@ -179,6 +179,9 @@ div.divmanazerpopup h3.popupHeader {
     padding: 5px;
     border-radius: 5px;
     translate: 0 -10px;
+    &:hover {
+        opacity: 0.8;
+    }
 }
 
 div.mapplugin.backgroundLayerSelectionPlugin div.bg {
