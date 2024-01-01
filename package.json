@@ -1,6 +1,6 @@
 {
   "name": "oskari-frontend-hsy",
-  "version": "1.0.1",
+  "version": "1.7.0-dev",
   "description": "These are HSY bundles for Oskari. They come with no official support from the core Oskari team.",
   "keywords": [
     "Oskari"
@@ -9,8 +9,8 @@
     "acorn": "^6.1.1",
     "antd": "^4.15.3",
     "moment": "2.24.0",
-    "oskari-frontend": "https://git@github.com/oskariorg/oskari-frontend.git#2.9.1",
-    "oskari-frontend-contrib": "https://git@github.com/jampukka/oskari-frontend-contrib.git#2.9.2",
+    "oskari-frontend": "https://git@github.com/oskariorg/oskari-frontend.git#2.12.1",
+    "oskari-frontend-contrib": "https://git@github.com/jampukka/oskari-frontend-contrib.git#master",
     "shapefile": "^0.6.6"
   },
   "resolutions": {
