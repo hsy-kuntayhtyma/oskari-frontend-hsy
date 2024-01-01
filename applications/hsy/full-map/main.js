@@ -75,5 +75,5 @@ import 'oskari-loader!../../../packages/seutumaisa-search/bundle.js';
 import 'oskari-loader!../../../packages/seutumaisa-history-search/bundle.js';
 import 'oskari-lazy-loader?seutumassa-landmass-tool!../../../packages/seutumassa-landmass-tool/bundle.js';
 
-import './css/overwritten.scss';
+//import './css/overwritten.scss';
 import './css/SeutuMaisa_overwritten.scss';
