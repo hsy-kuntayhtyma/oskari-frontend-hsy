@@ -1,6 +1,6 @@
 {
   "name": "oskari-frontend-hsy",
-  "version": "1.7.0-dev",
+  "version": "1.7.0",
   "description": "These are HSY bundles for Oskari. They come with no official support from the core Oskari team.",
   "keywords": [
     "Oskari"
