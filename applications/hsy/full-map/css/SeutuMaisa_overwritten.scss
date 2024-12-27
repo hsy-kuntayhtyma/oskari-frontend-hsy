@@ -43,23 +43,26 @@ p.login_header {
 
 #toolsDiv {
     overflow-y: auto;
-    height:calc(100% - 50px) !important;
+    height:calc(100% - 60px);
     overflow-x: hidden;
 }
 
 #logosDiv {
-    position: absolute;
     height: 50px;
-    width: 100%;
     bottom: 0px;
-
 }
 
 #logos {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
+
+  table {
+    border: 0;
+    margin: 0;
+  }
 }
+
 
 .oskari-tile {
     border-bottom: 1px solid $tummaTurkoosi !important;
@@ -125,56 +128,66 @@ div.divmanazerpopup h3.popupHeader {
     background-color: #fee9d7 !important;
 }
 
-button.primary, input.primary {
-    background-color: $tummaTurkoosi !important;
-    background-image: linear-gradient($keskiTurkoosi 20%, $tummaTurkoosi 90%) !important;
-    border-color: $keskiTurkoosi $keskiTurkoosi $keskiTurkoosi $keskiTurkoosi !important;
-    text-shadow: none !important;
 
-    &.selected {
-        background: $secondColor !important;
+.oskari-flyout {
+
+    button.primary, input.primary {
+        background-color: $tummaTurkoosi !important;
+        background-image: linear-gradient($keskiTurkoosi 20%, $tummaTurkoosi 90%) !important;
+        border-color: $keskiTurkoosi $keskiTurkoosi $keskiTurkoosi $keskiTurkoosi !important;
+        text-shadow: none !important;
+    
+        &.selected {
+            background: $secondColor !important;
+            border-color: #00A2AA !important;
+            color: $valkea !important;
+            text-shadow: none !important;
+        }
+    }
+    
+    input[type="submit"]:hover:enabled, input[type="button"]:hover:enabled, input[type="reset"]:hover:enabled, button:hover:enabled, .lfr-actions:hover, .lfr-actions:hover ul{
+        background-color: $tummaTurkoosi !important;
+        background-image: linear-gradient($tummaTurkoosi 20%, $keskiTurkoosi 90%) !important;
         border-color: #00A2AA !important;
         color: $valkea !important;
         text-shadow: none !important;
     }
-}
 
-input[type="submit"]:hover:enabled, input[type="button"]:hover:enabled, input[type="reset"]:hover:enabled, button:hover:enabled, .lfr-actions:hover, .lfr-actions:hover ul{
-    background-color: $tummaTurkoosi !important;
-    background-image: linear-gradient($tummaTurkoosi 20%, $keskiTurkoosi 90%) !important;
-    border-color: #00A2AA !important;
-    color: $valkea !important;
-    text-shadow: none !important;
-}
-
-input[type="submit"]:hover:enabled, input[type="submit"]:focus, input[type="button"]:hover:enabled, input[type="button"]:focus, input[type="reset"]:hover:enabled, input[type="reset"]:focus, button:hover:enabled, button:focus{
-    color: $valkea !important;
-}
-
-button.approve, input.approve{
-    background-color: #008302 !important;
-    background-image: none !important;
-    border-color: #008302 #008302 #008302 #008302 !important;
-    text-shadow: none !important;
-    color: $valkea;
-
-    &:hover, &enabled {
-        background-color: #009033 !important;
-        background-image: none !important;
-        border-color: #009033 #009033 #009033 #009033 !important;
-        text-shadow: none !important;
+    input[type="submit"]:hover:enabled, input[type="submit"]:focus, input[type="button"]:hover:enabled, input[type="button"]:focus, input[type="reset"]:hover:enabled, input[type="reset"]:focus, button:hover:enabled, button:focus{
+        color: $valkea !important;
     }
-}
 
+    button.approve, input.approve {
+        background-color: #008302 !important;
+        background-image: none !important;
+        border-color: #008302 #008302 #008302 #008302 !important;
+        text-shadow: none !important;
+        color: $valkea;
+
+        &:hover, &enabled {
+            background-color: #009033 !important;
+            background-image: none !important;
+            border-color: #009033 #009033 #009033 #009033 !important;
+            text-shadow: none !important;
+        }
+    }
+
+}
 .layerselector2-layer-filter{
     display: none;
 }
 
-.logoplugin .icon{
-    background-image: url('../hsy-logo_50px.png') !important;
-    height: 26px !important;
-    width: 50px !important;
-    background-color: transparent !important;
+.mapplugin.logoplugin img.logo {
+    /* Works with the 50px logo included with server binaries */ 
+    height: 37px;
+    width: 60px;
+    background-color: #00858C;
+    padding: 5px;
+    border-radius: 5px;
+    translate: 0 -10px;
+    &:hover {
+        opacity: 0.8;
+    }
 }
 
 div.mapplugin.backgroundLayerSelectionPlugin div.bg {

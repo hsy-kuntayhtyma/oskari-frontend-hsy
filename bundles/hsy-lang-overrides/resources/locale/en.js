@@ -1,5 +1,5 @@
 Oskari.registerLocalization({
-    "lang": "fi",
+    "lang": "en",
     "key": "userinterface.UserGuide",
     "value": {
         "tabs": [{
@@ -22,7 +22,7 @@ Oskari.registerLocalization({
 }, true);
 
 Oskari.registerLocalization({
-    "lang": "fi",
+    "lang": "en",
     "key": "userinterface.admin.UserGuide",
     "value": {
         "tabs": [{
@@ -48,7 +48,7 @@ Oskari.registerLocalization({
 }, true);
 
 Oskari.registerLocalization({
-    "lang": "fi",
+    "lang": "en",
     "key": "download-basket",
     "value": {
         "title" : "Latauskori",
@@ -102,7 +102,7 @@ Oskari.registerLocalization({
 ,true);
 
 Oskari.registerLocalization({
-    "lang": "fi",
+    "lang": "en",
     "key": "Search",
     "value": {
         "title": "Haku",
@@ -146,7 +146,7 @@ Oskari.registerLocalization({
 ,true);
 
 Oskari.registerLocalization({
-    "lang": "fi",
+    "lang": "en",
     "key": "Printout",
     "value": {
         "title": "Tulostus",
