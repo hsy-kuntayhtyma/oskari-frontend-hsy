@@ -5,29 +5,3 @@
 .ant-picker-cell-inner {
     text-align: center;
 }
-
-/*
-.ant-btn:focus {
-    color: rgba(0, 0, 0, 0.65) !important;
-}
-
-.ant-btn-primary:focus {
-    color: #fff !important;
-}
-
-.ant-popover {
-    z-index: 999999 !important;
-}
-
-.ant-select-dropdown {
-    z-index: 999999 !important;
-}
-
-.ant-modal-mask {
-    z-index: 999999 !important;
-}
-
-.ant-modal-wrap {
-    z-index: 999999 !important;
-}
-*/

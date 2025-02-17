@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import '../resources/css/styles.css';
 import { createGlobalStyle } from 'styled-components';
 import { LocaleConsumer } from 'oskari-ui/util';
+import { Modal, Table } from 'antd';
 var shapefile = require("shapefile");
 import GeoJSON from 'ol/format/GeoJSON';
 
@@ -14,16 +15,14 @@ import moment from 'moment';
 
 /* API */
 import {
-  getPersonById,
-  getLandmassAreaByCoordinates,
-  getLandmassDataByLandmassAreaId,
-} from '../resources/api/SeutumassaLandmassToolApi.js';
-
-import { inputFields } from '../resources/inputFields.js';
+  getLandmassConfig,
+  getLandmassAreaByCoordinate
+} from '../resources/api/SeutumassaLandmassApi.js';
 
 /* COMPONENTS */
 import ActionSelector from './components/ActionSelector';
 import StepWizard from './components/StepWizard';
+import ProjectManager from './components/ProjectManager.jsx';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -48,19 +47,13 @@ const LandMassTool = () => {
   flyoutContainer.style.setProperty("border-radius", "10px", "important");
   flyoutContainer.style.setProperty("overflow", "hidden", "important");
 
-  //const flyoutContent = document.getElementById('landmass-tool-content');
-  const [modalContent, setModalContent] = useState(null);
-  const [landmassData, setLandmassData] = useState(null);
-  const [landmassDataTable, setLandmassDataTable] = useState([]);
-  const [inputDefinitions, setInputDefinitions] = useState([]);
+  const [config, setConfig] = useState();
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [preSelectedLandmassAreas, setPreSelectedLandmassAreas] = useState();
+  const [preSelectedLandmassAreaId, setPreSelectedLandmassAreaId] = useState();
 
-  //const [isMapClickActive, setIsMapClickActive] = useState(false);
-
+  const [selectedLandmassArea, setSelectedLandmassArea] = useState();
   const [actionSelectorState, setActionSelectorState] = useState(0);
-
-  const [currentStep, setCurrentStep] = useState(0);
 
   useEffect(() => {
     switch(actionSelectorState) {
@@ -75,17 +68,44 @@ const LandMassTool = () => {
       break;
       case 3:
         map.on('click', handleMapClick);
-        //flyoutContainer.style.setProperty("opacity", "0.5", "important");
       break;
       case 4:
+        map.un('click', handleMapClick);
+      break;
+      case 5:
         map.un('click', handleMapClick);
       break;
     }
   }, [actionSelectorState]);
 
   useEffect(() => {
-    setInputDefinitions(inputFields);
+    getLandmassConfig()
+      .then(r => r.json())
+      .then(setConfig);
+  }, []);
 
+  useEffect(() => {
+    setPreSelectedLandmassAreaId(preSelectedLandmassAreas?.[0].id);
+  }, [preSelectedLandmassAreas]);
+
+  const doSetSelectedLandmassArea = (area) => {
+    if (area.hasOwnProperty('geom') && !!area.geom && typeof(area.geom) === "string") {
+      // Convert stringified GeoJSON to object when reading
+      area.geom = JSON.parse(area.geom);
+    }
+    if (!area.hankealue_id) {
+      area.hankealue_id = -1;
+    }
+    if (area.hasOwnProperty('alku_pvm') && !!area.alku_pvm) {
+      area.alku_pvm = moment(area.alku_pvm);
+    }
+    if (area.hasOwnProperty('loppu_pvm') && !!area.loppu_pvm) {
+      area.loppu_pvm = moment(area.loppu_pvm);
+    }
+    setSelectedLandmassArea(area);
+  };
+
+  useEffect(() => {
     const handleExtensionUpdatedEvents = () => {
       var extensionUpdatedEventsModule = {
           init: function (sandbox) {
@@ -108,8 +128,6 @@ const LandMassTool = () => {
                     map.getLayers().forEach(layer => {
                       layer.get('name') === 'geoJSONPreview' && map.removeLayer(layer);
                     });
-                    setActionSelectorState(0);
-                    setCurrentStep(0);
                     handleResetLandmassTool();
                     flyoutContainer.style.setProperty("opacity", "0", "important");
                     sandbox.postRequestByName('DrawTools.StopDrawingRequest', ['newGeometry', true]);
@@ -139,194 +157,76 @@ const LandMassTool = () => {
 
   const handleResetLandmassTool = () => {
     setActionSelectorState(0);
-    setCurrentStep(0);
-    setLandmassData(null);
-    setLandmassDataTable([]);
+    setSelectedLandmassArea(null);
     handleClearGeoJSONPreview();
   };
 
-  const handleMapClick = (evt) => {
-
-  //   const userRoles = [
-  //     {
-  //         "name": "Guest",
-  //         "id": 1
-  //     },
-  //     {
-  //       "name": "Admin",
-  //       "id": 3
-  //     },
-  //     {
-  //       "name": "HSY",
-  //       "id": 4
-  //     },
-  //     {
-  //       "name": "SeutuMaisa_Espoo",
-  //       "id": 19
-  //     },
-  //     {
-  //       "name": "SeutuMaisa_Helsinki",
-  //       "id": 20
-  //     },
-  //     {
-  //       "name": "SeutuMaisa_Vantaa",
-  //       "id": 21
-  //     },
-  //     {
-  //       "name": "SeutuMassa_HSY",
-  //       "id": 22
-  //     }
-  // ];
-
-    const userRoles = Oskari.user().getRoles();
-    const body = { lontitude: evt.coordinate[0], latitude: evt.coordinate[1] };
-    setIsLoading(true);
-    getLandmassAreaByCoordinates(body).then(response => {
-      console.log(response);
-
-      const setData = (data) => {
-        setActionSelectorState(0);
-        map.un('click', handleMapClick);
-        if(data.hasOwnProperty('alku_pvm')){
-           data.alku_pvm = data.alku_pvm !== null ? moment(data.alku_pvm) : null;
-        }
-
-        if(data.hasOwnProperty('loppu_pvm')){
-          data.loppu_pvm = data.loppu_pvm !== null ? moment(data.loppu_pvm) : null;
-        }
-
-        if(data.hasOwnProperty('omistaja_id') && data.omistaja_id !== null) {
-          getPersonById(data.omistaja_id).then(ownerData => {
-            var newData = {...data, ...ownerData};
-            setLandmassData(newData);
-            setIsLoading(false);
-          });
-        } else {
-          setLandmassData(data);
-          setIsLoading(false);
-        }
-
-        if(data.hasOwnProperty('id')){
-          getLandmassDataByLandmassAreaId(data.id).then(response => {
-            // response && response.map((landmassData, index) => {
-            //   if(landmassData.hasOwnProperty('linkit')){
-            //     if(response[index].linkit === null){
-            //       response[index].linkit = [];
-            //     }
-            //   }
-            // });
-            setLandmassDataTable(response);
-          })
-        }
-      };
-
-      const setInvalidUser = () => {
-            setIsLoading(false);
-            setActionSelectorState(-1);
-      };
-
-
-      if(!response.error && response !== undefined &&
-        userRoles.some(role => role.id === 3) ||
-        userRoles.some(role => role.id === 4) ||
-        userRoles.some(role => role.id === 19) ||
-        userRoles.some(role => role.id === 20) ||
-        userRoles.some(role => role.id === 21) ||
-        userRoles.some(role => role.id === 22)
-        ){
-        const data = response[0];
-        if(data !== undefined){
-          userRoles.some(role => role.id === 3) || userRoles.some(role => role.id === 4) || userRoles.some(role => role.id === 22) ?
-          setData(data) : userRoles.some(role => role.id === 19) && data.kunta === "049" ?
-          setData(data) : userRoles.some(role => role.id === 20) && data.kunta === "091" ?
-          setData(data) : userRoles.some(role => role.id === 21) && data.kunta === "092" ?
-          setData(data) : setInvalidUser();
-        } else {
-          //setActionSelectorState(0);
-          setIsLoading(false);
-        }
-      } else {
-        setInvalidUser();
+  const handleMapClick = async (evt) => {
+    const lon = evt.coordinate[0];
+    const lat = evt.coordinate[1];
+    const response = await getLandmassAreaByCoordinate(lon, lat);
+    if (!response.ok) {
+      if (response.status === 403) {
+        setActionSelectorState(-1);
       }
-    });
+      return;
+    }
+    const areas = await response.json();
+    if (!areas || !areas.length) {
+      return;
+    }
+    if (areas.length === 1) {
+      setActionSelectorState(0);
+      doSetSelectedLandmassArea(areas[0]);
+    } else {
+      setPreSelectedLandmassAreas(areas);
+    }
   };
 
-  const handleDrawNewGeometry = (type) => {
-    map.un('click', handleMapClick);
-    if(type == 'Polygon'){
-      setActionSelectorState(1);
-    } else if(type === 'Point'){
-      setActionSelectorState(2);
-    }
+  const handleDrawNewPoint = () => handleDrawNewGeometry('Point');
+  const handleDrawNewArea = () => handleDrawNewGeometry('Polygon');
 
-    setLandmassDataTable([]);
-    //sandbox.postRequestByName('DrawTools.StopDrawingRequest', ['newGeometry', true]);
+  const handleDrawNewGeometry = (geomType) => {
+    const requestId = 'newGeometry';
 
-    var drawEventModule = {
+    const actionState = geomType == 'Polygon' ? 1 : 2;
+    setActionSelectorState(actionState);
+    setSelectedLandmassArea(null);
+    
+    const drawEventModule = {
       init: function (sandbox) {
         sandbox.unregisterFromEventByName(this, 'DrawingEvent');
         sandbox.registerForEventByName(this, 'DrawingEvent');
       },
       getName: function () {
-          return 'DrawEventModule';
+        return 'DrawEventModule';
       },
       onEvent: function (event) {
-          if(event.getIsFinished() === true){
-            sandbox.postRequestByName('DrawTools.StopDrawingRequest', ['newGeometry']);
-            sandbox.unregisterFromEventByName(this, 'DrawingEvent');
-
-            var geoJson = event.getGeoJson();
-            var crs = geoJson.crs;
-            var coordinates = [];
-            var geomType;
-
-            if(geoJson.features[0].geometry.type === 'Point'){
-              geomType = 'Point';
-              coordinates = geoJson.features[0].geometry.coordinates;
-            } else if(geoJson.features[0].geometry.type === 'Polygon'){
-              geomType = 'MultiPolygon';
-              coordinates[0] = geoJson.features[0].geometry.coordinates;
-            }
-
-              var geom = {
-              "crs": {
-                  "type": "name",
-                  "properties": {
-                      "name": crs
-                  }
-              },
-              "coordinates": coordinates,
-              "type": geomType
-            };
-
-            console.log(geom);
-
-              event.getGeoJson().features.length > 0 && setLandmassData(landmassData => {
-                return { ...landmassData, geom: geom }
-              });
+        if (event.getIsFinished()) {
+          sandbox.postRequestByName('DrawTools.StopDrawingRequest', [requestId]);
+          sandbox.unregisterFromEventByName(this, 'DrawingEvent');
+          const geojson = event.getGeoJson();
+          if (geojson.features?.length) {
+            doSetSelectedLandmassArea({ geom: geojson.features[0].geometry });
           }
+        }
       }
     };
 
     sandbox.register(drawEventModule);
 
     Oskari.getSandbox().postRequestByName('DrawTools.StartDrawingRequest', [
-            'newGeometry',
-            type, // or Polygon
-            {
-                buffer: 200,
-                allowMultipleDrawing: 'single',
-                drawControl: true,
-                modifyControl: true
-            }]
-    );
+      requestId,
+      geomType,
+      {
+        buffer: 200,
+        allowMultipleDrawing: 'single',
+        drawControl: true,
+        modifyControl: true
+      }
+    ]);
   };
 
-  const handleSelectGeometry = () => {
-    setActionSelectorState(3);
-    sandbox.postRequestByName('DrawTools.StopDrawingRequest', ['newGeometry', true]);
-    sandbox.postRequestByName('MapModulePlugin.MapLayerUpdateRequest', [70, true]);
-  };
 
   const handleClearGeoJSONPreview = () => {
    map.getLayers().forEach(layer => {
@@ -518,7 +418,7 @@ const LandMassTool = () => {
           flyTo(center, function () {
             console.log(geom);
             setTimeout(function () {
-              geoJson.features.length > 0 && setLandmassData(landmassData => {
+              geoJson.features.length > 0 && setSelectedLandmassArea(landmassData => {
                 return { ...landmassData, geom: geom }
               });
             }, 500);
@@ -578,44 +478,67 @@ const LandMassTool = () => {
 
   };
 
-  const handleSaveAndClose = (data) => {
-    console.log(data);
-  };
-  
   
   return (
     <>
     <GlobalStyle actionSelectorState={actionSelectorState} />
-    { landmassData !== null ?
+    {!!selectedLandmassArea && 
       <StepWizard
-        isLoading={isLoading}
-        setIsLoading={setIsLoading}
-        currentStep={currentStep}
-        setCurrentStep={setCurrentStep}
-        inputDefinitions={inputDefinitions}
-        landmassData={landmassData}
-        setLandmassData={setLandmassData}
-        landmassDataTable={landmassDataTable}
-        setLandmassDataTable={setLandmassDataTable}
-        //handleSaveAndAddNewLandmassData={handleSaveAndAddNewLandmassData}
-        handleSaveAndClose={handleSaveAndClose}
+        selectedLandmassArea={selectedLandmassArea}
+        setSelectedLandmassArea={doSetSelectedLandmassArea}
         handleResetLandmassTool={handleResetLandmassTool}
-        modalContent={modalContent}
-        setModalContent={setModalContent}
         handleMapRefresh={handleMapRefresh}
-      /> :
-      <ActionSelector
-          isLoading={isLoading}
-          actionSelectorState={actionSelectorState}
-          setActionSelectorState={setActionSelectorState}
-          handleSelectGeometry={handleSelectGeometry}
-          handleDrawNewGeometry={handleDrawNewGeometry}
-          handleDownloadShapeFile={handleDownloadShapeFile}
-          modalContent={modalContent}
-          setModalContent={setModalContent}
+        config={config}
       />
     }
-
+    {!selectedLandmassArea && actionSelectorState === 5 && 
+      <ProjectManager
+        resetHandler={handleResetLandmassTool}
+        config={config}
+      /> 
+    }
+    {!selectedLandmassArea && actionSelectorState !== 5 &&
+      <ActionSelector
+        actionSelectorState={actionSelectorState}
+        setActionSelectorState={setActionSelectorState}
+        handleDrawNewPoint={handleDrawNewPoint}
+        handleDrawNewArea={handleDrawNewArea}
+        handleSelectGeometry={() => setActionSelectorState(3)}
+        handleDownloadShapeFile={handleDownloadShapeFile}
+        handleManageProjects={() => setActionSelectorState(5)}
+        config={config}
+      />
+    }
+    {preSelectedLandmassAreas?.length &&
+      <Modal
+        zIndex={999999}
+        open={preSelectedLandmassAreas?.length}
+        onCancel={() => setPreSelectedLandmassAreas(null)}
+        onOk={() => {
+          const id = preSelectedLandmassAreaId;
+          const areas = preSelectedLandmassAreas;
+          const area = areas.find(x => x.id === id);
+          setPreSelectedLandmassAreas(null);
+          doSetSelectedLandmassArea(area);
+        }}
+      >
+        <strong>Valitse yksi kohde</strong>
+        <Table
+          rowSelection={{
+            type: 'radio',
+            selectedRowKeys: [preSelectedLandmassAreaId],
+            onChange: (selectedRowKeys) => setPreSelectedLandmassAreaId(selectedRowKeys[0])
+          }}
+          columns={[
+            { title: 'Kohteen id', dataIndex: 'key' },
+            { title: 'Kunta', dataIndex: 'kunta' },
+            { title: 'Kohteen nimi', dataIndex: 'nimi' },
+          ]}
+          dataSource={preSelectedLandmassAreas.map(({ id, kunta, nimi }) => ({ key: id, kunta, nimi }))}
+          pagination={false}
+        />
+      </Modal>
+    }
     </>
   );
 };

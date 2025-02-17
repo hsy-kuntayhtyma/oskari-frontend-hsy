@@ -1,22 +1,7 @@
 import React from "react";
-import styled from 'styled-components';
 
 export const inputFields = [
     [
-        {
-            "id": "nimi",
-            "title": "Massakohteen nimi",
-            "description": "Anna tähän maamassakohteen nimi.",
-            "type": "textfield",
-            "rules": [{ required: false }]
-        },
-        {
-            "id": "osoite",
-            "title": "Massakohteen osoite",
-            "description": "Anna tähän maamassakohteen osoite.",
-            "type": "textfield",
-            "rules": [{ required: false }]
-        },
         {
             "id": "kunta",
             "title": "Kunta",
@@ -38,6 +23,34 @@ export const inputFields = [
                     "title": "Vantaa"
                 }
             ]
+        },
+        {
+            "id": "hankealue_id",
+            "title": "Hankealue",
+            "description": "Valitse avautuvalta listalta hankealue johon maamassakohde kuuluu.",
+            "type": "select",
+            "placeHolderText": "Valitse",
+            "rules": [{ required: true, message: 'Valitse hankealue' }],
+            "values": [
+                {
+                    "id": -1,
+                    "title": "Ei hankealuetta",
+                }
+            ]
+        },
+        {
+            "id": "nimi",
+            "title": "Massakohteen nimi",
+            "description": "Anna tähän maamassakohteen nimi.",
+            "type": "textfield",
+            "rules": [{ required: false }]
+        },
+        {
+            "id": "osoite",
+            "title": "Massakohteen osoite",
+            "description": "Anna tähän maamassakohteen osoite.",
+            "type": "textfield",
+            "rules": [{ required: false }]
         },
         {
             "id": "kohdetyyppi",
@@ -322,10 +335,38 @@ export const inputFields = [
         },
         {
             "id": "amount_remaining",
-            "title": "Määrä (m³)",
+            "title": "Määrä",
             "description": <div><p>Kirjaa kohteen määrä kuutioina.</p><p>Kun kyseessä on maamassavarat, niin kyseessä on ktr-kuutio. Jos kyseessä on maamassatarve, niin rtr-kuutio.</p><p>Lisätietoja kuutioiden määrittelystä löydät <a target="_blank" href="https://www.rakennustieto.fi/html/liitteet/infraryl/Infra_2015_Maaramittausohje.pdf#page=167">täältä</a></p></div>,
             "type": "number",
             "rules": [{ required: true, message: 'Syötä määrä' }]
+        },
+        {
+            "id": "amount_unit",
+            "title": "Massan yksikkö",
+            "description": <div><p>Valitse massan yksikkö</p></div>,
+            "type": "select",
+            "rules": [{ required: true, message: 'Valitse yksikkö' }],
+            "values": [
+                {
+                    "id": "m3",
+                    "title": "Kuutio (m³)"
+                },
+                {
+                    "id": "t",
+                    "title": "Tonni (t)"
+                },
+                {
+                    "id": "m",
+                    "title": "Metri (m)"
+                }
+            ]
+        },
+        {
+            "id": "vertical_position",
+            "title": "Vertikaalinen sijainti (m mpy)",
+            "description": <div><p>Anna massaerän vertikaalinen sijainti.</p><p>Lukuarvon yksikkö m mpy = metriä merenpinnan yläpuolella.</p></div>,
+            "type": "number",
+            "rules": [{ required: false }]
         },
         {
             "id": "varattu",

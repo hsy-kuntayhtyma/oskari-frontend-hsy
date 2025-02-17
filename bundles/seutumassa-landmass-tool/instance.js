@@ -1,10 +1,8 @@
 
 /**
- * @class Oskari.framework.bundle.admin-announcements.AdminAnnouncementsBundleInstance
+ * @class Oskari.hsy.bundle.seutumassa-landmass-tool.BundleInstance
  *
- * Main component and starting point for the admin-announcements functionality.
- *
- * See Oskari.framework.bundle.admin-announcements.AdminAnnouncementsBundleInstance for bundle definition.
+ * Main component and starting point for the seutumassa-landmass-tool functionality.
  */
  Oskari.clazz.define('Oskari.hsy.bundle.seutumassa-landmass-tool.BundleInstance',
 

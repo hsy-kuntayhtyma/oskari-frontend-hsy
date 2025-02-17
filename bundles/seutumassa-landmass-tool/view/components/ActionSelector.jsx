@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
-import PropTypes from 'prop-types';
+import React, { useEffect } from "react";
 import styled, { keyframes, css } from 'styled-components';
-import { Result, Button, Spin, Space } from 'antd';
-import { GatewayOutlined, EnvironmentOutlined, AimOutlined, FileOutlined } from '@ant-design/icons';
+import { Result, Button } from 'antd';
+import { GatewayOutlined, EnvironmentOutlined, AimOutlined, FileOutlined, FolderOutlined } from '@ant-design/icons';
 
 const fadeBorder = keyframes`
   0% {
@@ -60,26 +59,26 @@ const StyledButton = styled(Button)`
 
 
 const ActionSelector = ({
-    isLoading,
     actionSelectorState,
     setActionSelectorState,
     handleSelectGeometry,
-    handleDrawNewGeometry,
-    handleDownloadShapeFile
+    handleDrawNewArea,
+    handleDrawNewPoint,
+    handleDownloadShapeFile,
+    handleManageProjects,
+    config
 }) => {
 
     useEffect(() => {
         Oskari.getSandbox().postRequestByName('DrawTools.StopDrawingRequest', ['newGeometry', true]);
-    },[]);
+    }, []);
 
     const buttons = [
         {
             id:"action_selector_1",
             name: "Piirrä uusi alue",
             icon: <GatewayOutlined style={{ fontSize: '20px' }}/>,
-            onClick: () => {
-                handleDrawNewGeometry('Polygon');
-            },
+            onClick: handleDrawNewArea,
             active: actionSelectorState === 1 ? "true" : "false",
             disabled: false
         },
@@ -87,9 +86,7 @@ const ActionSelector = ({
             id:"action_selector_2",
             name: "Lisää uusi piste",
             icon: <EnvironmentOutlined style={{ fontSize: '20px' }} />,
-            onClick: () => {
-                handleDrawNewGeometry('Point');
-            },
+            onClick: handleDrawNewPoint,
             active: actionSelectorState === 2 ? "true" : "false",
             disabled: false
         },
@@ -97,9 +94,7 @@ const ActionSelector = ({
             id:"action_selector_3",
             name: "Valitse kohde",
             icon: <AimOutlined style={{ fontSize: '20px' }} />,
-            onClick: () => {
-                handleSelectGeometry();
-            },
+            onClick: handleSelectGeometry,
             active: actionSelectorState === 3 ? "true" : "false",
             disabled: false
         },
@@ -107,41 +102,58 @@ const ActionSelector = ({
             id:"action_selector_4",
             name: "Lataa shapefile",
             icon: <FileOutlined style={{ fontSize: '20px' }} />,
-            onClick: () => {
-                handleDownloadShapeFile();
-            },
+            onClick: handleDownloadShapeFile,
             active: actionSelectorState === 4 ? "true" : "false",
             disabled: false
         }
     ];
 
+    const user = Oskari.user();
+    if (config?.municipalities?.some(m => user.hasRole(m.adminRoles))) {
+        buttons.push(
+            {
+                id:"action_selector_5",
+                name: "Hallitse hankealueita",
+                icon: <FolderOutlined style={{ fontSize: '20px' }} />,
+                onClick: handleManageProjects,
+                active: actionSelectorState === 5 ? "true" : "false",
+                disabled: false
+            }
+        );
+    }
+
     return (
     <StyledActionSelectorContainer>
-        { isLoading ? <Space size="middle">
-            <Spin size="large" />
-        </Space> : actionSelectorState === -1 ? <Result
-           title="Käyttöoikeutesi eivät riitä tiedon muokkaamiseen"
-           extra={
-             <Button type="primary" key="console" onClick={() => setActionSelectorState(0)}>
-               Sulje
-             </Button>
-           }
-           /> : actionSelectorState === -2 ? <Result
-           title="Haluatko varmasti sulkea tietojen syötön?"
-           extra={
-             <Button type="primary" key="console" onClick={() => setActionSelectorState(0)}>
-               Sulje
-             </Button>
-           }
-           /> : buttons.map(button => (
+    {
+        actionSelectorState === -1 ?
+        <Result
+            title="Käyttöoikeutesi eivät riitä tiedon muokkaamiseen"
+            extra={
+                <Button type="primary" key="console" onClick={() => setActionSelectorState(0)}>
+                    Sulje
+                </Button>
+            }
+        /> 
+        : actionSelectorState === -2 ?
+        <Result
+            title="Haluatko varmasti sulkea tietojen syötön?"
+            extra={
+                <Button type="primary" key="console" onClick={() => setActionSelectorState(0)}>
+                    Sulje
+                </Button>
+            }
+        /> 
+        :
+        buttons.map(button =>
             <StyledButton
                 disabled={button.disabled}
-                key={button.id} icon={button.icon}
+                key={button.id}
+                icon={button.icon}
                 onClick={button.onClick}
                 active={button.active}>{button.name}
             </StyledButton>
-            ))
-        }
+        )
+    }
     </StyledActionSelectorContainer>
     );
 };
