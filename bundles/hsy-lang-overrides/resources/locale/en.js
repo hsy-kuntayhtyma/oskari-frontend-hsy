@@ -3,11 +3,17 @@ Oskari.registerLocalization({
     "key": "userinterface.UserGuide",
     "value": {
         "tabs": [{
+            "title": "Yleistä",
+            "tags": "ohje_yleista"
+        }, {
             "title": "Karttaikkuna",
             "tags": "ohje_karttaikkuna"
         }, {
             "title": "Työkalut",
             "tags": "ohje_tyokalut"
+        }, {
+            "title": "Maamassahaku",
+            "tags": "ohje_maamassahaku"
         }, {
             "title": "Haku",
             "tags": "ohje_haku"
@@ -26,11 +32,17 @@ Oskari.registerLocalization({
     "key": "userinterface.admin.UserGuide",
     "value": {
         "tabs": [{
+            "title": "Yleistä",
+            "tags": "ohje_yleista"
+        }, {
             "title": "Karttaikkuna",
             "tags": "ohje_karttaikkuna"
         }, {
             "title": "Työkalut",
             "tags": "ohje_tyokalut"
+        }, {
+            "title": "Maamassahaku",
+            "tags": "ohje_maamassahaku"
         }, {
             "title": "Haku",
             "tags": "ohje_haku"
