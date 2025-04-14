@@ -23,6 +23,7 @@ import {
 import ActionSelector from './components/ActionSelector';
 import StepWizard from './components/StepWizard';
 import ProjectManager from './components/ProjectManager.jsx';
+import { Polygon } from "ol/geom.js";
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -102,6 +103,8 @@ const LandMassTool = () => {
     if (area.hasOwnProperty('loppu_pvm') && !!area.loppu_pvm) {
       area.loppu_pvm = moment(area.loppu_pvm);
     }
+    map.un('click', handleMapClick);
+    setPreSelectedLandmassAreas(null);
     setSelectedLandmassArea(area);
   };
 
@@ -175,8 +178,9 @@ const LandMassTool = () => {
     if (!areas || !areas.length) {
       return;
     }
+    map.un('click', handleMapClick);
+    setActionSelectorState(0);
     if (areas.length === 1) {
-      setActionSelectorState(0);
       doSetSelectedLandmassArea(areas[0]);
     } else {
       setPreSelectedLandmassAreas(areas);
@@ -207,7 +211,15 @@ const LandMassTool = () => {
           sandbox.unregisterFromEventByName(this, 'DrawingEvent');
           const geojson = event.getGeoJson();
           if (geojson.features?.length) {
-            doSetSelectedLandmassArea({ geom: geojson.features[0].geometry });
+            // Force Polygons into MultiPolygons
+            const geometry = geojson.features[0].geometry.type === "Polygon"
+              ? {
+                   ...geojson.features[0].geometry,
+                  type: "MultiPolygon",
+                  coordinates: [geojson.features[0].geometry.coordinates]
+                }
+              : geojson.features[0].geometry;
+            doSetSelectedLandmassArea({ geom: geometry });
           }
         }
       }
@@ -518,7 +530,6 @@ const LandMassTool = () => {
           const id = preSelectedLandmassAreaId;
           const areas = preSelectedLandmassAreas;
           const area = areas.find(x => x.id === id);
-          setPreSelectedLandmassAreas(null);
           doSetSelectedLandmassArea(area);
         }}
       >

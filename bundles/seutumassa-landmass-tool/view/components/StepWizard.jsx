@@ -320,7 +320,7 @@ const handleNewLandmassData = () => {
       maamassan_ryhma: null,
       maamassan_laji: null
     });
-    handleNext({});
+    handleNext();
 };
 
 const handleSelectLandmassData = (data) => {
@@ -336,17 +336,20 @@ const handleSelectLandmassData = (data) => {
   if(data.hasOwnProperty('realized_end_date')){
     data.realized_end_date = data.realized_end_date !== null ? moment(data.realized_end_date) : null;
   }
+  form.setFieldsValue(data);
   handleNext(data);
 }
 
-const handleNext = (values) => {
-  if(currentStep < steps.length - 2) {
-    setCurrentStep(currentStep + 1);
-    form.setFieldsValue(values);
-  } else { // All steps are done and required field filled. -> Save data to database.
-    setCurrentStep(currentStep + 1);
-    handleSaveAndAddNewLandmassData(form.getFieldsValue(true));
+const handleNext = async () => {
+  if (currentStep == 2) {
+    const formData = form.getFieldsValue(true);
+    if (isLandMassAreaDirty(selectedLandmassArea, formData)) {
+      await handleSaveLandmassArea(formData);
+    }
+  } else if (currentStep == steps.length - 2) {
+    await handleSaveAndAddNewLandmassData(form.getFieldsValue(true));
   }
+  setCurrentStep(currentStep + 1);
 };
 
 const onNextFailed = (errorInfo) => {
@@ -400,6 +403,20 @@ const handleSuccessMessage = (maamassakohde, maamassatieto) => {
   });
 };
 
+const isLandMassAreaDirty = (selectedLandmassArea, formData) => {
+  if (!selectedLandmassArea || !formData) {
+    return false;
+  }
+  const areaProperties = [
+    "id", "kunta", "hankealue_id", "nimi", "osoite", "kohdetyyppi", "vaihe",
+    "omistaja_id", "henkilo_email", "henkilo_nimi", "henkilo_organisaatio", "henkilo_puhelin"
+  ];
+  // Compare these as iso strings
+  const areaDateProperties = ["alku_pvm", "loppu_pvm"];
+  return areaProperties.some(prop => selectedLandmassArea[prop] !== formData[prop]) ||
+    areaDateProperties.some(prop => selectedLandmassArea[prop]?.toISOString() !== formData[prop]?.toISOString());
+}
+
 const createLandmassAreaFromFormData = (formData) => ({
   id: formData.id,
   geom: formData.geom,
@@ -440,6 +457,30 @@ const createLandmassDataFromFormData = (formData) => ({
   maamassan_ryhma: formData.maamassan_ryhma,
   maamassan_laji: formData.maamassan_laji,
 });
+
+const handleSaveLandmassArea = async (formData) => {
+  const area = createLandmassAreaFromFormData(formData);
+  // Don't touch areas
+  area.data = selectedLandmassArea.data ?? [];
+
+  // Stringify geojson geometry for the API
+  area.geom = JSON.stringify(area.geom);
+
+  const request = !area.id ? addLandmassArea(area) : updateLandmassArea(area);
+  setIsLoading(true);
+  try {
+    const response = await request;
+    if (!response.ok) {
+      throw new Error("Response status " + response.status);
+    }
+    const body = await response.json();
+    setSelectedLandmassArea(body);
+    handleMapRefresh();
+  } catch (e) {
+    console.error(e);
+  }
+  setIsLoading(false);
+};
 
 const handleSaveAndAddNewLandmassData = async (formData) => {
   const area = createLandmassAreaFromFormData(formData);
@@ -1085,7 +1126,7 @@ const steps = [
             <StyledStepNavigatorButton
               type="primary"
               htmlType="submit"
-              disabled={currentStep === 3 || currentStep === steps.length - 1 || currentStep === steps.length - 2}>
+              disabled={currentStep === 2 || currentStep === 3 || currentStep === steps.length - 1 || currentStep === steps.length - 2}>
                 Seuraava
             </StyledStepNavigatorButton>
           </Form.Item>
@@ -1109,18 +1150,11 @@ const steps = [
               Poista kohde
             </StyledStepNavigatorButton>
           }
-          { currentStep === steps.length - 2 && <StyledStepNavigatorButton
-            type="primary" 
-            htmlType="submit"
-            icon={<SaveOutlined />}
-           // disabled={ currentStep != steps.length - 2 || currentStep === steps.length - 1}
-           //disabled={ currentStep != steps.length - 2 }
-          >
+          {(currentStep === 2 || currentStep === steps.length - 2) &&
+            <StyledStepNavigatorButton type="primary" htmlType="submit" icon={<SaveOutlined />}>
               Tallenna
-          </StyledStepNavigatorButton>}
-          {/* <StyledStepNavigatorButton type="primary"  htmlType="submit" disabled={ currentStep != steps.length - 1}>
-              Tallenna ja sulje
-          </StyledStepNavigatorButton> */}
+            </StyledStepNavigatorButton>
+          }
         </StyledDoneContainer>
       </StyledStepsAction>
       <StyledBottomText>

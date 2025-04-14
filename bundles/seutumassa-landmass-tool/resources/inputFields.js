@@ -27,7 +27,7 @@ export const inputFields = [
         {
             "id": "hankealue_id",
             "title": "Hankealue",
-            "description": "Valitse avautuvalta listalta hankealue johon maamassakohde kuuluu.",
+            "description": "Valitse avautuvalta listalta hankealue johon maamassakohde kuuluu. Mikäli kyseessä on yksittäinen kohde, joka ei kuulu mihinkään hankealueeseen, valitse vaihtoehto \"Ei hankealuetta.\"",
             "type": "select",
             "placeHolderText": "Valitse",
             "rules": [{ required: true, message: 'Valitse hankealue' }],

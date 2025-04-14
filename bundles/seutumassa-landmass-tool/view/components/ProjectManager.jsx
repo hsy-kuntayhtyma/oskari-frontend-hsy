@@ -27,7 +27,8 @@ const ProjectManager = ({ resetHandler, config }) => {
   }, []);
 
   useEffect(() => {
-    const m = config?.municipalities?.map(m => ({
+    const user = Oskari.user();
+    const m = config?.municipalities?.filter(m => user.hasRole(m.adminRoles)).map(m => ({
       value: m.id,
       label: m.label
     })) ?? [];
@@ -120,7 +121,6 @@ const ProjectManager = ({ resetHandler, config }) => {
           // Capture the target value to avoid issues with SyntheticEvents
           onChange={(value) => { const v = value.value; setProjectUnderEdit(old => ({...old, kunta: v })) }}
           options={municipalities}
-          disabled={municipalities.length < 2}          
           value={projectUnderEdit.kunta ?? ''}
           style={ { width: 210 } }
         />
