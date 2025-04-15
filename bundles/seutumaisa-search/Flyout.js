@@ -26,7 +26,8 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaSearch.Flyout',
         this._templates = {
             searchRow: jQuery('<div class="row"><div class="title"></div><div class="field"></div><div class="clear"></div></div>'),
             slider: jQuery('<div><div class="slider-range"></div><div class="slider-range-values"><div style="float:left;"><input type="number" class="min"></div><div style="float:right;"><input type="number" class="max"></div><div style="clear:both;"></div></div>'),
-            dateRange: jQuery('<div class="date-range"><input type="text" class="datepicker start"> - <input type="text" class="datepicker end"></div>')
+            dateRange: jQuery('<div class="date-range"><input type="text" class="datepicker start"> - <input type="text" class="datepicker end"></div>'),
+            idInput: jQuery('<div style="padding-bottom: 1em;"><input type="text" class="id-input" style="width: 96%; padding: 0; padding-left: 0.5em;"></div>')
         };
         this.searchFields = [];
         this.dialog = Oskari.clazz.create('Oskari.userinterface.component.Popup');
@@ -384,6 +385,35 @@ Oskari.clazz.define('Oskari.mapframework.bundle.seutumaisaSearch.Flyout',
                         tabContainer.find('.fields').append(row);
                         select.adjustChosen();
                     }
+                    // create select input
+                    else if (field.type === 'id') {
+                        var row = me._templates.searchRow.clone();
+
+                        if(field.title) {
+                            var title = row.find('.title');
+                            title.html(field.title);
+                        }
+
+                        const div =  me._templates.idInput.clone();
+                        const input = div.find('.id-input');
+                        row.find('.field').append(div);
+                        tabContainer.find('.fields').append(row);
+
+                        me.searchFields.push({
+                            id: field.id,
+                            clazz: {
+                                getValue: function () {
+                                    return input.val();
+                                },
+                                isEnabled: function() {
+                                    return true;
+                                },
+                                reset: function () {
+                                    input.val('');
+                                }
+                            }
+                        });
+                    }                    
                     // create range slider
                     else if (field.type === 'range') {
                         var row = me._templates.searchRow.clone();

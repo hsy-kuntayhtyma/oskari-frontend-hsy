@@ -1,9 +1,7 @@
-import React, { useState, useEffect } from "react";
-import PropTypes from 'prop-types';
+import React, { useEffect, useState } from "react";
 import styled from 'styled-components';
-import { Modal, Alert, Result, Form, Table, Popover, DatePicker, Tag, Space, Spin, Select, Switch, Steps, Button, Input, InputNumber, message, Divider } from 'antd';
-import { MinusCircleOutlined, PlusOutlined, LoadingOutlined, LeftOutlined, RightOutlined, SaveOutlined, DeleteOutlined} from '@ant-design/icons';
-import { Controller, LocaleConsumer } from 'oskari-ui/util';
+import { Modal, Alert, Result, Form, Table, Popover, ConfigProvider, DatePicker, Spin, Select, Switch, Steps, Button, Input, InputNumber } from 'antd';
+import { MinusCircleOutlined, PlusOutlined, SaveOutlined, DeleteOutlined} from '@ant-design/icons';
 
 import moment from 'moment';
 
@@ -11,6 +9,26 @@ import moment from 'moment';
 //import '../../../../node_modules/moment/locale/fi.js';
 
 import locale from 'antd/es/date-picker/locale/fi_FI';
+const localeFi = {
+  ...locale,
+  lang: {
+    ...locale.lang,
+    shortMonths: [
+      "Tammi",
+      "Helmi",
+      "Maalis",
+      "Huhti",
+      "Touko",
+      "Kesä",
+      "Heinä",
+      "Elo",
+      "Syys",
+      "Loka",
+      "Marras",
+      "Joulu"
+    ]
+  }
+};
 
 import '../../resources/css/styles.css';
 import 'antd/es/date-picker/style/index.css';
@@ -18,26 +36,17 @@ import 'antd/es/date-picker/style/index.css';
 
 /* API */
 import {
-  getPersonById,
-  addPerson,
-  updatePerson,
-  getLandmassAreaByCoordinates,
   addLandmassArea,
   updateLandmassArea,
-  getLandmassDataByLandmassAreaId,
-  addLandmassData,
-  updateLandmassData,
   deleteLandmassAreaById,
-  deleteLandmassDataById
-} from '../../resources/api/SeutumassaLandmassToolApi.js';
+  getLandmassProjects
+} from '../../resources/api/SeutumassaLandmassApi.js';
 
-import { List } from "rc-field-form";
+import { inputFields } from '../../resources/inputFields.js';
 
 const { Step } = Steps;
 const { Option } = Select;
 const { TextArea } = Input;
-
-const { RangePicker } = DatePicker;
 
 const layout = {
   labelCol: { span: 8 },
@@ -189,64 +198,103 @@ const StyledBottomText = styled.div`
   font-weight: bold;
 `;
 
-const StepWizard = ({
-    isLoading,
-    setIsLoading,
-    currentStep,
-    setCurrentStep,
-    inputDefinitions,
-    landmassData,
-    setLandmassData,
-    landmassDataTable,
-    setLandmassDataTable,
+const StepWizard = ({    
+    selectedLandmassArea,
+    setSelectedLandmassArea,
     handleResetLandmassTool,
-    modalContent,
-    setModalContent,
-    handleMapRefresh
+    handleMapRefresh,
+    config
 }) => {
 
 const [form] = Form.useForm();
+const selectedMunicipality = Form.useWatch('kunta', form);
+
+const [modalContent, setModalContent] = useState(null);
+const [landmassProjects, setLandmassProjects] = useState([]);
+const [inputDefinitionGroups, setInputDefinitionGroups] = useState(inputFields);
+
 const [successMessage, setSuccessMessage] = useState(null);
+const [isLoading, setIsLoading] = useState(false);
+const [currentStep, setCurrentStep] = useState(0);
 
-const handleModalSubmitActions = () => {
-  //setIsModalLoading(true);
-  console.log(modalContent);
-  setModalContent({...modalContent, loading: true});
-  
-  switch(modalContent.action){
-    case "deleteLandmassAreaById":
-      console.log("deleteLandmassAreaById");
-      console.log(modalContent.id);
-      deleteLandmassAreaById(modalContent.id).then(response => {
-        handleMapRefresh();
-        setTimeout(() => {
-          setModalContent({...modalContent, loading: false});
-        }, 1500);
-        setTimeout(() => {
-          setModalContent(null);
-          handleResetLandmassTool();
-        }, 2500);
-      });
-    break
-    case "deleteLandmassDataById":
-      console.log("deleteLandmassDataById");
-        deleteLandmassDataById(modalContent.id).then(response => {
-          setLandmassDataTable(landmassDataTable.filter(data => data.maamassatieto_id !== response));
-          setTimeout(() => {
-            setModalContent({...modalContent, loading: false});
-          }, 1500);
-          setTimeout(() => {
-            setModalContent(null);
-          }, 2500);
-        });
-    break;
-    default:
+useEffect(() => {
+  const fetchProjects = async () => {
+    const resp = await getLandmassProjects();
+    const json = await resp.json();
+    setLandmassProjects(json);
+  };
+  fetchProjects();
+}, []);
 
-    break;
+useEffect(() => {
+  const defs = landmassProjects.length && selectedMunicipality && selectedMunicipality.length
+    ? inputFields.map(group =>
+      group.map(x => addLandmassProjectsToInputDefinition(landmassProjects, selectedMunicipality, x))
+    )
+    : inputFields;
+  setInputDefinitionGroups(defs);
+  const hankealueId = form.getFieldValue('hankealue_id');
+  if (selectedMunicipality && hankealueId && landmassProjects.length && !landmassProjects.some(x => x.id === hankealueId && x.kunta === selectedMunicipality)) {
+    form.setFieldValue('hankealue_id', -1);
   }
+}, [landmassProjects, selectedMunicipality]);
 
+function addLandmassProjectsToInputDefinition(landmassProjects, selectedMunicipality, inputDefinition) {
+  if (inputDefinition.id !== 'hankealue_id') {
+    return inputDefinition;
+  }
+  return {
+    ...inputDefinition,
+    values: [
+      ...inputDefinition.values,
+      ...landmassProjects
+        .filter(x => x.kunta === selectedMunicipality)
+        .map(({ id, nimi }) => ({ id, title: nimi }))
+    ]
+  }
 }
 
+async function handleDeleteSelectedLandmassArea() {
+  const id = selectedLandmassArea.id;
+  if (!id) {
+    return;
+  }
+  const resp = await deleteLandmassAreaById(id);
+  if (!resp.ok) {
+    // TODO: Handle errors
+    return;
+  }
+  handleMapRefresh();
+  handleResetLandmassTool();
+};
+
+async function handleDeleteLandmassDataById(id) {
+  const formData = form.getFieldsValue(true);
+  const area = createLandmassAreaFromFormData(formData);
+  const data = selectedLandmassArea.data.filter(x => x.maamassatieto_id !== id);
+  area.data = data;
+  // Stringify geojson geometry for the API
+  area.geom = JSON.stringify(area.geom);
+
+  try {
+    const response = await updateLandmassArea(area);
+    if (!response.ok) {
+      throw new Error("Response status " + response.status);
+    }
+    const body = await response.json();
+    setSelectedLandmassArea(body);
+    // form does not need to be updated
+  } catch (e) {
+    console.error(e);
+  } finally {
+    setModalContent(null);
+  }
+}
+
+async function handleModalSubmitActions() {
+  setModalContent({...modalContent, loading: true});
+  modalContent.onOk(modalContent.id);
+}
 
 const handleNewLandmassData = () => {
     form.setFieldsValue({
@@ -261,6 +309,8 @@ const handleNewLandmassData = () => {
       realized_end_date: null,
       amount_total:  null,
       amount_remaining: null,
+      amount_unit: null,
+      vertical_position: null,
       lisatieto: null,
       liitteet: null,
       varattu: null,
@@ -270,7 +320,7 @@ const handleNewLandmassData = () => {
       maamassan_ryhma: null,
       maamassan_laji: null
     });
-    handleNext({});
+    handleNext();
 };
 
 const handleSelectLandmassData = (data) => {
@@ -286,18 +336,20 @@ const handleSelectLandmassData = (data) => {
   if(data.hasOwnProperty('realized_end_date')){
     data.realized_end_date = data.realized_end_date !== null ? moment(data.realized_end_date) : null;
   }
+  form.setFieldsValue(data);
   handleNext(data);
 }
 
-const handleNext = (values) => {
-  if(currentStep < steps.length - 2) {
-    setCurrentStep(currentStep + 1);
-    form.setFieldsValue(values);
-  } else { // All steps are done and required field filled. -> Save data to database.
-    console.log("Save data here");
-    setCurrentStep(currentStep + 1);
-    handleSaveAndAddNewLandmassData(form.getFieldsValue(true));
+const handleNext = async () => {
+  if (currentStep == 2) {
+    const formData = form.getFieldsValue(true);
+    if (isLandMassAreaDirty(selectedLandmassArea, formData)) {
+      await handleSaveLandmassArea(formData);
+    }
+  } else if (currentStep == steps.length - 2) {
+    await handleSaveAndAddNewLandmassData(form.getFieldsValue(true));
   }
+  setCurrentStep(currentStep + 1);
 };
 
 const onNextFailed = (errorInfo) => {
@@ -322,7 +374,7 @@ const handleSuccessMessage = (maamassakohde, maamassatieto) => {
         <p>Vaihe: {maamassakohde.vaihe || "-"}</p>
         <p>Aloitus kk: {maamassakohde.alku_pvm !== null ? moment(maamassakohde.alku_pvm).format("MM-YYYY") : "-"}</p>
         <p>Lopetus kk: {maamassakohde.loppu_pvm !== null ? moment(maamassakohde.loppu_pvm).format("MM-YYYY") : "-"}</p>
-        <p>Kunta: {maamassakohde.kunta === "049" && "Espoo" || maamassakohde.kunta === "091" && "Helsinki" || maamassakohde.kunta === "092" && "Vantaa" || "-"}</p>
+        <p>Kunta: {config?.municipalities?.find(x => x.id === maamassakohde.kunta)?.label ?? "-"}</p>
         <p>Status: {maamassakohde.status || "-"}</p>
       </div>
       <div>
@@ -335,6 +387,8 @@ const handleSuccessMessage = (maamassakohde, maamassatieto) => {
         <p>Toteutunut aloitus kk: {maamassatieto.realized_begin_date !== null ? moment(maamassatieto.realized_begin_date).format("MM-YYYY") : "-"}</p>
         <p>Toteutunut lopetus kk: {maamassatieto.realized_end_date !== null  ? moment(maamassatieto.realized_end_date).format("MM-YYYY") : "-"}</p>
         <p>Massaa jäljellä: {maamassatieto.amount_remaining || "-"}</p>
+        <p>Massan yksikkö: {maamassatieto.amount_unit || "-"}</p>
+        <p>Vertikaalinen sijainti: {maamassatieto.vertical_position || "-"}</p>
         <p>Status: {maamassatieto.status || "-"}</p>
         <p>Lisätiedot: {maamassatieto.lisatieto || "-"}</p>
         <p>Linkki: {maamassatieto.liitteet || "-"}</p>
@@ -349,174 +403,120 @@ const handleSuccessMessage = (maamassakohde, maamassatieto) => {
   });
 };
 
-const handleSaveAndAddNewLandmassData = (data) => {
-  const maamassakohde = {
-    id: data.id || null,
-    nimi: data.nimi || null,
-    osoite: data.osoite || null,
-    geom: data.geom,
-    kohdetyyppi: data.kohdetyyppi || null,
-    vaihe: data.vaihe || null,
-    omistaja_id: data.omistaja_id || null,
-    alku_pvm: data.alku_pvm ? data.alku_pvm.toISOString() : null,
-    loppu_pvm: data.loppu_pvm ? data.loppu_pvm.toISOString() : null,
-    //lisatieto: data.lisatieto || null,
-    kunta: data.kunta || null,
-    status: data.status || null,
-    //maamassan_tila: data.maamassan_tila || null,
-  };
-
-  const henkilo = {
-    id: data.henkilo_id || null,
-    henkilo_email: data.henkilo_email || null,
-    henkilo_nimi: data.henkilo_nimi || null,
-    henkilo_organisaatio: data.henkilo_organisaatio || null,
-    henkilo_puhelin: data.henkilo_puhelin || null
-  };
-
-  const maamassatieto = {
-    id: data.maamassatieto_id || null,
-    maamassakohde_id: data.maamassakohde_id || null,
-    kelpoisuusluokkaryhma: data.kelpoisuusluokkaryhma || null,
-    kelpoisuusluokka: data.kelpoisuusluokka || null,
-    tiedontuottaja: data.tiedontuottaja || null,
-    planned_begin_date: data.planned_begin_date ? data.planned_begin_date.toISOString() : null,
-    planned_end_date: data.planned_end_date ? data.planned_end_date.toISOString() : null,
-    realized_begin_date: data.realized_begin_date ? data.realized_begin_date.toISOString() : null,
-    realized_end_date: data.realized_end_date ? data.realized_end_date.toISOString() : null,
-    amount_remaining: data.amount_remaining || null,
-    lisatieto: data.lisatieto || null,
-    liitteet: data.liitteet || null,
-    varattu: data.varattu || false,
-    //muokattu: moment().toISOString() || null, // Triggers in DB will handle this.
-    pilaantuneisuus: data.pilaantuneisuus || null,
-    tiedon_luotettavuus: data.tiedon_luotettavuus || null,
-    //kunta: data.kunta || null,
-    maamassan_tila: data.maamassan_tila || null,
-    maamassan_ryhma: data.maamassan_ryhma || null,
-    maamassan_laji: data.maamassan_laji || null,
-  };
-
-  if(maamassakohde.id !== null) { // Landmass area exists
-    setIsLoading(true);
-    addPerson(henkilo).then(response => {
-      maamassakohde.omistaja_id = response.henkilo_id;
-      updateLandmassArea(maamassakohde).then(() => {
-        if(maamassatieto.id !== null) {
-          updateLandmassData(maamassatieto).then(landmassDataResponse => {
-            if(maamassakohde.hasOwnProperty('id')){
-              getLandmassDataByLandmassAreaId(maamassakohde.id).then(landmassDataResponse => {
-                setIsLoading(false);
-                setLandmassDataTable(landmassDataResponse);
-                handleSuccessMessage(maamassakohde, maamassatieto);
-                //setCurrentStep(3);
-              })
-            } else {
-              setIsLoading(false);
-              handleSuccessMessage(maamassakohde, maamassatieto);
-            }
-          });
-        } else {
-          maamassatieto.maamassakohde_id = maamassakohde.id;
-          maamassatieto.amount_total = data.amount_remaining;
-          setIsLoading(true);
-          addLandmassData(maamassatieto).then(landmassDataResponse => {
-            if(maamassakohde.hasOwnProperty('id')){
-              getLandmassDataByLandmassAreaId(maamassakohde.id).then(landmassDataResponse => {
-                setIsLoading(false); 
-                setLandmassDataTable(landmassDataResponse);
-                //setCurrentStep(3);
-                handleSuccessMessage(maamassakohde, maamassatieto);
-              }
-            )} else {
-              setIsLoading(false);
-              handleSuccessMessage(maamassakohde, maamassatieto);
-            }
-          });
-        }
-      });
-    });
-  } else {  // Landmass area does not exist
-    setIsLoading(true);
-    if(henkilo.id !== null){
-        updatePerson(henkilo).then(response => {
-          setIsLoading(false);
-          handleSuccessMessage(maamassakohde, maamassatieto);
-        });
-    } else {
-      addPerson(henkilo).then(response => {
-        maamassakohde.omistaja_id = response.henkilo_id;
-          addLandmassArea(maamassakohde).then(landmassAreaResponse => {
-              
-            if(landmassAreaResponse.hasOwnProperty('alku_pvm')){
-              landmassAreaResponse.alku_pvm = landmassAreaResponse.alku_pvm !== null ? moment(landmassAreaResponse.alku_pvm) : null;
-            }
-
-            if(landmassAreaResponse.hasOwnProperty('loppu_pvm')){
-            landmassAreaResponse.loppu_pvm = landmassAreaResponse.loppu_pvm !== null ? moment(landmassAreaResponse.loppu_pvm) : null;
-            }
-
-            form.setFieldsValue(landmassAreaResponse);
-            maamassatieto.maamassakohde_id = landmassAreaResponse.id;
-            maamassatieto.amount_total = data.amount_remaining;
-            addLandmassData(maamassatieto).then(landmassDataResponse => {
-              console.log(landmassDataResponse);
-              if(maamassakohde.hasOwnProperty('id')){
-                getLandmassDataByLandmassAreaId(maamassatieto.maamassakohde_id).then(response => {
-                  setIsLoading(false);
-                  setLandmassDataTable(response);
-                  handleSuccessMessage(maamassakohde, maamassatieto);
-                  //setCurrentStep(3);
-                  
-              })} else {
-                setIsLoading(false);
-                handleSuccessMessage(maamassakohde, maamassatieto);
-              }
-            });
-          });
-      })
-    }
+const isLandMassAreaDirty = (selectedLandmassArea, formData) => {
+  if (!selectedLandmassArea || !formData) {
+    return false;
   }
+  const areaProperties = [
+    "id", "kunta", "hankealue_id", "nimi", "osoite", "kohdetyyppi", "vaihe",
+    "omistaja_id", "henkilo_email", "henkilo_nimi", "henkilo_organisaatio", "henkilo_puhelin"
+  ];
+  // Compare these as iso strings
+  const areaDateProperties = ["alku_pvm", "loppu_pvm"];
+  return areaProperties.some(prop => selectedLandmassArea[prop] !== formData[prop]) ||
+    areaDateProperties.some(prop => selectedLandmassArea[prop]?.toISOString() !== formData[prop]?.toISOString());
+}
+
+const createLandmassAreaFromFormData = (formData) => ({
+  id: formData.id,
+  geom: formData.geom,
+  kunta: formData.kunta,
+  hankealue_id: formData.hankealue_id != -1 ? formData.hankealue_id : null,
+  nimi: formData.nimi,
+  osoite: formData.osoite,
+  kohdetyyppi: formData.kohdetyyppi,
+  vaihe: formData.vaihe,
+  omistaja_id: formData.omistaja_id,
+  henkilo_email: formData.henkilo_email,
+  henkilo_nimi: formData.henkilo_nimi,
+  henkilo_organisaatio: formData.henkilo_organisaatio,
+  henkilo_puhelin: formData.henkilo_puhelin,
+  alku_pvm: formData.alku_pvm?.toISOString(),
+  loppu_pvm: formData.loppu_pvm?.toISOString()
+});
+
+const createLandmassDataFromFormData = (formData) => ({
+  maamassatieto_id: formData.maamassatieto_id,
+  maamassakohde_id: formData.maamassakohde_id,
+  kelpoisuusluokkaryhma: formData.kelpoisuusluokkaryhma,
+  kelpoisuusluokka: formData.kelpoisuusluokka,
+  tiedontuottaja: formData.tiedontuottaja,
+  planned_begin_date: formData.planned_begin_date?.toISOString(),
+  planned_end_date: formData.planned_end_date?.toISOString(),
+  realized_begin_date: formData.realized_begin_date?.toISOString(),
+  realized_end_date: formData.realized_end_date?.toISOString(),
+  amount_remaining: formData.amount_remaining,
+  amount_unit: formData.amount_unit,
+  vertical_position: formData.vertical_position,
+  lisatieto: formData.lisatieto,
+  liitteet: formData.liitteet,
+  varattu: formData.varattu || false,
+  pilaantuneisuus: formData.pilaantuneisuus,
+  tiedon_luotettavuus: formData.tiedon_luotettavuus,
+  maamassan_tila: formData.maamassan_tila,
+  maamassan_ryhma: formData.maamassan_ryhma,
+  maamassan_laji: formData.maamassan_laji,
+});
+
+const handleSaveLandmassArea = async (formData) => {
+  const area = createLandmassAreaFromFormData(formData);
+  area.id = selectedLandmassArea.id;
+  // Don't touch data
+  area.data = selectedLandmassArea.data ?? [];
+
+  // Stringify geojson geometry for the API
+  area.geom = JSON.stringify(area.geom);
+
+  const request = !area.id ? addLandmassArea(area) : updateLandmassArea(area);
+  setIsLoading(true);
+  try {
+    const response = await request;
+    if (!response.ok) {
+      throw new Error("Response status " + response.status);
+    }
+    const body = await response.json();
+    setSelectedLandmassArea(body);
+    handleMapRefresh();
+  } catch (e) {
+    console.error(e);
+  }
+  setIsLoading(false);
+};
+
+const handleSaveAndAddNewLandmassData = async (formData) => {
+  const area = createLandmassAreaFromFormData(formData);
+  const data = createLandmassDataFromFormData(formData);
+  area.id = selectedLandmassArea.id;
+  area.data = selectedLandmassArea.data ? [...selectedLandmassArea.data] : [];
+  if (!data.maamassatieto_id) {
+    area.data.push(data);
+  } else {
+    const i = area.data.findIndex((x) => x.maamassatieto_id === data.maamassatieto_id);
+    area.data[i] = data;
+  }
+
+  // Stringify geojson geometry for the API
+  area.geom = JSON.stringify(area.geom);
+
+  const request = !area.id ? addLandmassArea(area) : updateLandmassArea(area);
+  setIsLoading(true);
+  try {
+    const response = await request;
+    if (!response.ok) {
+      throw new Error("Response status " + response.status);
+    }
+    const body = await response.json();
+    setSelectedLandmassArea(body);
+    handleSuccessMessage(area, data);
+  } catch (e) {
+    console.error(e);
+  }
+  setIsLoading(false);
 };
 
 const SelectorFormItem = ({id, name, description, placeholder, rules, enumDefinitions, value}) => {
- const userRoles = Oskari.user().getRoles();
+ const user = Oskari.user();
   
-  //   const userRoles = [
-  //     {
-  //         "name": "Guest",
-  //         "id": 1
-  //     },
-  //     {
-  //       "name": "User",
-  //       "id": 2
-  //     },
-  //     {
-  //       "name": "Admin",
-  //       "id": 3
-  //     },
-  //     {
-  //       "name": "HSY",
-  //       "id": 4
-  //     },
-  //     {
-  //       "name": "SeutuMaisa_Espoo",
-  //       "id": 19
-  //     },
-  //     {
-  //       "name": "SeutuMaisa_Helsinki",
-  //       "id": 20
-  //     },
-  //     {
-  //       "name": "SeutuMaisa_Vantaa",
-  //       "id": 21
-  //     },
-  //     {
-  //       "name": "SeutuMassa_HSY",
-  //       "id": 22
-  //     }
-  // ];
-
   return <StyledFormItemContainer>
   <StyledFormItem
     name={id}
@@ -534,13 +534,7 @@ const SelectorFormItem = ({id, name, description, placeholder, rules, enumDefini
           return  <Option
           key={enumDefinition.title+'_' + index}
           value={enumDefinition.id}
-          disabled={
-            userRoles.some(role => role.id === 3) || userRoles.some(role => role.id === 4) || userRoles.some(role => role.id === 22) ?
-            false : userRoles.some(role => role.id === 19) && enumDefinition.id === "049" ?
-            false : userRoles.some(role => role.id === 20) && enumDefinition.id === "091" ?
-            false : userRoles.some(role => role.id === 21) && enumDefinition.id === "092" ?
-            false : true
-          }
+          disabled={!user.hasRole(config.municipalities.find(m => m.id === enumDefinition.id)?.roles) ?? true}
         >
           {enumDefinition.title}
         </Option>
@@ -567,12 +561,12 @@ const SelectorFormItem = ({id, name, description, placeholder, rules, enumDefini
         }
         title={<StyledDescriptionTitle>{name}</StyledDescriptionTitle>}>
             <Button type="primary">?</Button>
-      </Popover> 
+      </Popover>
     }
   </StyledFormItemContainer>
 };
 
-const TableFormItem = ({columns, data, handleNext, description}) => (
+const TableFormItem = ({columns, data, description}) => (
     <StyledTableContainer>
       {description !== null && <p>{description}</p>}
 
@@ -659,11 +653,11 @@ const DateFormItem = ({id, name, description, rules, type}) => (
       rules={rules}
     >
       <DatePicker
+        locale={localeFi}
         popupStyle={{zIndex: '999999'}}
         picker={type}
         placeholder="Valitse kuukausi"
-        locale={locale}
-       //defaultValue={moment("2021-08", 'YYYY-MM')}
+        //defaultValue={moment("2021-08", 'YYYY-MM')}
       />
     </StyledFormItem>
     {
@@ -799,7 +793,7 @@ const steps = [
       status: ''
     },
     {
-      title: 'Alueen tiedot',
+      title: 'Kohteen massaerät',
       //description: '',
       status: ''
     },
@@ -828,20 +822,18 @@ const steps = [
   return (
     <>
       <Steps current={currentStep} progressDot>
-        {steps.map((step, index) =>
+        {steps.map((step) =>
           <Step
             key={step.title}
             title={<StyledStepTitle>{step.title}</StyledStepTitle>}
-            // icon={steps.length-1 === index && isLoading && <LoadingOutlined />}
             description={step.description}
             />
         )}
       </Steps>
-      {/* <Divider /> */}
       <Form
         {...layout}
         form={form}
-        initialValues={landmassData}
+        initialValues={selectedLandmassArea}
         onFinish={handleNext}
         onFinishFailed={onNextFailed}
       >
@@ -873,6 +865,8 @@ const steps = [
                         realized_end_date: null,
                         amount_total:  null,
                         amount_remaining: null,
+                        amount_unit: null,
+                        vertical_position: null,
                         lisatieto: null,
                         liitteet: null,
                         varattu: null,
@@ -901,7 +895,7 @@ const steps = [
           }
         </StyledLoaderContainer> :
         <StyledSelectorGroup>
-          {inputDefinitions[currentStep] !== undefined && inputDefinitions[currentStep].map(inputDefinitionGroup => {
+          {inputDefinitionGroups[currentStep] !== undefined && inputDefinitionGroups[currentStep].map(inputDefinitionGroup => {
               if(inputDefinitionGroup.type === 'select'){
                 return <SelectorFormItem
                   key={inputDefinitionGroup.id}
@@ -929,12 +923,11 @@ const steps = [
                             <>
                           <a onClick={() => {
                             setModalContent({
-                              id: record.maamassatieto_id,
-                              action: "deleteLandmassDataById",
                               title: "Poista maamassatieto",
                               message: "Varoitus",
                               description: "Haluatko varmasti poistaa maamassatiedon?",
-                              loading: false
+                              loading: false,
+                              onOk: () => handleDeleteLandmassDataById(record.maamassatieto_id)
                             });
                           }}
                           >Poista</a>
@@ -992,6 +985,20 @@ const steps = [
                     width: 100,
                   },
                   {
+                    key: "th_amount_unit",
+                    title: 'Yksikkö',
+                    dataIndex: 'amount_unit',
+                    //align: 'left',
+                    width: 60,
+                  },
+                  {
+                    key: "th_vertical_position",
+                    title: 'Vertikaalinen sijainti',
+                    dataIndex: 'vertical_position',
+                    //align: 'left',
+                    width: 60,
+                  },
+                  {
                     key: "th_kelpoisuusluokkaryhma",
                     title: 'Kelpoisuusluokkaryhmä',
                     dataIndex: 'kelpoisuusluokkaryhma',
@@ -1034,9 +1041,7 @@ const steps = [
                 return <TableFormItem
                   key={inputDefinitionGroup.id}
                   columns={columns}
-                  data={landmassDataTable}
-                  handleNext={handleNext}
-                  setLandmassData={setLandmassData}
+                  data={selectedLandmassArea.data}                  
                   description={inputDefinitionGroup.description ? inputDefinitionGroup.description : null}
                 />
               } else if (inputDefinitionGroup.type === 'number'){
@@ -1115,7 +1120,6 @@ const steps = [
               onClick={() => {
                   handlePrevious();
               }}
-              //icon={<LeftOutlined />}
             >
                   Edellinen
             </StyledStepNavigatorButton>
@@ -1124,43 +1128,35 @@ const steps = [
             <StyledStepNavigatorButton
               type="primary"
               htmlType="submit"
-              //icon={<RightOutlined />}
-              disabled={currentStep === 3 || currentStep === steps.length - 1 || currentStep === steps.length - 2}>
+              disabled={currentStep === 2 || currentStep === 3 || currentStep === steps.length - 1 || currentStep === steps.length - 2}>
                 Seuraava
             </StyledStepNavigatorButton>
           </Form.Item>
         </StyledStepNavigators>
         <StyledDoneContainer>
-          {landmassData !== null && landmassData.id && currentStep === 0 &&
+          {selectedLandmassArea?.id && currentStep === 0 &&
             <StyledStepNavigatorButton
             danger
             icon={<DeleteOutlined />}
             onClick={() => {
               setModalContent({
-                id: landmassData.id,
-                action: "deleteLandmassAreaById",
+                id: selectedLandmassArea.id,
                 title: "Poista maamassakohde",
                 message: "Varoitus",
                 description: "Haluatko varmasti poistaa maamassakohteen ja kaikki sille määritetyt maamassatiedot?",
-                loading: false
+                loading: false,
+                onOk: handleDeleteSelectedLandmassArea
               });
             }}
             >
               Poista kohde
             </StyledStepNavigatorButton>
           }
-          { currentStep === steps.length - 2 && <StyledStepNavigatorButton
-            type="primary" 
-            htmlType="submit"
-            icon={<SaveOutlined />}
-           // disabled={ currentStep != steps.length - 2 || currentStep === steps.length - 1}
-           //disabled={ currentStep != steps.length - 2 }
-          >
+          {(currentStep === 2 || currentStep === steps.length - 2) &&
+            <StyledStepNavigatorButton type="primary" htmlType="submit" icon={<SaveOutlined />}>
               Tallenna
-          </StyledStepNavigatorButton>}
-          {/* <StyledStepNavigatorButton type="primary"  htmlType="submit" disabled={ currentStep != steps.length - 1}>
-              Tallenna ja sulje
-          </StyledStepNavigatorButton> */}
+            </StyledStepNavigatorButton>
+          }
         </StyledDoneContainer>
       </StyledStepsAction>
       <StyledBottomText>
@@ -1168,8 +1164,9 @@ const steps = [
       </StyledBottomText>
       </Form>
       <Modal
+        zIndex={999999}
         title={modalContent && modalContent.title ? modalContent.title : ""}
-        visible={modalContent !== null ? true : false}
+        open={modalContent !== null}
         onCancel={() => setModalContent(null)}
         footer={[
           <Button
@@ -1180,7 +1177,7 @@ const steps = [
           <Button
           key="submit"
           type="primary"
-          loading={modalContent && modalContent.loading ? true : false}
+          loading={modalContent && modalContent.loading}
           onClick={() => {
             handleModalSubmitActions();
           }}>
@@ -1199,11 +1196,4 @@ const steps = [
   );
 };
 
-StepWizard.propTypes = {
- 
-};
-
 export default StepWizard;
-
-// const contextWrap = LocaleConsumer(StepWizard);
-// export { contextWrap as StepWizard };

@@ -1,5 +1,4 @@
 import React from 'react';
-import styled from 'styled-components';
 import ReactDOM from 'react-dom';
 import { LandMassTool, } from './view/';
 import { LocaleProvider } from 'oskari-ui/util';
@@ -7,7 +6,7 @@ import { LocaleProvider } from 'oskari-ui/util';
 /**
  * @class Oskari.hsy.bundle.seutumassa-landmass-tool.Flyout
  *
- * Renders the admin-announcements flyout.
+ * Renders the seutumassa-landmass-tool flyout.
  */
 Oskari.clazz.define('Oskari.hsy.bundle.seutumassa-landmass-tool.Flyout',
 
@@ -39,9 +38,7 @@ Oskari.clazz.define('Oskari.hsy.bundle.seutumassa-landmass-tool.Flyout',
          *
          * Interface method implementation
          */
-        setEl: function (el, flyout, width, height) {
-            //console.log(flyout[0]);
-            //console.log(el[0]);
+        setEl: function (el, flyout) {
             flyout[0].setAttribute('id', 'landmass-tool-container');
             this.container = el[0];
             this.container.setAttribute('id', 'landmass-tool-content');
