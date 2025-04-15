@@ -460,7 +460,8 @@ const createLandmassDataFromFormData = (formData) => ({
 
 const handleSaveLandmassArea = async (formData) => {
   const area = createLandmassAreaFromFormData(formData);
-  // Don't touch areas
+  area.id = selectedLandmassArea.id;
+  // Don't touch data
   area.data = selectedLandmassArea.data ?? [];
 
   // Stringify geojson geometry for the API
@@ -485,6 +486,7 @@ const handleSaveLandmassArea = async (formData) => {
 const handleSaveAndAddNewLandmassData = async (formData) => {
   const area = createLandmassAreaFromFormData(formData);
   const data = createLandmassDataFromFormData(formData);
+  area.id = selectedLandmassArea.id;
   area.data = selectedLandmassArea.data ? [...selectedLandmassArea.data] : [];
   if (!data.maamassatieto_id) {
     area.data.push(data);
