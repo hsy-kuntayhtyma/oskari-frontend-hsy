@@ -363,8 +363,8 @@ export const inputFields = [
         },
         {
             "id": "vertical_position",
-            "title": "Vertikaalinen sijainti (m mpy)",
-            "description": <div><p>Anna massaerän vertikaalinen sijainti.</p><p>Lukuarvon yksikkö m mpy = metriä merenpinnan yläpuolella.</p></div>,
+            "title": "Vertikaalinen sijainti (m mp)",
+            "description": <div><p>Anna massaerän vertikaalinen sijainti.</p><p>Lukuarvon yksikkö m mp = metriä merenpinnasta.</p></div>,
             "type": "number",
             "rules": [{ required: false }]
         },
